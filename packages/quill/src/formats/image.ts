@@ -7,13 +7,18 @@ class Image extends EmbedBlot {
   static blotName = 'image';
   static tagName = 'IMG';
 
-  static create(value: string) {
-    const node = super.create(value) as Element;
-    if (typeof value === 'string') {
-      node.setAttribute('src', this.sanitize(value));
+    static create(value: string | { src: string; alt?: string }) {
+        const node = super.create() as HTMLImageElement;
+        if (typeof value === 'string') {
+            node.setAttribute('src', this.sanitize(value));
+        } else {
+            node.setAttribute('src', this.sanitize(value.src));
+            if (value.alt) {
+                node.setAttribute('alt', value.alt);
+            }
+        }
+        return node;
     }
-    return node;
-  }
 
   static formats(domNode: Element) {
     return ATTRIBUTES.reduce(
