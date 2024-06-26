@@ -1,11 +1,5 @@
-import {
-  AttributorStore,
-  BlockBlot,
-  EmbedBlot,
-  LeafBlot,
-  Scope,
-} from 'parchment';
 import type { Blot, Parent } from 'parchment';
+import { AttributorStore, BlockBlot, EmbedBlot, LeafBlot, Scope, } from 'parchment';
 import Delta from 'quill-delta';
 import Break from './break.js';
 import Inline from './inline.js';
@@ -74,7 +68,7 @@ class Block extends BlockBlot {
   }
 
   insertBefore(blot: Blot, ref?: Blot | null) {
-    const { head } = this.children;
+    const {head} = this.children;
     super.insertBefore(blot, ref);
     if (head instanceof Break) {
       head.remove();
@@ -123,6 +117,7 @@ class Block extends BlockBlot {
     return next;
   }
 }
+
 Block.blotName = 'block';
 Block.tagName = 'P';
 Block.defaultChild = Break;
@@ -177,7 +172,9 @@ class BlockEmbed extends EmbedBlot {
     }
   }
 }
+
 BlockEmbed.scope = Scope.BLOCK_BLOT;
+
 // It is important for cursor behavior BlockEmbeds use tags that are block level elements
 
 function blockDelta(blot: BlockBlot, filter = true) {

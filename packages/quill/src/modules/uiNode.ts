@@ -43,7 +43,7 @@ class UINode extends Module {
       key: ['ArrowLeft', 'ArrowRight'],
       offset: 0,
       shiftKey: null,
-      handler(range, { line, event }) {
+      handler(range, {line, event}) {
         if (!(line instanceof ParentBlot) || !line.uiNode) {
           return true;
         }

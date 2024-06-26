@@ -9,20 +9,11 @@ import IndentClass from '../../../src/formats/indent.js';
 import Italic from '../../../src/formats/italic.js';
 import Link from '../../../src/formats/link.js';
 import List, { ListContainer } from '../../../src/formats/list.js';
-import {
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-} from '../../../src/formats/table.js';
+import { TableBody, TableCell, TableContainer, TableRow, } from '../../../src/formats/table.js';
 import Video from '../../../src/formats/video.js';
 import { createRegistry } from '../__helpers__/factory.js';
 import type { RegistryDefinition } from 'parchment';
-import {
-  DirectionAttribute,
-  DirectionClass,
-  DirectionStyle,
-} from '../../../src/formats/direction.js';
+import { DirectionAttribute, DirectionClass, DirectionStyle, } from '../../../src/formats/direction.js';
 import CodeBlock from '../../../src/formats/code.js';
 import { ColorClass, ColorStyle } from '../../../src/formats/color.js';
 
@@ -34,7 +25,7 @@ describe('Clipboard', () => {
       );
       container.innerHTML = '<h1>0123</h1><p>5<em>67</em>8</p>';
       const registry = createRegistry([Bold, Italic, Header]);
-      const quill = new Quill(container, { registry });
+      const quill = new Quill(container, {registry});
       quill.setSelection(2, 5);
       return quill;
     };
@@ -45,7 +36,8 @@ describe('Clipboard', () => {
           getData: (type: string) =>
             type === 'text/html' ? '<strong>|</strong>' : '|',
         },
-        preventDefault: () => {},
+        preventDefault: () => {
+        },
       } as ClipboardEvent;
 
       test('pastes html data', async () => {
@@ -60,8 +52,8 @@ describe('Clipboard', () => {
       test('pastes with "paste and match style"', async () => {
         const quill = createQuill();
         quill.setContents([
-          { insert: 'abc', attributes: { bold: true } },
-          { insert: '\n' },
+          {insert: 'abc', attributes: {bold: true}},
+          {insert: '\n'},
         ]);
         quill.setSelection(3, 0);
         quill.clipboard.onCapturePaste({
@@ -69,11 +61,12 @@ describe('Clipboard', () => {
             getData: (type: string) =>
               type === 'text/plain' ? 'def' : undefined,
           },
-          preventDefault: () => {},
+          preventDefault: () => {
+          },
         } as ClipboardEvent);
         expect(quill.getContents().ops).toEqual([
-          { insert: 'abcdef', attributes: { bold: true } },
-          { insert: '\n' },
+          {insert: 'abcdef', attributes: {bold: true}},
+          {insert: '\n'},
         ]);
       });
 
@@ -85,10 +78,11 @@ describe('Clipboard', () => {
             getData: (type: string) =>
               type === 'text/uri-list' ? 'https://example.com' : undefined,
           },
-          preventDefault: () => {},
+          preventDefault: () => {
+          },
         } as ClipboardEvent);
         expect(quill.getContents().ops).toEqual([
-          { insert: 'https://example.com\n' },
+          {insert: 'https://example.com\n'},
         ]);
 
         // Ignore comments
@@ -100,10 +94,11 @@ describe('Clipboard', () => {
                 ? 'https://example.com\r\n# Comment\r\nhttps://example.com/a'
                 : undefined,
           },
-          preventDefault: () => {},
+          preventDefault: () => {
+          },
         } as ClipboardEvent);
         expect(quill.getContents().ops).toEqual([
-          { insert: 'https://example.com\nhttps://example.com/a\n' },
+          {insert: 'https://example.com\nhttps://example.com/a\n'},
         ]);
       });
 
@@ -161,14 +156,15 @@ describe('Clipboard', () => {
               clipboardData[type] = data;
             },
           },
-          preventDefault: () => {},
+          preventDefault: () => {
+          },
         } as ClipboardEvent;
-        return { clipboardData, clipboardEvent };
+        return {clipboardData, clipboardEvent};
       };
 
       test('keeps formats of first line', async () => {
         const quill = createQuill();
-        const { clipboardData, clipboardEvent } = setup();
+        const {clipboardData, clipboardEvent} = setup();
         quill.clipboard.onCaptureCopy(clipboardEvent, true);
         expect(quill.root).toEqualHTML('<h1>01<em>7</em>8</h1>');
         expect(quill.getSelection()).toEqual(new Range(2));
@@ -216,23 +212,23 @@ describe('Clipboard', () => {
         Link,
         ...extraFormats,
       ]);
-      const quill = new Quill(container, { registry });
+      const quill = new Quill(container, {registry});
       quill.setSelection(2, 5);
       return quill.clipboard;
     };
 
     test('text with adjacent spaces', () => {
-      const delta = createClipboard().convert({ text: 'simple  text' });
+      const delta = createClipboard().convert({text: 'simple  text'});
       expect(delta).toEqual(new Delta().insert('simple  text'));
     });
 
     test('text with newlines', () => {
-      const delta = createClipboard().convert({ text: 'simple\ntext' });
+      const delta = createClipboard().convert({text: 'simple\ntext'});
       expect(delta).toEqual(new Delta().insert('simple\ntext'));
     });
 
     test('only text in html', () => {
-      const delta = createClipboard().convert({ html: 'simple plain text' });
+      const delta = createClipboard().convert({html: 'simple plain text'});
       expect(delta).toEqual(new Delta().insert('simple plain text'));
     });
 
@@ -240,87 +236,87 @@ describe('Clipboard', () => {
       const html =
         '<div> 0 </div><div> <div> 1 2 <span> 3 </span> 4 </div> </div>' +
         '<div><span>5 </span><span>6 </span><span> 7</span><span> 8</span></div>';
-      const delta = createClipboard().convert({ html });
+      const delta = createClipboard().convert({html});
       expect(delta).toEqual(new Delta().insert('0\n1 2  3  4\n5 6  7 8'));
     });
 
     test('inline whitespace', () => {
       const html = '<p>0 <strong>1</strong> 2</p>';
-      const delta = createClipboard().convert({ html });
+      const delta = createClipboard().convert({html});
       expect(delta).toEqual(
-        new Delta().insert('0 ').insert('1', { bold: true }).insert(' 2'),
+        new Delta().insert('0 ').insert('1', {bold: true}).insert(' 2'),
       );
     });
 
     test('intentional whitespace', () => {
       const html = '<span>0&nbsp;<strong>1</strong>&nbsp;2</span>';
-      const delta = createClipboard().convert({ html });
+      const delta = createClipboard().convert({html});
       expect(delta).toEqual(
         new Delta()
           .insert('0\u00a0')
-          .insert('1', { bold: true })
+          .insert('1', {bold: true})
           .insert('\u00a02'),
       );
     });
 
     test('consecutive intentional whitespace', () => {
       const html = '<strong>&nbsp;&nbsp;1&nbsp;&nbsp;</strong>';
-      const delta = createClipboard().convert({ html });
+      const delta = createClipboard().convert({html});
       expect(delta).toEqual(
-        new Delta().insert('\u00a0\u00a01\u00a0\u00a0', { bold: true }),
+        new Delta().insert('\u00a0\u00a01\u00a0\u00a0', {bold: true}),
       );
     });
 
     test('newlines between inline elements', () => {
       const html = '<span>foo</span>\n<span>bar</span>';
-      const delta = createClipboard().convert({ html });
+      const delta = createClipboard().convert({html});
       expect(delta).toEqual(new Delta().insert('foo bar'));
     });
 
     test('multiple newlines between inline elements', () => {
       const html = '<span>foo</span>\n\n\n\n<span>bar</span>';
-      const delta = createClipboard().convert({ html });
+      const delta = createClipboard().convert({html});
       expect(delta).toEqual(new Delta().insert('foo bar'));
     });
 
     test('newlines between block elements', () => {
       const html = '<p>foo</p>\n<p>bar</p>';
-      const delta = createClipboard().convert({ html });
+      const delta = createClipboard().convert({html});
       expect(delta).toEqual(new Delta().insert('foo\nbar'));
     });
 
     test('multiple newlines between block elements', () => {
       const html = '<p>foo</p>\n\n\n\n<p>bar</p>';
-      const delta = createClipboard().convert({ html });
+      const delta = createClipboard().convert({html});
       expect(delta).toEqual(new Delta().insert('foo\nbar'));
     });
 
     test('space between empty paragraphs', () => {
       const html = '<p></p> <p></p>';
-      const delta = createClipboard().convert({ html });
+      const delta = createClipboard().convert({html});
       expect(delta).toEqual(new Delta().insert('\n'));
     });
 
     test('newline between empty paragraphs', () => {
       const html = '<p></p>\n<p></p>';
-      const delta = createClipboard().convert({ html });
+      const delta = createClipboard().convert({html});
       expect(delta).toEqual(new Delta().insert('\n'));
     });
 
     test('break', () => {
       const html =
         '<div>0<br>1</div><div>2<br></div><div>3</div><div><br>4</div><div><br></div><div>5</div>';
-      const delta = createClipboard().convert({ html });
+      const delta = createClipboard().convert({html});
       expect(delta).toEqual(new Delta().insert('0\n1\n2\n3\n\n4\n\n5'));
     });
 
     test('empty block', () => {
       const html = '<h1>Test</h1><h2></h2><p>Body</p>';
-      const delta = createClipboard().convert({ html });
+      const delta = createClipboard().convert({html});
       expect(delta).toEqual(
         new Delta()
-          .insert('Test\n', { header: 1 })
-          .insert('\n', { header: 2 })
+          .insert('Test\n', {header: 1})
+          .insert('\n', {header: 2})
           .insert('Body'),
       );
     });
@@ -338,26 +334,26 @@ describe('Clipboard', () => {
       });
       expect(delta).toEqual(
         new Delta()
-          .insert('Bold', { bold: true })
-          .insert('Italic', { italic: true }),
+          .insert('Bold', {bold: true})
+          .insert('Italic', {italic: true}),
       );
     });
 
     test('pre', () => {
       const html = '<pre> 01 \n 23 </pre>';
-      expect(createClipboard([CodeBlock]).convert({ html })).toEqual(
-        new Delta().insert(' 01 \n 23 \n', { 'code-block': true }),
+      expect(createClipboard([CodeBlock]).convert({html})).toEqual(
+        new Delta().insert(' 01 \n 23 \n', {'code-block': true}),
       );
-      expect(createClipboard().convert({ html })).toEqual(
+      expect(createClipboard().convert({html})).toEqual(
         new Delta().insert(' 01 \n 23 '),
       );
     });
 
     test('pre with \\n node', () => {
       const html = '<pre><span> 01 </span>\n<span> 23 </span></pre>';
-      const delta = createClipboard([CodeBlock]).convert({ html });
+      const delta = createClipboard([CodeBlock]).convert({html});
       expect(delta).toEqual(
-        new Delta().insert(' 01 \n 23 \n', { 'code-block': true }),
+        new Delta().insert(' 01 \n 23 \n', {'code-block': true}),
       );
     });
 
@@ -367,8 +363,8 @@ describe('Clipboard', () => {
       });
       expect(delta).toEqual(
         new Delta()
-          .insert('One\n', { list: 'ordered' })
-          .insert('Alpha\n', { list: 'ordered', indent: 1 }),
+          .insert('One\n', {list: 'ordered'})
+          .insert('Alpha\n', {list: 'ordered', indent: 1}),
       );
     });
 
@@ -378,9 +374,9 @@ describe('Clipboard', () => {
       });
       expect(delta).toEqual(
         new Delta()
-          .insert('One\n', { list: 'ordered' })
-          .insert('Alpha\nBeta\n', { list: 'ordered', indent: 1 })
-          .insert('I\n', { list: 'ordered', indent: 2 }),
+          .insert('One\n', {list: 'ordered'})
+          .insert('Alpha\nBeta\n', {list: 'ordered', indent: 1})
+          .insert('I\n', {list: 'ordered', indent: 2}),
       );
     });
 
@@ -390,9 +386,9 @@ describe('Clipboard', () => {
       });
       expect(delta).toEqual(
         new Delta()
-          .insert('One\n', { list: 'bullet' })
-          .insert('Alpha\nBeta\n', { list: 'bullet', indent: 1 })
-          .insert('I\n', { list: 'bullet', indent: 2 }),
+          .insert('One\n', {list: 'bullet'})
+          .insert('Alpha\nBeta\n', {list: 'bullet', indent: 1})
+          .insert('I\n', {list: 'bullet', indent: 2}),
       );
     });
 
@@ -404,9 +400,9 @@ describe('Clipboard', () => {
       });
       expect(delta).toEqual(
         new Delta()
-          .insert('One\n', { list: 'checked' })
-          .insert('Alpha\nBeta\n', { list: 'checked', indent: 1 })
-          .insert('I\n', { list: 'checked', indent: 2 }),
+          .insert('One\n', {list: 'checked'})
+          .insert('Alpha\nBeta\n', {list: 'checked', indent: 1})
+          .insert('I\n', {list: 'checked', indent: 2}),
       );
     });
 
@@ -416,9 +412,9 @@ describe('Clipboard', () => {
       });
       expect(delta).toEqual(
         new Delta()
-          .insert('iiii\n', { list: 'ordered', indent: 2 })
-          .insert('bbbb\n', { list: 'ordered', indent: 1 })
-          .insert('2222\n', { list: 'ordered' }),
+          .insert('iiii\n', {list: 'ordered', indent: 2})
+          .insert('bbbb\n', {list: 'ordered', indent: 1})
+          .insert('2222\n', {list: 'ordered'}),
       );
     });
 
@@ -432,8 +428,8 @@ describe('Clipboard', () => {
       });
       expect(delta).toEqual(
         new Delta()
-          .insert('A1\nA2\nA3\n', { table: 1 })
-          .insert('B1\n\nB3\n', { table: 2 }),
+          .insert('A1\nA2\nA3\n', {table: 1})
+          .insert('B1\n\nB3\n', {table: 2}),
       );
     });
 
@@ -444,8 +440,8 @@ describe('Clipboard', () => {
       const expected = new Delta()
         .insert('01')
         .insert(
-          { image: '/assets/favicon.png' },
-          { height: '200', width: '300' },
+          {image: '/assets/favicon.png'},
+          {height: '200', width: '300'},
         )
         .insert('34');
       expect(delta).toEqual(expected);
@@ -456,7 +452,7 @@ describe('Clipboard', () => {
         html: '<p>01</p><iframe src="#"></iframe><p>34</p>',
       });
       expect(delta).toEqual(
-        new Delta().insert('01\n').insert({ video: '#' }).insert('34'),
+        new Delta().insert('01\n').insert({video: '#'}).insert('34'),
       );
     });
 
@@ -466,9 +462,9 @@ describe('Clipboard', () => {
       });
       expect(delta).toEqual(
         new Delta()
-          .insert('01\n', { header: 1 })
-          .insert({ video: '#' }, { header: 1 })
-          .insert('34\n', { header: 1 })
+          .insert('01\n', {header: 1})
+          .insert({video: '#'}, {header: 1})
+          .insert('34\n', {header: 1})
           .insert('67'),
       );
     });
@@ -479,9 +475,9 @@ describe('Clipboard', () => {
       });
       expect(delta).toEqual(
         new Delta()
-          .insert('01\n', { header: 1 })
-          .insert({ video: '#' }, { link: '/', header: 1 })
-          .insert('34\n', { header: 1 })
+          .insert('01\n', {header: 1})
+          .insert({video: '#'}, {link: '/', header: 1})
+          .insert('34\n', {header: 1})
           .insert('67'),
       );
     });
@@ -492,11 +488,11 @@ describe('Clipboard', () => {
       });
       expect(delta).toEqual(
         new Delta()
-          .insert('01', { header: 1 })
-          .insert('a\n', { link: '/', header: 1 })
-          .insert({ video: '#' }, { link: '/', header: 1 })
-          .insert('b', { link: '/', header: 1 })
-          .insert('34\n', { header: 1 })
+          .insert('01', {header: 1})
+          .insert('a\n', {link: '/', header: 1})
+          .insert({video: '#'}, {link: '/', header: 1})
+          .insert('b', {link: '/', header: 1})
+          .insert('34\n', {header: 1})
           .insert('67'),
       );
     });
@@ -505,12 +501,12 @@ describe('Clipboard', () => {
       const html = '<p style="direction:rtl;">Test</p>';
       const attributors = [DirectionStyle, DirectionClass, DirectionAttribute];
       attributors.forEach((attributor) => {
-        expect(createClipboard([attributor]).convert({ html })).toEqual(
-          new Delta().insert('Test\n', { direction: 'rtl' }),
+        expect(createClipboard([attributor]).convert({html})).toEqual(
+          new Delta().insert('Test\n', {direction: 'rtl'}),
         );
       });
 
-      expect(createClipboard().convert({ html })).toEqual(
+      expect(createClipboard().convert({html})).toEqual(
         new Delta().insert('Test'),
       );
     });
@@ -520,12 +516,12 @@ describe('Clipboard', () => {
         '<span style="color: red;"><span style="color: blue;">Test</span></span>';
       const attributors = [ColorStyle, ColorClass];
       attributors.forEach((attributor) => {
-        expect(createClipboard([attributor]).convert({ html })).toEqual(
-          new Delta().insert('Test', { color: 'blue' }),
+        expect(createClipboard([attributor]).convert({html})).toEqual(
+          new Delta().insert('Test', {color: 'blue'}),
         );
       });
 
-      expect(createClipboard().convert({ html })).toEqual(
+      expect(createClipboard().convert({html})).toEqual(
         new Delta().insert('Test'),
       );
     });
@@ -541,7 +537,7 @@ describe('Clipboard', () => {
         while ((match = regex.exec((node as Text).data))) {
           composer.retain(match.index - index);
           index = regex.lastIndex;
-          composer.retain(match[0].length, { link: match[0] });
+          composer.retain(match[0].length, {link: match[0]});
         }
         return delta.compose(composer);
       });
@@ -549,9 +545,9 @@ describe('Clipboard', () => {
         html: 'http://github.com https://quilljs.com',
       });
       const expected = new Delta()
-        .insert('http://github.com', { link: 'http://github.com' })
+        .insert('http://github.com', {link: 'http://github.com'})
         .insert(' ')
-        .insert('https://quilljs.com', { link: 'https://quilljs.com' });
+        .insert('https://quilljs.com', {link: 'https://quilljs.com'});
       expect(delta).toEqual(expected);
     });
 
@@ -560,7 +556,7 @@ describe('Clipboard', () => {
       window.unsafeFunction = vitest.fn();
       const html =
         "<img src='/assets/favicon.png' onload='window.unsafeFunction()'/>";
-      createClipboard().convert({ html });
+      createClipboard().convert({html});
       // @ts-expect-error
       expect(window.unsafeFunction).not.toHaveBeenCalled();
       // @ts-expect-error
@@ -576,20 +572,20 @@ describe('Clipboard', () => {
 
     test('Google Docs', () => {
       const html = `<meta charset='utf-8'><meta charset="utf-8"><b style="font-weight:normal;" id="docs-internal-guid-6f072e08-7fff-e641-0fbc-7fe2846294a4"><p dir="ltr" style="line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">text</span></p><br /><ol style="margin-top:0;margin-bottom:0;padding-inline-start:48px;"><li dir="ltr" style="list-style-type:decimal;font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;" aria-level="1"><p dir="ltr" style="line-height:1.38;margin-top:0pt;margin-bottom:0pt;" role="presentation"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">i1</span></p></li><li dir="ltr" style="list-style-type:decimal;font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;" aria-level="1"><p dir="ltr" style="line-height:1.38;margin-top:0pt;margin-bottom:0pt;" role="presentation"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">i2</span></p></li><ol style="margin-top:0;margin-bottom:0;padding-inline-start:48px;"><li dir="ltr" style="list-style-type:lower-alpha;font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;" aria-level="2"><p dir="ltr" style="line-height:1.38;margin-top:0pt;margin-bottom:0pt;" role="presentation"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:400;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">i3</span></p></li></ol></ol><p dir="ltr" style="line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style="font-size:11pt;font-family:Arial,sans-serif;color:#000000;background-color:transparent;font-weight:700;font-style:normal;font-variant:normal;text-decoration:none;vertical-align:baseline;white-space:pre;white-space:pre-wrap;">text</span></p></b><br class="Apple-interchange-newline">`;
-      const delta = createClipboard().convert({ html });
+      const delta = createClipboard().convert({html});
       expect(delta).toEqual(
         new Delta()
           .insert('text\n')
-          .insert('i1\ni2\n', { list: 'ordered' })
-          .insert('i3\n', { list: 'ordered', indent: 1 })
-          .insert('text', { bold: true })
+          .insert('i1\ni2\n', {list: 'ordered'})
+          .insert('i3\n', {list: 'ordered', indent: 1})
+          .insert('text', {bold: true})
           .insert('\n'),
       );
     });
 
     test('ignore empty elements except paragraphs', () => {
       const html = '<div>hello<div></div>my<p></p>world</div>';
-      const delta = createClipboard().convert({ html });
+      const delta = createClipboard().convert({html});
       expect(delta).toEqual(new Delta().insert('hello\nmy\n\nworld'));
     });
   });

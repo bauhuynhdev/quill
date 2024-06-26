@@ -55,7 +55,8 @@ const updateSelectionDef = [
 ];
 
 export default class EditorPage {
-  constructor(protected readonly page: Page) {}
+  constructor(protected readonly page: Page) {
+  }
 
   get root() {
     return this.page.locator('.ql-editor');
@@ -63,13 +64,13 @@ export default class EditorPage {
 
   async open() {
     await this.page.goto('/');
-    await this.page.waitForSelector('.ql-editor', { timeout: 10000 });
+    await this.page.waitForSelector('.ql-editor', {timeout: 10000});
   }
 
   async html(content: string, title = '') {
     await this.page.evaluate((html) => {
       // @ts-expect-error
-      const contents = window.quill.clipboard.convert({ html, text: '\n' });
+      const contents = window.quill.clipboard.convert({html, text: '\n'});
       // @ts-expect-error
       return window.quill.setContents(contents);
     }, `<p>${title}</p>${content}`);
@@ -91,7 +92,7 @@ export default class EditorPage {
     await this.page.evaluate(
       // @ts-expect-error
       (range) => window.quill.setSelection(range),
-      typeof range === 'number' ? { index: range, length: length || 0 } : range,
+      typeof range === 'number' ? {index: range, length: length || 0} : range,
     );
   }
 
@@ -111,11 +112,11 @@ export default class EditorPage {
 
   async updateContents(delta: Op[], source: 'api' | 'user' = 'api') {
     await this.page.evaluate(
-      ({ delta, source }) => {
+      ({delta, source}) => {
         // @ts-expect-error
         window.quill.updateContents(delta, source);
       },
-      { delta, source },
+      {delta, source},
     );
   }
 
@@ -141,7 +142,7 @@ export default class EditorPage {
     const text = query.replace('_', '');
     await this.waitForText(text);
     await this.page.evaluate(
-      async ({ getTextNodeDef, updateSelectionDef, query, text }) => {
+      async ({getTextNodeDef, updateSelectionDef, query, text}) => {
         const getTextNode = new Function(...getTextNodeDef);
         const updateSelection = new Function(...updateSelectionDef);
 
@@ -156,7 +157,7 @@ export default class EditorPage {
         range.setEnd(node, offset);
         await updateSelection(range);
       },
-      { getTextNodeDef, updateSelectionDef, query, text },
+      {getTextNodeDef, updateSelectionDef, query, text},
     );
   }
 
@@ -174,7 +175,7 @@ export default class EditorPage {
       await this.waitForText(end);
     }
     await this.page.evaluate(
-      async ({ getTextNodeDef, updateSelectionDef, start, end }) => {
+      async ({getTextNodeDef, updateSelectionDef, start, end}) => {
         const getTextNode = new Function(...getTextNodeDef);
         const updateSelection = new Function(...updateSelectionDef);
 
@@ -192,18 +193,18 @@ export default class EditorPage {
         range.setEnd(focusNode, focusOffset);
         await updateSelection(range);
       },
-      { getTextNodeDef, updateSelectionDef, start, end },
+      {getTextNodeDef, updateSelectionDef, start, end},
     );
   }
 
   private async waitForText(text: string) {
     await this.page.waitForFunction(
-      ({ getTextNodeDef, text }) => {
+      ({getTextNodeDef, text}) => {
         const getTextNode = new Function(...getTextNodeDef);
         const editor = window.document.querySelector('.ql-editor');
         return getTextNode(editor, text);
       },
-      { getTextNodeDef, text },
+      {getTextNodeDef, text},
     );
   }
 }

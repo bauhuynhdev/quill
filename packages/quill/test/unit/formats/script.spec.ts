@@ -1,9 +1,6 @@
 import Editor from '../../../src/core/editor.js';
 import Script from '../../../src/formats/script.js';
-import {
-  createScroll as baseCreateScroll,
-  createRegistry,
-} from '../__helpers__/factory.js';
+import { createRegistry, createScroll as baseCreateScroll, } from '../__helpers__/factory.js';
 import { describe, expect, test } from 'vitest';
 
 const createScroll = (html: string) =>
@@ -14,7 +11,7 @@ describe('Script', () => {
     const editor = new Editor(
       createScroll('<p>a<sup>2</sup> + b2 = c<sup>2</sup></p>'),
     );
-    editor.formatText(6, 1, { script: 'super' });
+    editor.formatText(6, 1, {script: 'super'});
     expect(editor.scroll.domNode).toEqualHTML(
       '<p>a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup></p>',
     );
@@ -24,7 +21,7 @@ describe('Script', () => {
     const editor = new Editor(
       createScroll('<p>a<sup>2</sup> + b<sup>2</sup></p>'),
     );
-    editor.formatText(1, 1, { script: false });
+    editor.formatText(1, 1, {script: false});
     expect(editor.scroll.domNode).toEqualHTML('<p>a2 + b<sup>2</sup></p>');
   });
 
@@ -32,7 +29,7 @@ describe('Script', () => {
     const editor = new Editor(
       createScroll('<p>a<sup>2</sup> + b<sup>2</sup></p>'),
     );
-    editor.formatText(1, 1, { script: 'sub' });
+    editor.formatText(1, 1, {script: 'sub'});
     expect(editor.scroll.domNode).toEqualHTML(
       '<p>a<sub>2</sub> + b<sup>2</sup></p>',
     );

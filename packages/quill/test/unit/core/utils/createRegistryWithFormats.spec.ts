@@ -28,6 +28,7 @@ describe('createRegistryWithFormats', () => {
     class RequiredContainer extends Container {
       static blotName = 'my-required-container';
     }
+
     class Child extends Inline {
       static requiredContainer = RequiredContainer;
       static blotName = 'my-child';

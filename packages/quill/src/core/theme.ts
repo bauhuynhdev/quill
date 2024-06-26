@@ -25,7 +25,8 @@ class Theme {
   constructor(
     protected quill: Quill,
     protected options: ThemeOptions,
-  ) {}
+  ) {
+  }
 
   init() {
     Object.keys(this.options.modules).forEach((name) => {
@@ -52,8 +53,9 @@ class Theme {
 }
 
 export interface ThemeConstructor {
-  new (quill: Quill, options: unknown): Theme;
   DEFAULTS: ThemeOptions;
+
+  new(quill: Quill, options: unknown): Theme;
 }
 
 export default Theme;

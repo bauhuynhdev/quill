@@ -1,5 +1,5 @@
+import type { AttributeMap, Op } from 'quill-delta';
 import Delta, { OpIterator } from 'quill-delta';
-import type { Op, AttributeMap } from 'quill-delta';
 import Module from '../core/module.js';
 
 export type CellData = {
@@ -53,9 +53,9 @@ export const composePosition = (delta: Delta, index: number) => {
 };
 
 const compactCellData = ({
-  content,
-  attributes,
-}: {
+                           content,
+                           attributes,
+                         }: {
   content: Delta;
   attributes: AttributeMap | undefined;
 }) => {
@@ -70,10 +70,10 @@ const compactCellData = ({
 };
 
 const compactTableData = ({
-  rows,
-  columns,
-  cells,
-}: {
+                            rows,
+                            columns,
+                            cells,
+                          }: {
   rows: Delta;
   columns: Delta;
   cells: Record<string, CellData>;
@@ -96,7 +96,7 @@ const compactTableData = ({
 
 const reindexCellIdentities = (
   cells: Record<string, CellData>,
-  { rows, columns }: { rows: Delta; columns: Delta },
+  {rows, columns}: { rows: Delta; columns: Delta },
 ) => {
   const reindexedCells: Record<string, CellData> = {};
   Object.keys(cells).forEach((identity) => {
@@ -142,7 +142,7 @@ export const tableHandler = {
         keepNull,
       );
 
-      const cell = compactCellData({ content, attributes });
+      const cell = compactCellData({content, attributes});
       if (cell) {
         cells[identity] = cell;
       } else {
@@ -150,7 +150,7 @@ export const tableHandler = {
       }
     });
 
-    return compactTableData({ rows, columns, cells });
+    return compactTableData({rows, columns, cells});
   },
   transform(a: TableData, b: TableData, priority: boolean) {
     const aDeltas = {
@@ -196,7 +196,7 @@ export const tableHandler = {
             priority,
           );
 
-          const cell = compactCellData({ content, attributes });
+          const cell = compactCellData({content, attributes});
           if (cell) {
             cells[newIdentity] = cell;
           } else {
@@ -206,7 +206,7 @@ export const tableHandler = {
       }
     });
 
-    return compactTableData({ rows, columns, cells });
+    return compactTableData({rows, columns, cells});
   },
   invert(change: TableData, base: TableData) {
     const rows = new Delta(change.rows || []).invert(
@@ -229,7 +229,7 @@ export const tableHandler = {
         changeCell.attributes,
         baseCell.attributes,
       );
-      const cell = compactCellData({ content, attributes });
+      const cell = compactCellData({content, attributes});
       if (cell) {
         cells[identity] = cell;
       } else {
@@ -250,7 +250,7 @@ export const tableHandler = {
       }
     });
 
-    return compactTableData({ rows, columns, cells });
+    return compactTableData({rows, columns, cells});
   },
 };
 

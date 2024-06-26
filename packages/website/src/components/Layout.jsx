@@ -5,16 +5,16 @@ import Header from './Header';
 import playground from '../data/playground';
 import docs from '../data/docs';
 
-const Layout = ({ children, title }) => {
+const Layout = ({children, title}) => {
   return (
     <>
-      <SEO title={title} />
-      <Header />
+      <SEO title={title}/>
+      <Header/>
       {children}
       <footer>
         <div className="container">
           <div className="logo row">
-            <LogoIcon />
+            <LogoIcon/>
           </div>
           <h1>Your powerful rich text editor.</h1>
           <div className="actions row">

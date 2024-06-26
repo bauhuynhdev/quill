@@ -1,8 +1,8 @@
 import Delta from 'quill-delta';
 import { describe, expect, test, vitest } from 'vitest';
 import Quill from '../../../src/core.js';
-import { getLastChangeIndex } from '../../../src/modules/history.js';
 import type { HistoryOptions } from '../../../src/modules/history.js';
+import { getLastChangeIndex } from '../../../src/modules/history.js';
 import { createRegistry, createScroll } from '../__helpers__/factory.js';
 import { sleep } from '../__helpers__/utils.js';
 import Bold from '../../../src/formats/bold.js';
@@ -33,7 +33,7 @@ describe('History', () => {
     });
 
     test('insert embed', () => {
-      const delta = new Delta().retain(4).insert({ image: true });
+      const delta = new Delta().retain(4).insert({image: true});
       expect(getLastChangeIndex(scroll, delta)).toEqual(5);
     });
 
@@ -43,19 +43,19 @@ describe('History', () => {
     });
 
     test('format', () => {
-      const delta = new Delta().retain(4).retain(3, { bold: true });
+      const delta = new Delta().retain(4).retain(3, {bold: true});
       expect(getLastChangeIndex(scroll, delta)).toEqual(7);
     });
 
     test('format newline', () => {
-      const delta = new Delta().retain(4).retain(1, { align: 'left' });
+      const delta = new Delta().retain(4).retain(1, {align: 'left'});
       expect(getLastChangeIndex(scroll, delta)).toEqual(4);
     });
 
     test('format mixed', () => {
       const delta = new Delta()
         .retain(4)
-        .retain(1, { align: 'left', bold: true });
+        .retain(1, {align: 'left', bold: true});
       expect(getLastChangeIndex(scroll, delta)).toEqual(4);
     });
 
@@ -78,15 +78,15 @@ describe('History', () => {
       container.innerHTML = '<div><p>The lazy fox</p></div>';
       const quill = new Quill(container, {
         modules: {
-          history: { delay: 400, ...options },
+          history: {delay: 400, ...options},
         },
         registry: scroll.registry,
       });
-      return { quill, original: quill.getContents() };
+      return {quill, original: quill.getContents()};
     };
 
     test('limits undo stack size', () => {
-      const { quill } = setup({ delay: 0, maxStack: 2 });
+      const {quill} = setup({delay: 0, maxStack: 2});
       ['A', 'B', 'C'].forEach((text) => {
         quill.insertText(0, text);
       });
@@ -94,7 +94,7 @@ describe('History', () => {
     });
 
     test('emits selection changes', () => {
-      const { quill } = setup({ delay: 0 });
+      const {quill} = setup({delay: 0});
       quill.insertText(0, 'foo');
       const change = vitest.fn();
       quill.on('selection-change', change);
@@ -105,7 +105,7 @@ describe('History', () => {
     });
 
     test('user change', () => {
-      const { quill, original } = setup({ delay: 0 });
+      const {quill, original} = setup({delay: 0});
       (quill.root.firstChild as HTMLElement).innerHTML = 'The lazy foxes';
       quill.update();
       const changed = quill.getContents();
@@ -117,7 +117,7 @@ describe('History', () => {
     });
 
     test('merge changes', () => {
-      const { quill, original } = setup();
+      const {quill, original} = setup();
       expect(quill.history.stack.undo.length).toEqual(0);
       quill.updateContents(new Delta().retain(12).insert('e'));
       expect(quill.history.stack.undo.length).toEqual(1);
@@ -129,7 +129,7 @@ describe('History', () => {
     });
 
     test('dont merge changes', async () => {
-      const { quill } = setup();
+      const {quill} = setup();
       expect(quill.history.stack.undo.length).toEqual(0);
       quill.updateContents(new Delta().retain(12).insert('e'));
       expect(quill.history.stack.undo.length).toEqual(1);
@@ -140,7 +140,7 @@ describe('History', () => {
     });
 
     test('multiple undos', async () => {
-      const { quill, original } = setup();
+      const {quill, original} = setup();
       expect(quill.history.stack.undo.length).toEqual(0);
       quill.updateContents(new Delta().retain(12).insert('e'));
       const contents = quill.getContents();
@@ -154,7 +154,7 @@ describe('History', () => {
     });
 
     test('transform api change', () => {
-      const { quill } = setup();
+      const {quill} = setup();
       // @ts-expect-error
       quill.history.options.userOnly = true;
       quill.updateContents(
@@ -178,15 +178,15 @@ describe('History', () => {
     });
 
     test('transform preserve intention', () => {
-      const { quill } = setup({ userOnly: true });
+      const {quill} = setup({userOnly: true});
       const url = 'https://www.google.com/';
       quill.updateContents(
-        new Delta().insert(url, { link: url }),
+        new Delta().insert(url, {link: url}),
         Quill.sources.USER,
       );
       quill.history.lastRecorded = 0;
       quill.updateContents(
-        new Delta().delete(url.length).insert('Google', { link: url }),
+        new Delta().delete(url.length).insert('Google', {link: url}),
         Quill.sources.API,
       );
       quill.history.lastRecorded = 0;
@@ -196,20 +196,20 @@ describe('History', () => {
       );
       quill.history.lastRecorded = 0;
       expect(quill.getContents()).toEqual(
-        new Delta().insert('Google', { link: url }).insert('The lazy fox!\n'),
+        new Delta().insert('Google', {link: url}).insert('The lazy fox!\n'),
       );
       quill.history.undo();
       expect(quill.getContents()).toEqual(
-        new Delta().insert('Google', { link: url }).insert('The lazy fox\n'),
+        new Delta().insert('Google', {link: url}).insert('The lazy fox\n'),
       );
       quill.history.undo();
       expect(quill.getContents()).toEqual(
-        new Delta().insert('Google', { link: url }).insert('The lazy fox\n'),
+        new Delta().insert('Google', {link: url}).insert('The lazy fox\n'),
       );
     });
 
     test('ignore remote changes', () => {
-      const { quill } = setup();
+      const {quill} = setup();
       // @ts-expect-error
       quill.history.options.delay = 0;
       // @ts-expect-error
@@ -231,7 +231,7 @@ describe('History', () => {
     });
 
     test('correctly transform against remote changes', () => {
-      const { quill } = setup({ delay: 0, userOnly: true });
+      const {quill} = setup({delay: 0, userOnly: true});
       quill.setText('b\n');
       quill.insertText(1, 'd', Quill.sources.USER);
       quill.insertText(0, 'a', Quill.sources.USER);
@@ -248,7 +248,7 @@ describe('History', () => {
     });
 
     test('correctly transform against remote changes breaking up an insert', () => {
-      const { quill } = setup({ delay: 0, userOnly: true });
+      const {quill} = setup({delay: 0, userOnly: true});
       quill.setText('\n');
       quill.insertText(0, 'ABC', Quill.sources.USER);
       quill.insertText(3, '4', Quill.sources.API);

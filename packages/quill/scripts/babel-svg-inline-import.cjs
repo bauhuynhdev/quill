@@ -1,8 +1,8 @@
 const fs = require('fs');
-const { dirname, resolve } = require('path');
-const { optimize } = require('svgo');
+const {dirname, resolve} = require('path');
+const {optimize} = require('svgo');
 
-module.exports = ({ types: t }) => {
+module.exports = ({types: t}) => {
   class BabelSVGInlineImport {
     constructor() {
       return {
@@ -19,7 +19,7 @@ module.exports = ({ types: t }) => {
               const absolutePath = resolve(dirname(reference), givenPath);
               const content = optimize(
                 fs.readFileSync(absolutePath).toString(),
-                { plugins: [] },
+                {plugins: []},
               ).data;
 
               const variableValue = t.stringLiteral(content);

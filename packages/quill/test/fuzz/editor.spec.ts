@@ -18,29 +18,29 @@ const attributeDefs: {
   blockEmbed: AttributeDef[];
 } = {
   text: [
-    { name: 'color', values: ['#ffffff', '#000000', '#ff0000', '#ffff00'] },
-    { name: 'bold', values: [true] },
-    { name: 'code', values: [true] },
+    {name: 'color', values: ['#ffffff', '#000000', '#ff0000', '#ffff00']},
+    {name: 'bold', values: [true]},
+    {name: 'code', values: [true]},
     // @ts-expect-error
-    { name: 'font', values: FontClass.whitelist },
+    {name: 'font', values: FontClass.whitelist},
     // @ts-expect-error
-    { name: 'size', values: SizeClass.whitelist },
+    {name: 'size', values: SizeClass.whitelist},
   ],
   newline: [
     // @ts-expect-error
-    { name: 'align', values: AlignClass.whitelist },
-    { name: 'header', values: [1, 2, 3, 4, 5] },
-    { name: 'blockquote', values: [true] },
-    { name: 'list', values: ['ordered', 'bullet', 'checked', 'unchecked'] },
+    {name: 'align', values: AlignClass.whitelist},
+    {name: 'header', values: [1, 2, 3, 4, 5]},
+    {name: 'blockquote', values: [true]},
+    {name: 'list', values: ['ordered', 'bullet', 'checked', 'unchecked']},
   ],
   inlineEmbed: [
-    { name: 'width', values: ['100', '200', '300'] },
-    { name: 'height', values: ['100', '200', '300'] },
+    {name: 'width', values: ['100', '200', '300']},
+    {name: 'height', values: ['100', '200', '300']},
   ],
   blockEmbed: [
-    { name: 'align', values: ['center', 'right'] },
-    { name: 'width', values: ['100', '200', '300'] },
-    { name: 'height', values: ['100', '200', '300'] },
+    {name: 'align', values: ['center', 'right']},
+    {name: 'width', values: ['100', '200', '300']},
+    {name: 'height', values: ['100', '200', '300']},
   ],
 };
 
@@ -61,7 +61,7 @@ const generateAttributes = (scope: keyof typeof attributeDefs) => {
   const attributeCount =
     scope === 'newline'
       ? // Some block-level formats are exclusive so we only pick one for now for simplicity
-        choose([0, 0, 1])
+      choose([0, 0, 1])
       : choose([0, 0, 0, 0, 0, 1, 2, 3, 4]);
   const attributes: AttributeMap = {};
   for (let i = 0; i < attributeCount; i += 1) {
@@ -107,16 +107,16 @@ const generateSingleInsertDelta = (): Delta['ops'][number] & {
       insert = '\n';
       break;
     case 'inlineEmbed':
-      insert = { [INLINE_EMBED_NAME]: 'https://example.com' };
+      insert = {[INLINE_EMBED_NAME]: 'https://example.com'};
       break;
     case 'blockEmbed': {
-      insert = { [BLOCK_EMBED_NAME]: 'https://example.com' };
+      insert = {[BLOCK_EMBED_NAME]: 'https://example.com'};
       break;
     }
   }
 
   const attributes = generateAttributes(operation);
-  const op: Op & { insert: SingleInsertValue } = { insert };
+  const op: Op & { insert: SingleInsertValue } = {insert};
   if (Object.keys(attributes).length) {
     op.attributes = attributes;
   }
@@ -223,8 +223,8 @@ const generateChange = (
   return changeCount <= 0
     ? change
     : change.compose(
-        generateChange(doc.compose(change), changeCount, allowedActions),
-      );
+      generateChange(doc.compose(change), changeCount, allowedActions),
+    );
 };
 
 describe('editor', () => {

@@ -2,21 +2,16 @@ import Delta from 'quill-delta';
 import Quill from '../../../src/core.js';
 import { describe, expect, test } from 'vitest';
 import { createRegistry } from '../__helpers__/factory.js';
-import {
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-} from '../../../src/formats/table.js';
+import { TableBody, TableCell, TableContainer, TableRow, } from '../../../src/formats/table.js';
 import { normalizeHTML } from '../__helpers__/utils.js';
 import Table from '../../../src/modules/table.js';
 
 const createQuill = (html: string) => {
-  Quill.register({ 'modules/table': Table }, true);
+  Quill.register({'modules/table': Table}, true);
   const container = document.body.appendChild(document.createElement('div'));
   container.innerHTML = normalizeHTML(html);
   const quill = new Quill(container, {
-    modules: { table: true },
+    modules: {table: true},
     registry: createRegistry([TableBody, TableCell, TableContainer, TableRow]),
   });
   return quill;
@@ -39,7 +34,7 @@ describe('Table Module', () => {
         </table>
         <p><br></p>
       `,
-        { ignoreAttrs: ['data-row'] },
+        {ignoreAttrs: ['data-row']},
       );
     });
 
@@ -58,7 +53,7 @@ describe('Table Module', () => {
         </table>
         <p>23</p>
       `,
-        { ignoreAttrs: ['data-row'] },
+        {ignoreAttrs: ['data-row']},
       );
     });
   });
@@ -75,11 +70,11 @@ describe('Table Module', () => {
       `;
       const quill = createQuill(tableHTML);
       const table = quill.getModule('table') as Table;
-      return { quill, table };
+      return {quill, table};
     };
 
     test('insertRowAbove', () => {
-      const { quill, table } = setup();
+      const {quill, table} = setup();
       quill.setSelection(0);
       table.insertRowAbove();
       expect(quill.root).toEqualHTML(
@@ -92,12 +87,12 @@ describe('Table Module', () => {
           </tbody>
         </table>
       `,
-        { ignoreAttrs: ['data-row'] },
+        {ignoreAttrs: ['data-row']},
       );
     });
 
     test('insertRowBelow', () => {
-      const { quill, table } = setup();
+      const {quill, table} = setup();
       quill.setSelection(0);
       table.insertRowBelow();
       expect(quill.root).toEqualHTML(
@@ -110,12 +105,12 @@ describe('Table Module', () => {
           </tbody>
         </table>
       `,
-        { ignoreAttrs: ['data-row'] },
+        {ignoreAttrs: ['data-row']},
       );
     });
 
     test('insertColumnLeft', () => {
-      const { quill, table } = setup();
+      const {quill, table} = setup();
       quill.setSelection(0);
       table.insertColumnLeft();
       expect(quill.root).toEqualHTML(
@@ -127,12 +122,12 @@ describe('Table Module', () => {
           </tbody>
         </table>
       `,
-        { ignoreAttrs: ['data-row'] },
+        {ignoreAttrs: ['data-row']},
       );
     });
 
     test('insertColumnRight', () => {
-      const { quill, table } = setup();
+      const {quill, table} = setup();
       quill.setSelection(0);
       table.insertColumnRight();
       expect(quill.root).toEqualHTML(
@@ -144,12 +139,12 @@ describe('Table Module', () => {
           </tbody>
         </table>
       `,
-        { ignoreAttrs: ['data-row'] },
+        {ignoreAttrs: ['data-row']},
       );
     });
 
     test('deleteRow', () => {
-      const { quill, table } = setup();
+      const {quill, table} = setup();
       quill.setSelection(0);
       table.deleteRow();
       expect(quill.root).toEqualHTML(
@@ -160,12 +155,12 @@ describe('Table Module', () => {
           </tbody>
         </table>
       `,
-        { ignoreAttrs: ['data-row'] },
+        {ignoreAttrs: ['data-row']},
       );
     });
 
     test('deleteColumn', () => {
-      const { quill, table } = setup();
+      const {quill, table} = setup();
       quill.setSelection(0);
       table.deleteColumn();
       expect(quill.root).toEqualHTML(
@@ -177,12 +172,12 @@ describe('Table Module', () => {
           </tbody>
         </table>
       `,
-        { ignoreAttrs: ['data-row'] },
+        {ignoreAttrs: ['data-row']},
       );
     });
 
     test('insertText before', () => {
-      const { quill } = setup();
+      const {quill} = setup();
       quill.updateContents(new Delta().insert('\n'));
       expect(quill.root).toEqualHTML(
         `
@@ -194,12 +189,12 @@ describe('Table Module', () => {
           </tbody>
         </table>
       `,
-        { ignoreAttrs: ['data-row'] },
+        {ignoreAttrs: ['data-row']},
       );
     });
 
     test('insertText after', () => {
-      const { quill } = setup();
+      const {quill} = setup();
       quill.updateContents(new Delta().retain(18).insert('\n'));
       expect(quill.root).toEqualHTML(
         `
@@ -211,7 +206,7 @@ describe('Table Module', () => {
         </table>
         <p><br></p>
       `,
-        { ignoreAttrs: ['data-row'] },
+        {ignoreAttrs: ['data-row']},
       );
     });
   });

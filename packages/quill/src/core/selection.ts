@@ -1,7 +1,7 @@
 import { LeafBlot, Scope } from 'parchment';
 import { cloneDeep, isEqual } from 'lodash-es';
-import Emitter from './emitter.js';
 import type { EmitterSource } from './emitter.js';
+import Emitter from './emitter.js';
 import logger from './logger.js';
 import type Cursor from '../blots/cursor.js';
 import type Scroll from '../blots/scroll.js';
@@ -32,7 +32,8 @@ export class Range {
   constructor(
     public index: number,
     public length = 0,
-  ) {}
+  ) {
+  }
 }
 
 class Selection {
@@ -102,7 +103,7 @@ class Selection {
     });
     this.emitter.on(Emitter.events.SCROLL_OPTIMIZE, (mutations, context) => {
       if (context.range) {
-        const { startNode, startOffset, endNode, endOffset } = context.range;
+        const {startNode, startOffset, endNode, endOffset} = context.range;
         this.setNativeRange(startNode, startOffset, endNode, endOffset);
         this.update(Emitter.sources.SILENT);
       }
@@ -143,7 +144,7 @@ class Selection {
 
   focus() {
     if (this.hasFocus()) return;
-    this.root.focus({ preventScroll: true });
+    this.root.focus({preventScroll: true});
     this.setRange(this.savedRange);
   }
 
@@ -307,11 +308,11 @@ class Selection {
         node: nativeRange.startContainer,
         offset: nativeRange.startOffset,
       },
-      end: { node: nativeRange.endContainer, offset: nativeRange.endOffset },
+      end: {node: nativeRange.endContainer, offset: nativeRange.endOffset},
       native: nativeRange,
     };
     [range.start, range.end].forEach((position) => {
-      let { node, offset } = position;
+      let {node, offset} = position;
       while (!(node instanceof Text) && node.childNodes.length > 0) {
         if (node.childNodes.length > offset) {
           node = node.childNodes[offset];
@@ -375,8 +376,8 @@ class Selection {
     const selection = document.getSelection();
     if (selection == null) return;
     if (startNode != null) {
-      if (!this.hasFocus()) this.root.focus({ preventScroll: true });
-      const { native } = this.getNativeRange() || {};
+      if (!this.hasFocus()) this.root.focus({preventScroll: true});
+      const {native} = this.getNativeRange() || {};
       if (
         native == null ||
         force ||

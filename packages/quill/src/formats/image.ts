@@ -6,6 +6,7 @@ const ATTRIBUTES = ['alt', 'height', 'width'];
 class Image extends EmbedBlot {
   static blotName = 'image';
   static tagName = 'IMG';
+  domNode: HTMLImageElement;
 
   static create(value: string | { src: string; alt?: string }) {
     const node = super.create() as HTMLImageElement;
@@ -43,8 +44,6 @@ class Image extends EmbedBlot {
   static value(domNode: Element) {
     return domNode.getAttribute('src');
   }
-
-  domNode: HTMLImageElement;
 
   format(name: string, value: string) {
     if (ATTRIBUTES.indexOf(name) > -1) {

@@ -1,8 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import {
-  createRegistry,
-  createScroll as baseCreateScroll,
-} from '../__helpers__/factory.js';
+import { createRegistry, createScroll as baseCreateScroll, } from '../__helpers__/factory.js';
 import Bold from '../../../src/formats/bold.js';
 
 const createScroll = (html: string) =>

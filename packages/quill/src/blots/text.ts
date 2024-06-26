@@ -1,6 +1,7 @@
 import { TextBlot } from 'parchment';
 
-class Text extends TextBlot {}
+class Text extends TextBlot {
+}
 
 function escapeText(text: string) {
   return text.replace(/[&<>"']/g, (s) => {

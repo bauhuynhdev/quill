@@ -5,16 +5,16 @@ import { isMac } from './utils/index.js';
 const listTypes = ['bullet', 'checked'];
 
 test.describe('list', () => {
-  test.beforeEach(async ({ editorPage }) => {
+  test.beforeEach(async ({editorPage}) => {
     await editorPage.open();
   });
 
   for (const list of listTypes) {
     test.describe(`navigation with shortcuts ${list}`, () => {
-      test('jump to line start', async ({ page, editorPage }) => {
+      test('jump to line start', async ({page, editorPage}) => {
         await editorPage.setContents([
-          { insert: 'item 1' },
-          { insert: '\n', attributes: { list } },
+          {insert: 'item 1'},
+          {insert: '\n', attributes: {list}},
         ]);
 
         await editorPage.moveCursorAfterText('item 1');
@@ -26,19 +26,19 @@ test.describe('list', () => {
 
         await page.keyboard.type('start ');
         expect(await editorPage.getContents()).toEqual([
-          { insert: 'start item 1' },
-          { insert: '\n', attributes: { list } },
+          {insert: 'start item 1'},
+          {insert: '\n', attributes: {list}},
         ]);
       });
 
       test.describe('navigation with left/right arrow keys', () => {
-        test('move to previous/next line', async ({ page, editorPage }) => {
+        test('move to previous/next line', async ({page, editorPage}) => {
           const firstLine = 'first line';
           await editorPage.setContents([
-            { insert: firstLine },
-            { insert: '\n', attributes: { list } },
-            { insert: 'second line' },
-            { insert: '\n', attributes: { list } },
+            {insert: firstLine},
+            {insert: '\n', attributes: {list}},
+            {insert: 'second line'},
+            {insert: '\n', attributes: {list}},
           ]);
 
           await editorPage.setSelection(firstLine.length + 2, 0);
@@ -56,13 +56,13 @@ test.describe('list', () => {
           });
         });
 
-        test('RTL support', async ({ page, editorPage }) => {
+        test('RTL support', async ({page, editorPage}) => {
           const firstLine = 'اللغة العربية';
           await editorPage.setContents([
-            { insert: firstLine },
-            { insert: '\n', attributes: { list, direction: 'rtl' } },
-            { insert: 'توحيد اللهجات العربية' },
-            { insert: '\n', attributes: { list, direction: 'rtl' } },
+            {insert: firstLine},
+            {insert: '\n', attributes: {list, direction: 'rtl'}},
+            {insert: 'توحيد اللهجات العربية'},
+            {insert: '\n', attributes: {list, direction: 'rtl'}},
           ]);
 
           await editorPage.setSelection(firstLine.length + 2, 0);
@@ -81,14 +81,14 @@ test.describe('list', () => {
         });
 
         test('extend selection to previous/next line', async ({
-          page,
-          editorPage,
-        }) => {
+                                                                page,
+                                                                editorPage,
+                                                              }) => {
           await editorPage.setContents([
-            { insert: 'first line' },
-            { insert: '\n', attributes: { list } },
-            { insert: 'second line' },
-            { insert: '\n', attributes: { list } },
+            {insert: 'first line'},
+            {insert: '\n', attributes: {list}},
+            {insert: 'second line'},
+            {insert: '\n', attributes: {list}},
           ]);
 
           await editorPage.moveCursorTo('s_econd');
@@ -96,53 +96,53 @@ test.describe('list', () => {
           await page.keyboard.press('Shift+ArrowLeft');
           await page.keyboard.type('a');
           expect(await editorPage.getContents()).toEqual([
-            { insert: 'first lineaecond line' },
-            { insert: '\n', attributes: { list } },
+            {insert: 'first lineaecond line'},
+            {insert: '\n', attributes: {list}},
           ]);
         });
       });
 
       // https://github.com/quilljs/quill/issues/3837
       test('typing at beginning with IME', async ({
-        editorPage,
-        composition,
-      }) => {
+                                                    editorPage,
+                                                    composition,
+                                                  }) => {
         await editorPage.setContents([
-          { insert: 'item 1' },
-          { insert: '\n', attributes: { list } },
-          { insert: '' },
-          { insert: '\n', attributes: { list } },
+          {insert: 'item 1'},
+          {insert: '\n', attributes: {list}},
+          {insert: ''},
+          {insert: '\n', attributes: {list}},
         ]);
 
         await editorPage.setSelection(7, 0);
         await editorPage.typeWordWithIME(composition, '我');
         expect(await editorPage.getContents()).toEqual([
-          { insert: 'item 1' },
-          { insert: '\n', attributes: { list } },
-          { insert: '我' },
-          { insert: '\n', attributes: { list } },
+          {insert: 'item 1'},
+          {insert: '\n', attributes: {list}},
+          {insert: '我'},
+          {insert: '\n', attributes: {list}},
         ]);
       });
 
       test('typing in an empty editor with IME and press Backspace', async ({
-        page,
-        editorPage,
-        composition,
-      }) => {
-        await editorPage.setContents([{ insert: '\n' }]);
+                                                                              page,
+                                                                              editorPage,
+                                                                              composition,
+                                                                            }) => {
+        await editorPage.setContents([{insert: '\n'}]);
 
         await editorPage.setSelection(9, 0);
         await editorPage.typeWordWithIME(composition, '我');
         await page.keyboard.press('Backspace');
-        expect(await editorPage.getContents()).toEqual([{ insert: '\n' }]);
+        expect(await editorPage.getContents()).toEqual([{insert: '\n'}]);
       });
     });
   }
 
-  test('checklist is checkable', async ({ editorPage, page }) => {
+  test('checklist is checkable', async ({editorPage, page}) => {
     await editorPage.setContents([
-      { insert: 'item 1' },
-      { insert: '\n', attributes: { list: 'unchecked' } },
+      {insert: 'item 1'},
+      {insert: '\n', attributes: {list: 'unchecked'}},
     ]);
 
     await editorPage.setSelection(7, 0);
@@ -151,13 +151,13 @@ test.describe('list', () => {
     });
     await page.mouse.click(rect.left + 5, rect.top + 5);
     expect(await editorPage.getContents()).toEqual([
-      { insert: 'item 1' },
-      { insert: '\n', attributes: { list: 'checked' } },
+      {insert: 'item 1'},
+      {insert: '\n', attributes: {list: 'checked'}},
     ]);
     await page.mouse.click(rect.left + 5, rect.top + 5);
     expect(await editorPage.getContents()).toEqual([
-      { insert: 'item 1' },
-      { insert: '\n', attributes: { list: 'unchecked' } },
+      {insert: 'item 1'},
+      {insert: '\n', attributes: {list: 'unchecked'}},
     ]);
   });
 });

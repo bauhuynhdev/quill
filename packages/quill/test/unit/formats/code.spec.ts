@@ -1,14 +1,8 @@
 import Delta from 'quill-delta';
 import Editor from '../../../src/core/editor.js';
-import {
-  createScroll as baseCreateScroll,
-  createRegistry,
-} from '../__helpers__/factory.js';
+import { createRegistry, createScroll as baseCreateScroll, } from '../__helpers__/factory.js';
 import { describe, expect, test } from 'vitest';
-import CodeBlock, {
-  Code,
-  CodeBlockContainer,
-} from '../../../src/formats/code.js';
+import CodeBlock, { Code, CodeBlockContainer, } from '../../../src/formats/code.js';
 import Italic from '../../../src/formats/italic.js';
 import Header from '../../../src/formats/header.js';
 
@@ -21,7 +15,7 @@ const createScroll = (html: string) =>
 describe('Code', () => {
   test('format newline', () => {
     const editor = new Editor(createScroll('<p><br></p>'));
-    editor.formatLine(0, 1, { 'code-block': true });
+    editor.formatLine(0, 1, {'code-block': true});
     expect(editor.scroll.domNode).toEqualHTML(`
       <div class="ql-code-block-container" spellcheck="false">
         <div class="ql-code-block"><br /></div>
@@ -31,13 +25,13 @@ describe('Code', () => {
 
   test('format lines', () => {
     const editor = new Editor(createScroll('<p><em>0123</em></p><p>5678</p>'));
-    editor.formatLine(2, 5, { 'code-block': true });
+    editor.formatLine(2, 5, {'code-block': true});
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('0123')
-        .insert('\n', { 'code-block': true })
+        .insert('\n', {'code-block': true})
         .insert('5678')
-        .insert('\n', { 'code-block': true }),
+        .insert('\n', {'code-block': true}),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <div class="ql-code-block-container" spellcheck="false">
@@ -53,7 +47,7 @@ describe('Code', () => {
         '<div class="ql-code-block-container" spellcheck="false"><div class="ql-code-block">0123</div></div>',
       ),
     );
-    editor.formatText(4, 1, { 'code-block': false });
+    editor.formatText(4, 1, {'code-block': false});
     expect(editor.getDelta()).toEqual(new Delta().insert('0123\n'));
     expect(editor.scroll.domNode).toEqualHTML('<p>0123</p>');
   });
@@ -68,7 +62,7 @@ describe('Code', () => {
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('0123')
-        .insert('\n', { 'code-block': true })
+        .insert('\n', {'code-block': true})
         .insert('5678\n'),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
@@ -87,7 +81,7 @@ describe('Code', () => {
     );
     editor.deleteText(4, 1);
     expect(editor.getDelta()).toEqual(
-      new Delta().insert('01234567').insert('\n', { 'code-block': true }),
+      new Delta().insert('01234567').insert('\n', {'code-block': true}),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <div class="ql-code-block-container" spellcheck="false">
@@ -104,7 +98,7 @@ describe('Code', () => {
     );
     editor.deleteText(4, 1);
     expect(editor.getDelta()).toEqual(
-      new Delta().insert('01234567').insert('\n', { header: 1 }),
+      new Delta().insert('01234567').insert('\n', {header: 1}),
     );
     expect(editor.scroll.domNode).toEqualHTML('<h1>01234567</h1>');
   });
@@ -124,11 +118,11 @@ describe('Code', () => {
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('01')
-        .insert('\n', { 'code-block': true })
+        .insert('\n', {'code-block': true})
         .insert('34')
-        .insert('\n', { 'code-block': true })
+        .insert('\n', {'code-block': true})
         .insert('60')
-        .insert('\n', { header: 1 }),
+        .insert('\n', {header: 1}),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <div class="ql-code-block-container" spellcheck="false">
@@ -153,9 +147,9 @@ describe('Code', () => {
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('01')
-        .insert('\n', { 'code-block': true })
+        .insert('\n', {'code-block': true})
         .insert('89')
-        .insert('\n', { header: 1 }),
+        .insert('\n', {header: 1}),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <div class="ql-code-block-container" spellcheck="false">
@@ -179,9 +173,9 @@ describe('Code', () => {
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('016')
-        .insert('\n', { 'code-block': true })
+        .insert('\n', {'code-block': true})
         .insert('89')
-        .insert('\n', { 'code-block': true }),
+        .insert('\n', {'code-block': true}),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <div class="ql-code-block-container" spellcheck="false">
@@ -197,9 +191,9 @@ describe('Code', () => {
         '<div class="ql-code-block-container" spellcheck="false"><div class="ql-code-block">0123</div></div>',
       ),
     );
-    editor.formatText(4, 1, { header: 1 });
+    editor.formatText(4, 1, {header: 1});
     expect(editor.getDelta()).toEqual(
-      new Delta().insert('0123').insert('\n', { header: 1 }),
+      new Delta().insert('0123').insert('\n', {header: 1}),
     );
     expect(editor.scroll.domNode).toEqualHTML('<h1>0123</h1>');
   });
@@ -215,13 +209,13 @@ describe('Code', () => {
     `,
       ),
     );
-    editor.formatText(0, 6, { header: 1 });
+    editor.formatText(0, 6, {header: 1});
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('01')
-        .insert('\n', { header: 1 })
+        .insert('\n', {header: 1})
         .insert('23')
-        .insert('\n', { header: 1 }),
+        .insert('\n', {header: 1}),
     );
     expect(editor.scroll.domNode).toEqualHTML('<h1>01</h1>\n<h1>23</h1>');
   });
@@ -238,15 +232,15 @@ describe('Code', () => {
     `,
       ),
     );
-    editor.formatText(1, 6, { header: 1 });
+    editor.formatText(1, 6, {header: 1});
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('01')
-        .insert('\n', { header: 1 })
+        .insert('\n', {header: 1})
         .insert('23')
-        .insert('\n', { header: 1 })
+        .insert('\n', {header: 1})
         .insert('45')
-        .insert('\n', { 'code-block': true }),
+        .insert('\n', {'code-block': true}),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <h1>01</h1>
@@ -269,15 +263,15 @@ describe('Code', () => {
     `,
       ),
     );
-    editor.formatText(3, 1, { header: 1 });
+    editor.formatText(3, 1, {header: 1});
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('01')
-        .insert('\n', { 'code-block': true })
+        .insert('\n', {'code-block': true})
         .insert('23')
-        .insert('\n', { 'code-block': true })
+        .insert('\n', {'code-block': true})
         .insert('45')
-        .insert('\n', { 'code-block': true }),
+        .insert('\n', {'code-block': true}),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <div class="ql-code-block-container" spellcheck="false">
@@ -300,15 +294,15 @@ describe('Code', () => {
     `,
       ),
     );
-    editor.formatLine(3, 1, { header: 1 });
+    editor.formatLine(3, 1, {header: 1});
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('01')
-        .insert('\n', { 'code-block': true })
+        .insert('\n', {'code-block': true})
         .insert('23')
-        .insert('\n', { header: 1 })
+        .insert('\n', {header: 1})
         .insert('45')
-        .insert('\n', { 'code-block': true }),
+        .insert('\n', {'code-block': true}),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <div class="ql-code-block-container" spellcheck="false">
@@ -327,9 +321,9 @@ describe('Code', () => {
         '<div class="ql-code-block-container" spellcheck="false"><div class="ql-code-block">0123</div></div>',
       ),
     );
-    editor.formatText(1, 1, { bold: true });
+    editor.formatText(1, 1, {bold: true});
     expect(editor.getDelta()).toEqual(
-      new Delta().insert('0123').insert('\n', { 'code-block': true }),
+      new Delta().insert('0123').insert('\n', {'code-block': true}),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <div class="ql-code-block-container" spellcheck="false">
@@ -350,9 +344,9 @@ describe('Code', () => {
     );
     const delta = new Delta()
       .retain(3)
-      .insert('\n', { 'code-block': true })
+      .insert('\n', {'code-block': true})
       .delete(1)
-      .retain(1, { 'code-block': null });
+      .retain(1, {'code-block': null});
     editor.applyDelta(delta);
     expect(editor.scroll.domNode).toEqualHTML(`
       <div class="ql-code-block-container" spellcheck="false">

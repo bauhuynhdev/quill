@@ -10,9 +10,9 @@ describe('emitter', () => {
     emitter.on('abc', (data) => {
       received = data;
     });
-    emitter.emit('abc', { hello: 'world' });
+    emitter.emit('abc', {hello: 'world'});
 
-    expect(received).toEqual({ hello: 'world' });
+    expect(received).toEqual({hello: 'world'});
   });
 
   test('listenDOM', () => {

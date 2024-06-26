@@ -1,11 +1,7 @@
 import playground from '../../data/playground';
-import { readFile, readdir } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import {
-  SandpackCodeEditor,
-  SandpackPreview,
-  SandpackProvider,
-} from '@codesandbox/sandpack-react';
+import { SandpackCodeEditor, SandpackPreview, SandpackProvider, } from '@codesandbox/sandpack-react';
 import NoSSR, { withoutSSR } from '../../components/NoSSR';
 import { useState } from 'react';
 import replaceCDN from '../../utils/replaceCDN';
@@ -23,7 +19,7 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({params}) {
   const basePath = join('src', 'playground', params.id.join('/'));
   const files = await readdir(basePath);
   const pack = {};
@@ -44,13 +40,14 @@ export async function getStaticProps({ params }) {
   };
 }
 
-function Playground({ pack, permalink, title }) {
-  const { 'playground.json': raw, ...files } = pack;
+function Playground({pack, permalink, title}) {
+  const {'playground.json': raw, ...files} = pack;
 
   let metadata = {};
   try {
     metadata = JSON.parse(raw);
-  } catch (err) {}
+  } catch (err) {
+  }
 
   const [overrides] = useState(() => {
     if (location.hash.startsWith('#code')) {
@@ -58,7 +55,8 @@ function Playground({ pack, permalink, title }) {
       let userCode;
       try {
         userCode = JSON.parse(decompressFromEncodedURIComponent(code));
-      } catch (err) {}
+      } catch (err) {
+      }
       return userCode || {};
     }
     return {};
@@ -98,13 +96,13 @@ function Playground({ pack, permalink, title }) {
                   />
                 </div>
                 <div className={styles.preview}>
-                  <SandpackPreview showOpenInCodeSandbox={false} />
+                  <SandpackPreview showOpenInCodeSandbox={false}/>
                 </div>
               </div>
             </PlaygroundLayout>
           </SandpackProvider>
         </NoSSR>
-        <OpenSource />
+        <OpenSource/>
       </div>
     </Layout>
   );

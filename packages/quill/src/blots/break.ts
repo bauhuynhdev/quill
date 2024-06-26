@@ -19,6 +19,7 @@ class Break extends EmbedBlot {
     return '';
   }
 }
+
 Break.blotName = 'break';
 Break.tagName = 'BR';
 

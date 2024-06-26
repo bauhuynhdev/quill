@@ -6,14 +6,13 @@ import { Range } from '../core/selection.js';
 import icons from '../ui/icons.js';
 import Quill from '../core/quill.js';
 import type { Context } from '../modules/keyboard.js';
-import type Toolbar from '../modules/toolbar.js';
-import type { ToolbarConfig } from '../modules/toolbar.js';
+import type Toolbar, { ToolbarConfig } from '../modules/toolbar.js';
 import type { ThemeOptions } from '../core/theme.js';
 
 const TOOLBAR_CONFIG: ToolbarConfig = [
-  [{ header: ['1', '2', '3', false] }],
+  [{header: ['1', '2', '3', false]}],
   ['bold', 'italic', 'underline', 'link'],
-  [{ list: 'ordered' }, { list: 'bullet' }],
+  [{list: 'ordered'}, {list: 'bullet'}],
   ['clean'],
 ];
 
@@ -112,7 +111,7 @@ class SnowTheme extends BaseTheme {
       this.tooltip = new SnowTooltip(this.quill, this.options.bounds);
       if (toolbar.container.querySelector('.ql-link')) {
         this.quill.keyboard.addBinding(
-          { key: 'k', shortKey: true },
+          {key: 'k', shortKey: true},
           (_range: Range, context: Context) => {
             toolbar.handlers.link.call(toolbar, !context.format.link);
           },
@@ -121,6 +120,7 @@ class SnowTheme extends BaseTheme {
     }
   }
 }
+
 SnowTheme.DEFAULTS = merge({}, BaseTheme.DEFAULTS, {
   modules: {
     toolbar: {
@@ -137,7 +137,7 @@ SnowTheme.DEFAULTS = merge({}, BaseTheme.DEFAULTS, {
               preview = `mailto:${preview}`;
             }
             // @ts-expect-error
-            const { tooltip } = this.quill.theme;
+            const {tooltip} = this.quill.theme;
             tooltip.edit('link', preview);
           } else {
             this.quill.format('link', false, Quill.sources.USER);

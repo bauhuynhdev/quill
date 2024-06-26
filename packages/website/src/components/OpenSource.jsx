@@ -17,11 +17,11 @@ const OpenSource = () => (
         commercial projects!
       </span>
       <div className={styles.github}>
-        <GitHub />
+        <GitHub/>
       </div>
     </div>
     <div className="six columns">
-      <OpenSourceIcon />
+      <OpenSourceIcon/>
     </div>
   </div>
 );

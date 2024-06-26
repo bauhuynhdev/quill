@@ -20,7 +20,7 @@ const parseListItem = (element: Element, html: string) => {
   const typeMatch = html.match(typeRegexp);
   const type = typeMatch && typeMatch[1] === 'bullet' ? 'bullet' : 'ordered';
 
-  return { id, indent, type, element };
+  return {id, indent, type, element};
 };
 
 // list items are represented as `p` tags with styles like `mso-list: l0 level1` where:
@@ -77,11 +77,11 @@ const normalizeListItem = (doc: Document) => {
     });
 
     const element = childListItems[0]?.element;
-    const { parentNode } = element ?? {};
+    const {parentNode} = element ?? {};
     if (element) {
       parentNode?.replaceChild(ul, element);
     }
-    childListItems.slice(1).forEach(({ element: e }) => {
+    childListItems.slice(1).forEach(({element: e}) => {
       parentNode?.removeChild(e);
     });
   }

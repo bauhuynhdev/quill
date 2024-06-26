@@ -1,8 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import Keyboard, {
-  SHORTKEY,
-  normalize,
-} from '../../../src/modules/keyboard.js';
+import Keyboard, { normalize, SHORTKEY, } from '../../../src/modules/keyboard.js';
 
 const assert = <T>(value: T | null | undefined): T => {
   if (value == null) {
@@ -32,7 +29,7 @@ describe('Keyboard', () => {
       );
       expect(
         Keyboard.match(
-          createKeyboardEvent('A', { altKey: true }),
+          createKeyboardEvent('A', {altKey: true}),
           assert(binding),
         ),
       ).toBe(false);
@@ -48,7 +45,7 @@ describe('Keyboard', () => {
       );
       expect(
         Keyboard.match(
-          createKeyboardEvent('a', { altKey: true }),
+          createKeyboardEvent('a', {altKey: true}),
           assert(binding),
         ),
       ).toBe(true);
@@ -64,7 +61,7 @@ describe('Keyboard', () => {
       );
       expect(
         Keyboard.match(
-          createKeyboardEvent('a', { altKey: true }),
+          createKeyboardEvent('a', {altKey: true}),
           assert(binding),
         ),
       ).toBe(true);
@@ -80,7 +77,7 @@ describe('Keyboard', () => {
       );
       expect(
         Keyboard.match(
-          createKeyboardEvent('a', { [SHORTKEY]: true }),
+          createKeyboardEvent('a', {[SHORTKEY]: true}),
           assert(binding),
         ),
       ).toBe(true);
@@ -96,7 +93,7 @@ describe('Keyboard', () => {
       );
       expect(
         Keyboard.match(
-          createKeyboardEvent('a', { [SHORTKEY]: true }),
+          createKeyboardEvent('a', {[SHORTKEY]: true}),
           assert(binding),
         ),
       ).toBe(true);

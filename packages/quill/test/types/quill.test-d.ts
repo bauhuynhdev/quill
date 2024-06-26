@@ -1,8 +1,8 @@
 import { assertType, expectTypeOf } from 'vitest';
-import Quill from '../../src/quill.js';
 import type { EmitterSource, Parchment, Range } from '../../src/quill.js';
+import Quill from '../../src/quill.js';
 import Delta from 'quill-delta';
-import type { default as Block, BlockEmbed } from '../../src/blots/block.js';
+import type { BlockEmbed, default as Block } from '../../src/blots/block.js';
 import SnowTheme from '../../src/themes/snow.js';
 import { LeafBlot } from 'parchment';
 
@@ -14,7 +14,8 @@ import { LeafBlot } from 'parchment';
   Quill.register('themes/snow', SnowTheme);
   Quill.register('themes/snow', SnowTheme, true);
 
-  class MyBlot extends LeafBlot {}
+  class MyBlot extends LeafBlot {
+  }
 
   Quill.register(MyBlot);
   Quill.register(MyBlot, true);
@@ -40,8 +41,8 @@ const quill = new Quill('#editor');
 {
   quill.deleteText(0, 1);
   quill.deleteText(0, 1, 'api');
-  quill.deleteText({ index: 0, length: 1 });
-  quill.deleteText({ index: 0, length: 1 }, 'api');
+  quill.deleteText({index: 0, length: 1});
+  quill.deleteText({index: 0, length: 1}, 'api');
 }
 
 {
@@ -109,8 +110,8 @@ const quill = new Quill('#editor');
 }
 
 {
-  assertType<Delta>(quill.updateContents([{ insert: 'Hello World!' }]));
-  assertType<Delta>(quill.updateContents([{ insert: 'Hello World!' }], 'api'));
+  assertType<Delta>(quill.updateContents([{insert: 'Hello World!'}]));
+  assertType<Delta>(quill.updateContents([{insert: 'Hello World!'}], 'api'));
   assertType<Delta>(quill.updateContents(new Delta().insert('Hello World!')));
   assertType<Delta>(
     quill.updateContents(new Delta().insert('Hello World!'), 'api'),
@@ -118,8 +119,8 @@ const quill = new Quill('#editor');
 }
 
 {
-  assertType<Delta>(quill.setContents([{ insert: 'Hello World!\n' }]));
-  assertType<Delta>(quill.setContents([{ insert: 'Hello World!\n' }], 'api'));
+  assertType<Delta>(quill.setContents([{insert: 'Hello World!\n'}]));
+  assertType<Delta>(quill.setContents([{insert: 'Hello World!\n'}], 'api'));
   assertType<Delta>(quill.setContents(new Delta().insert('Hello World!\n')));
   assertType<Delta>(
     quill.setContents(new Delta().insert('Hello World!\n'), 'api'),
@@ -171,7 +172,7 @@ const quill = new Quill('#editor');
   quill.getFormat();
   quill.getFormat(1);
   quill.getFormat(1, 10);
-  quill.getFormat({ index: 1, length: 1 });
+  quill.getFormat({index: 1, length: 1});
 }
 
 {
@@ -191,8 +192,8 @@ const quill = new Quill('#editor');
 {
   quill.setSelection(1, 2);
   quill.setSelection(1, 2, 'api');
-  quill.setSelection({ index: 1, length: 2 });
-  quill.setSelection({ index: 1, length: 2 }, 'api');
+  quill.setSelection({index: 1, length: 2});
+  quill.setSelection({index: 1, length: 2}, 'api');
 }
 
 {
@@ -217,7 +218,7 @@ const quill = new Quill('#editor');
 }
 
 {
-  quill.scrollRectIntoView({ left: 0, right: 0, top: 0, bottom: 0 });
+  quill.scrollRectIntoView({left: 0, right: 0, top: 0, bottom: 0});
   quill.scrollRectIntoView(
     document.createElement('div').getBoundingClientRect(),
   );

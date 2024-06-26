@@ -49,7 +49,7 @@ expect.extend({
     });
 
     if (this.equals(receivedDOM.innerHTML, expectedDOM.innerHTML)) {
-      return { pass: true, message: () => '' };
+      return {pass: true, message: () => ''};
     }
     return {
       pass: false,

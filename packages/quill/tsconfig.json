@@ -17,5 +17,8 @@
     "noImplicitAny": true,
     "noUnusedLocals": true
   },
-  "include": ["src/**/*", "test/**/*"]
+  "include": [
+    "src/**/*",
+    "test/**/*"
+  ]
 }

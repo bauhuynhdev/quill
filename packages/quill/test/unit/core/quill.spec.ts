@@ -1,16 +1,12 @@
 import '../../../src/quill.js';
 import Delta from 'quill-delta';
 import { LeafBlot, Registry } from 'parchment';
-import { afterEach, beforeEach, describe, expect, test, vitest } from 'vitest';
 import type { MockedFunction } from 'vitest';
+import { afterEach, beforeEach, describe, expect, test, vitest } from 'vitest';
 import Emitter from '../../../src/core/emitter.js';
 import Theme from '../../../src/core/theme.js';
 import Toolbar from '../../../src/modules/toolbar.js';
-import Quill, {
-  expandConfig,
-  globalRegistry,
-  overload,
-} from '../../../src/core/quill.js';
+import Quill, { expandConfig, globalRegistry, overload, } from '../../../src/core/quill.js';
 import { Range } from '../../../src/core/selection.js';
 import Snow from '../../../src/themes/snow.js';
 import { normalizeHTML } from '../__helpers__/utils.js';
@@ -30,13 +26,15 @@ describe('Quill', () => {
   });
 
   describe('register', () => {
-    const imports = { ...Quill.imports };
+    const imports = {...Quill.imports};
     afterEach(() => {
       Quill.imports = imports;
     });
 
     test('register(path, target)', () => {
-      class Counter {}
+      class Counter {
+      }
+
       Quill.register('modules/counter', Counter);
 
       expect(Quill.imports).toHaveProperty('modules/counter', Counter);
@@ -48,6 +46,7 @@ describe('Quill', () => {
         static blotName = 'my-counter';
         static className = 'ql-my-counter';
       }
+
       Quill.register(MyCounterBlot);
 
       expect(Quill.imports).toHaveProperty('formats/my-counter', MyCounterBlot);
@@ -59,7 +58,10 @@ describe('Quill', () => {
         static blotName = 'a-blot';
         static className = 'ql-a-blot';
       }
-      class AModule {}
+
+      class AModule {
+      }
+
       Quill.register({
         'formats/a-blot': ABlot,
         'modules/a-module': AModule,
@@ -98,7 +100,7 @@ describe('Quill', () => {
         createContainer('<p class="ql-align-center">Test</p>'),
       );
       expect(quill.getContents()).toEqual(
-        new Delta().insert('Test').insert('\n', { align: 'center' }),
+        new Delta().insert('Test').insert('\n', {align: 'center'}),
       );
       expect(quill.root.innerHTML).toMatchInlineSnapshot(
         '"<p class="ql-align-center">Test</p>"',
@@ -111,11 +113,11 @@ describe('Quill', () => {
       const quill = new Quill(createContainer('<p>0123<em>45</em>67</p>'));
       const oldDelta = quill.getContents();
       vitest.spyOn(quill.emitter, 'emit');
-      return { quill, oldDelta };
+      return {quill, oldDelta};
     };
 
     test('deleteText()', () => {
-      const { quill, oldDelta } = setup();
+      const {quill, oldDelta} = setup();
       quill.deleteText(3, 2);
       const change = new Delta().retain(3).delete(2);
       expect(quill.root.innerHTML).toMatchInlineSnapshot(
@@ -130,10 +132,10 @@ describe('Quill', () => {
     });
 
     test('format()', () => {
-      const { quill, oldDelta } = setup();
+      const {quill, oldDelta} = setup();
       quill.setSelection(3, 2);
       quill.format('bold', true);
-      const change = new Delta().retain(3).retain(2, { bold: true });
+      const change = new Delta().retain(3).retain(2, {bold: true});
       expect(quill.root.innerHTML).toMatchInlineSnapshot(
         '"<p>012<strong>3<em>4</em></strong><em>5</em>67</p>"',
       );
@@ -147,9 +149,9 @@ describe('Quill', () => {
     });
 
     test('formatLine()', () => {
-      const { quill, oldDelta } = setup();
+      const {quill, oldDelta} = setup();
       quill.formatLine(1, 1, 'header', 2);
-      const change = new Delta().retain(8).retain(1, { header: 2 });
+      const change = new Delta().retain(8).retain(1, {header: 2});
       expect(quill.root.innerHTML).toMatchInlineSnapshot(
         '"<h2>0123<em>45</em>67</h2>"',
       );
@@ -163,9 +165,9 @@ describe('Quill', () => {
 
     describe('formatText()', () => {
       test('single format', () => {
-        const { quill, oldDelta } = setup();
+        const {quill, oldDelta} = setup();
         quill.formatText(3, 2, 'bold', true);
-        const change = new Delta().retain(3).retain(2, { bold: true });
+        const change = new Delta().retain(3).retain(2, {bold: true});
         expect(quill.root.innerHTML).toMatchInlineSnapshot(
           '"<p>012<strong>3<em>4</em></strong><em>5</em>67</p>"',
         );
@@ -178,9 +180,9 @@ describe('Quill', () => {
       });
 
       test('format object', () => {
-        const { quill, oldDelta } = setup();
-        quill.formatText(3, 2, { bold: true });
-        const change = new Delta().retain(3).retain(2, { bold: true });
+        const {quill, oldDelta} = setup();
+        quill.formatText(3, 2, {bold: true});
+        const change = new Delta().retain(3).retain(2, {bold: true});
         expect(quill.root.innerHTML).toMatchInlineSnapshot(
           '"<p>012<strong>3<em>4</em></strong><em>5</em>67</p>"',
         );
@@ -194,11 +196,11 @@ describe('Quill', () => {
     });
 
     test('insertEmbed()', () => {
-      const { quill, oldDelta } = setup();
+      const {quill, oldDelta} = setup();
       quill.insertEmbed(5, 'image', '/assets/favicon.png');
       const change = new Delta()
         .retain(5)
-        .insert({ image: '/assets/favicon.png' }, { italic: true });
+        .insert({image: '/assets/favicon.png'}, {italic: true});
       expect(quill.root.innerHTML).toMatchInlineSnapshot(
         '"<p>0123<em>4<img src="/assets/favicon.png">5</em>67</p>"',
       );
@@ -211,11 +213,11 @@ describe('Quill', () => {
     });
 
     test('insertText()', () => {
-      const { quill, oldDelta } = setup();
+      const {quill, oldDelta} = setup();
       quill.insertText(5, '|', 'bold', true);
       const change = new Delta()
         .retain(5)
-        .insert('|', { bold: true, italic: true });
+        .insert('|', {bold: true, italic: true});
       expect(quill.root.innerHTML).toMatchInlineSnapshot(
         '"<p>0123<em>4</em><strong><em>|</em></strong><em>5</em>67</p>"',
       );
@@ -228,7 +230,7 @@ describe('Quill', () => {
     });
 
     test('enable/disable', () => {
-      const { quill } = setup();
+      const {quill} = setup();
       quill.disable();
       expect(quill.root.getAttribute('contenteditable')).toEqual('false');
       quill.enable();
@@ -236,23 +238,23 @@ describe('Quill', () => {
     });
 
     test('getBounds() index', () => {
-      const { quill } = setup();
+      const {quill} = setup();
       expect(quill.getBounds(1)).toBeTruthy();
     });
 
     test('getBounds() range', () => {
-      const { quill } = setup();
+      const {quill} = setup();
       expect(quill.getBounds(new Range(3, 4))).toBeTruthy();
     });
 
     test('getFormat()', () => {
-      const { quill } = setup();
+      const {quill} = setup();
       const formats = quill.getFormat(5);
-      expect(formats).toEqual({ italic: true });
+      expect(formats).toEqual({italic: true});
     });
 
     test('getSelection()', () => {
-      const { quill } = setup();
+      const {quill} = setup();
       expect(quill.getSelection()).toEqual(null);
       const range = new Range(1, 2);
       quill.setSelection(range);
@@ -260,9 +262,9 @@ describe('Quill', () => {
     });
 
     test('removeFormat()', () => {
-      const { quill, oldDelta } = setup();
+      const {quill, oldDelta} = setup();
       quill.removeFormat(5, 1);
-      const change = new Delta().retain(5).retain(1, { italic: null });
+      const change = new Delta().retain(5).retain(1, {italic: null});
       expect(quill.root.innerHTML).toMatchInlineSnapshot(
         '"<p>0123<em>4</em>567</p>"',
       );
@@ -275,7 +277,7 @@ describe('Quill', () => {
     });
 
     test('updateContents() delta', () => {
-      const { quill, oldDelta } = setup();
+      const {quill, oldDelta} = setup();
       const delta = new Delta().retain(5).insert('|');
       quill.updateContents(delta);
       expect(quill.root.innerHTML).toMatchInlineSnapshot(
@@ -290,7 +292,7 @@ describe('Quill', () => {
     });
 
     test('updateContents() ops array', () => {
-      const { quill, oldDelta } = setup();
+      const {quill, oldDelta} = setup();
       const delta = new Delta().retain(5).insert('|');
       quill.updateContents(delta.ops);
       expect(quill.root.innerHTML).toMatchInlineSnapshot(
@@ -311,11 +313,11 @@ describe('Quill', () => {
       quill.update();
       vitest.spyOn(quill.emitter, 'emit');
       const oldDelta = quill.getContents();
-      return { quill, oldDelta };
+      return {quill, oldDelta};
     };
 
     test('api text insert', () => {
-      const { quill, oldDelta } = setup();
+      const {quill, oldDelta} = setup();
       quill.insertText(2, '!');
       const delta = new Delta().retain(2).insert('!');
       expect(quill.emitter.emit).toHaveBeenCalledWith(
@@ -327,7 +329,7 @@ describe('Quill', () => {
     });
 
     test('user text insert', async () => {
-      const { quill, oldDelta } = setup();
+      const {quill, oldDelta} = setup();
       (quill.root.firstChild?.firstChild as Text).data = '01!23';
       const delta = new Delta().retain(2).insert('!');
 
@@ -348,7 +350,7 @@ describe('Quill', () => {
       expectedDelta: Delta,
     ) => {
       return async () => {
-        const { quill } = setup();
+        const {quill} = setup();
         quill.setText(`${oldText}\n`);
         // @ts-expect-error
         quill.setSelection(oldSelection);
@@ -495,10 +497,10 @@ describe('Quill', () => {
       const quill = new Quill(createContainer(''));
       const delta = new Delta()
         .insert('Welcome')
-        .insert('\n', { header: 1 })
+        .insert('\n', {header: 1})
         .insert('Hello\n')
         .insert('World')
-        .insert('!', { bold: true })
+        .insert('!', {bold: true})
         .insert('\n');
       quill.setContents(delta);
       expect(quill.getContents()).toEqual(delta);
@@ -511,7 +513,7 @@ describe('Quill', () => {
       const quill = new Quill(createContainer(''));
       const delta = new Delta()
         .insert('test')
-        .insert('123', { bold: true })
+        .insert('123', {bold: true})
         .insert('\n');
       quill.setContents(delta.ops);
       expect(quill.getContents()).toEqual(delta);
@@ -542,7 +544,7 @@ describe('Quill', () => {
 
     test('block embed', () => {
       const quill = new Quill(createContainer('<p>Hello World!</p>'));
-      const contents = new Delta().insert({ video: '#' });
+      const contents = new Delta().insert({video: '#'});
       quill.setContents(contents);
       expect(quill.getContents()).toEqual(contents);
     });
@@ -574,7 +576,7 @@ describe('Quill', () => {
 
     test('works with range', () => {
       const quill = new Quill(createContainer('<h1>Welcome</h1>'));
-      expect(quill.getText({ index: 1, length: 2 })).toMatchInlineSnapshot(
+      expect(quill.getText({index: 1, length: 2})).toMatchInlineSnapshot(
         '"el"',
       );
     });
@@ -604,7 +606,7 @@ describe('Quill', () => {
 
     test('works with range', () => {
       const quill = new Quill(createContainer('<h1>Welcome</h1>'));
-      expect(quill.getText({ index: 1, length: 2 })).toMatchInlineSnapshot(
+      expect(quill.getText({index: 1, length: 2})).toMatchInlineSnapshot(
         '"el"',
       );
     });
@@ -833,7 +835,8 @@ describe('Quill', () => {
     });
 
     test('toolbar custom handler, default container', () => {
-      const handler = () => {}; // eslint-disable-line func-style
+      const handler = () => {
+      }; // eslint-disable-line func-style
       const config = expandConfig(`#${testContainerId}`, {
         modules: {
           toolbar: {
@@ -958,7 +961,7 @@ describe('Quill', () => {
       );
       expect(index).toBe(0);
       expect(length).toBe(1);
-      expect(formats).toEqual({ bold: true });
+      expect(formats).toEqual({bold: true});
       expect(source).toBe(Quill.sources.USER);
     });
 
@@ -972,7 +975,7 @@ describe('Quill', () => {
       );
       expect(index).toBe(0);
       expect(length).toBe(1);
-      expect(formats).toEqual({ color: Quill.sources.USER });
+      expect(formats).toEqual({color: Quill.sources.USER});
       expect(source).toBe(Quill.sources.USER);
     });
 
@@ -985,15 +988,15 @@ describe('Quill', () => {
       );
       expect(index).toBe(0);
       expect(length).toBe(1);
-      expect(formats).toEqual({ color: Quill.sources.USER });
+      expect(formats).toEqual({color: Quill.sources.USER});
       expect(source).toBe(Quill.sources.API);
     });
 
     test('(index:number, length:number, format:object)', () => {
-      const [index, length, formats, source] = overload(0, 1, { bold: true });
+      const [index, length, formats, source] = overload(0, 1, {bold: true});
       expect(index).toBe(0);
       expect(length).toBe(1);
-      expect(formats).toEqual({ bold: true });
+      expect(formats).toEqual({bold: true});
       expect(source).toBe(Quill.sources.API);
     });
 
@@ -1001,12 +1004,12 @@ describe('Quill', () => {
       const [index, length, formats, source] = overload(
         0,
         1,
-        { bold: true },
+        {bold: true},
         Quill.sources.USER,
       );
       expect(index).toBe(0);
       expect(length).toBe(1);
-      expect(formats).toEqual({ bold: true });
+      expect(formats).toEqual({bold: true});
       expect(source).toBe(Quill.sources.USER);
     });
 
@@ -1047,7 +1050,7 @@ describe('Quill', () => {
       );
       expect(index).toBe(0);
       expect(length).toBe(1);
-      expect(formats).toEqual({ bold: true });
+      expect(formats).toEqual({bold: true});
       expect(source).toBe(Quill.sources.USER);
     });
 
@@ -1060,7 +1063,7 @@ describe('Quill', () => {
       );
       expect(index).toBe(0);
       expect(length).toBe(1);
-      expect(formats).toEqual({ color: Quill.sources.API });
+      expect(formats).toEqual({color: Quill.sources.API});
       expect(source).toBe(Quill.sources.USER);
     });
 
@@ -1072,7 +1075,7 @@ describe('Quill', () => {
       );
       expect(index).toBe(0);
       expect(length).toBe(1);
-      expect(formats).toEqual({ color: Quill.sources.USER });
+      expect(formats).toEqual({color: Quill.sources.USER});
       expect(source).toBe(Quill.sources.API);
     });
 
@@ -1082,19 +1085,19 @@ describe('Quill', () => {
       });
       expect(index).toBe(0);
       expect(length).toBe(1);
-      expect(formats).toEqual({ bold: true });
+      expect(formats).toEqual({bold: true});
       expect(source).toBe(Quill.sources.API);
     });
 
     test('(range:range, format:object, source:string)', () => {
       const [index, length, formats, source] = overload(
         new Range(0, 1),
-        { bold: true },
+        {bold: true},
         Quill.sources.USER,
       );
       expect(index).toBe(0);
       expect(length).toBe(1);
-      expect(formats).toEqual({ bold: true });
+      expect(formats).toEqual({bold: true});
       expect(source).toBe(Quill.sources.USER);
     });
 
@@ -1136,7 +1139,7 @@ describe('Quill', () => {
       );
       expect(index).toBe(10);
       expect(length).toBe(1);
-      expect(formats).toEqual({ bold: true });
+      expect(formats).toEqual({bold: true});
       expect(source).toBe(Quill.sources.API);
     });
 
@@ -1145,12 +1148,12 @@ describe('Quill', () => {
       const [index, length, formats, source] = overload(
         new Range(10, 1),
         0,
-        { bold: true },
+        {bold: true},
         Quill.sources.USER,
       );
       expect(index).toBe(10);
       expect(length).toBe(1);
-      expect(formats).toEqual({ bold: true });
+      expect(formats).toEqual({bold: true});
       expect(source).toBe(Quill.sources.USER);
     });
   });
@@ -1161,11 +1164,11 @@ describe('Quill', () => {
       const quill = new Quill(container, {
         placeholder: 'a great day to be a placeholder',
       });
-      return { quill };
+      return {quill};
     };
 
     test('blank editor', () => {
-      const { quill } = setup();
+      const {quill} = setup();
       expect(quill.root.dataset.placeholder).toEqual(
         'a great day to be a placeholder',
       );
@@ -1173,13 +1176,13 @@ describe('Quill', () => {
     });
 
     test('with text', () => {
-      const { quill } = setup();
+      const {quill} = setup();
       quill.setText('test');
       expect([...quill.root.classList]).not.toContain('ql-blank');
     });
 
     test('formatted line', () => {
-      const { quill } = setup();
+      const {quill} = setup();
       quill.formatLine(0, 1, 'list', 'ordered');
       expect([...quill.root.classList]).not.toContain('ql-blank');
     });
@@ -1201,7 +1204,8 @@ describe('Quill', () => {
         observer.observe(element);
         // Firefox doesn't call IntersectionObserver callback unless
         // there are rafs.
-        requestAnimationFrame(() => {});
+        requestAnimationFrame(() => {
+        });
       });
     };
 
@@ -1232,7 +1236,7 @@ describe('Quill', () => {
 
       const text = createContents('\n');
       quill.setContents(new Delta().insert(text));
-      quill.setSelection({ index: text.indexOf('text 10'), length: 4 }, 'user');
+      quill.setSelection({index: text.indexOf('text 10'), length: 4}, 'user');
 
       container.scrollTop = -500;
 
@@ -1276,7 +1280,7 @@ describe('Quill', () => {
       const text = createContents('\n');
       quill.setContents(new Delta().insert(text));
       quill.setSelection(
-        { index: text.indexOf('text 100'), length: 4 },
+        {index: text.indexOf('text 100'), length: 4},
         'user',
       );
 
@@ -1304,7 +1308,7 @@ describe('Quill', () => {
       });
       const text = createContents('\n');
       quill.setContents(new Delta().insert(text));
-      quill.setSelection({ index: text.indexOf('text 10'), length: 4 }, 'user');
+      quill.setSelection({index: text.indexOf('text 10'), length: 4}, 'user');
       expect(
         await viewportRatio(
           container.querySelector('p:nth-child(10)') as HTMLElement,
@@ -1317,7 +1321,7 @@ describe('Quill', () => {
       ).toBe(1);
       quill.root.style.scrollPaddingBottom = '0';
       quill.setSelection(1, 'user');
-      quill.setSelection({ index: text.indexOf('text 10'), length: 4 }, 'user');
+      quill.setSelection({index: text.indexOf('text 10'), length: 4}, 'user');
       expect(
         await viewportRatio(
           container.querySelector('p:nth-child(11)') as HTMLElement,
@@ -1359,9 +1363,9 @@ describe('Quill', () => {
       const text100Index = text.indexOf('text 100');
       const delta = new Delta()
         .insert(text)
-        .compose(new Delta().retain(text100Index).retain(8, { bold: true }));
+        .compose(new Delta().retain(text100Index).retain(8, {bold: true}));
       quill.setContents(delta);
-      quill.setSelection({ index: text100Index, length: 8 }, 'user');
+      quill.setSelection({index: text100Index, length: 8}, 'user');
 
       expect(
         await viewportRatio(

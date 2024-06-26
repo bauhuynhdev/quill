@@ -54,7 +54,7 @@ class Emitter extends EventEmitter<string> {
   }
 
   handleDOM(event: Event, ...args: unknown[]) {
-    (this.domListeners[event.type] || []).forEach(({ node, handler }) => {
+    (this.domListeners[event.type] || []).forEach(({node, handler}) => {
       if (event.target === node || node.contains(event.target as Node)) {
         handler(event, ...args);
       }
@@ -65,7 +65,7 @@ class Emitter extends EventEmitter<string> {
     if (!this.domListeners[eventName]) {
       this.domListeners[eventName] = [];
     }
-    this.domListeners[eventName].push({ node, handler });
+    this.domListeners[eventName].push({node, handler});
   }
 }
 

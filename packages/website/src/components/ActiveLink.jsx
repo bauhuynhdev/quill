@@ -1,15 +1,15 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 const ActiveLink = ({
-  children,
-  activeClassName,
-  className = '',
-  activePath,
-  ...props
-}) => {
-  const { asPath, isReady } = useRouter();
+                      children,
+                      activeClassName,
+                      className = '',
+                      activePath,
+                      ...props
+                    }) => {
+  const {asPath, isReady} = useRouter();
 
   const getClassName = useCallback(() => {
     // Using URL().pathname to get rid of query and hash

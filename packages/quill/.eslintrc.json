@@ -19,16 +19,24 @@
       "typescript": true
     }
   },
-  "ignorePatterns": ["*.js", "*.d.ts"],
+  "ignorePatterns": [
+    "*.js",
+    "*.d.ts"
+  ],
   "overrides": [
     {
-      "files": ["**/*.ts"],
+      "files": [
+        "**/*.ts"
+      ],
       "extends": [
         "plugin:@typescript-eslint/recommended",
         "plugin:import/typescript"
       ],
       "excludedFiles": "*.d.ts",
-      "plugins": ["@typescript-eslint", "require-extensions"],
+      "plugins": [
+        "@typescript-eslint",
+        "require-extensions"
+      ],
       "rules": {
         "@typescript-eslint/consistent-type-imports": "error",
         "@typescript-eslint/ban-ts-comment": "off",

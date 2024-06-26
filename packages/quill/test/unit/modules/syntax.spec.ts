@@ -11,11 +11,11 @@ const HIGHLIGHT_INTERVAL = 10;
 
 describe('Syntax', () => {
   beforeAll(() => {
-    Quill.register({ 'modules/syntax': Syntax }, true);
+    Quill.register({'modules/syntax': Syntax}, true);
     Syntax.register();
     Syntax.DEFAULTS.languages = [
-      { key: 'javascript', label: 'JavaScript' },
-      { key: 'ruby', label: 'Ruby' },
+      {key: 'javascript', label: 'JavaScript'},
+      {key: 'ruby', label: 'Ruby'},
     ];
   });
 
@@ -55,9 +55,9 @@ describe('Syntax', () => {
       expect(quill.getContents()).toEqual(
         new Delta()
           .insert('var test = 1;')
-          .insert('\n', { 'code-block': 'javascript' })
+          .insert('\n', {'code-block': 'javascript'})
           .insert('var bugz = 0;')
-          .insert('\n', { 'code-block': 'javascript' })
+          .insert('\n', {'code-block': 'javascript'})
           .insert('\n'),
       );
     });
@@ -75,9 +75,9 @@ describe('Syntax', () => {
       expect(quill.getContents()).toEqual(
         new Delta()
           .insert('var test = 1;')
-          .insert('\n', { 'code-block': 'javascript' })
+          .insert('\n', {'code-block': 'javascript'})
           .insert('var bugz = 0;')
-          .insert('\n', { 'code-block': 'javascript' })
+          .insert('\n', {'code-block': 'javascript'})
           .insert('\n'),
       );
     });
@@ -94,7 +94,7 @@ describe('Syntax', () => {
       expect(quill.getContents()).toEqual(
         new Delta()
           .insert('var test = 1;')
-          .insert('\n', { 'code-block': 'javascript' })
+          .insert('\n', {'code-block': 'javascript'})
           .insert('var bugz\n'),
       );
     });
@@ -112,9 +112,9 @@ describe('Syntax', () => {
       expect(quill.getContents()).toEqual(
         new Delta()
           .insert('var test = 1;')
-          .insert('\n', { 'code-block': 'ruby' })
+          .insert('\n', {'code-block': 'ruby'})
           .insert('var bugz = 0;')
-          .insert('\n', { 'code-block': 'ruby' })
+          .insert('\n', {'code-block': 'ruby'})
           .insert('\n'),
       );
     });
@@ -132,9 +132,9 @@ describe('Syntax', () => {
       expect(quill.getContents()).toEqual(
         new Delta()
           .insert('var test = 1;')
-          .insert('\n', { 'code-block': 'plain' })
+          .insert('\n', {'code-block': 'plain'})
           .insert('var bugz = 0;')
-          .insert('\n', { 'code-block': 'plain' })
+          .insert('\n', {'code-block': 'plain'})
           .insert('\n'),
       );
     });
@@ -152,7 +152,7 @@ describe('Syntax', () => {
       expect(quill.getContents()).toEqual(
         new Delta()
           .insert('var test = 1;\nvar bugz = 0;')
-          .insert('\n', { 'code-block': 'javascript' })
+          .insert('\n', {'code-block': 'javascript'})
           .insert('\n'),
       );
     });
@@ -183,9 +183,9 @@ describe('Syntax', () => {
       expect(quill.getContents()).toEqual(
         new Delta()
           .insert('var test = 1;')
-          .insert('\n', { 'code-block': 'javascript' })
+          .insert('\n', {'code-block': 'javascript'})
           .insert('\nvar bugz = 0;')
-          .insert('\n', { 'code-block': 'javascript' })
+          .insert('\n', {'code-block': 'javascript'})
           .insert('\n'),
       );
     });
@@ -211,9 +211,9 @@ describe('Syntax', () => {
       expect(quill.getContents()).toEqual(
         new Delta()
           .insert('var test = 1;')
-          .insert('\n', { 'code-block': 'javascript' })
+          .insert('\n', {'code-block': 'javascript'})
           .insert('var bugz = 0;')
-          .insert('\n', { 'code-block': 'javascript' })
+          .insert('\n', {'code-block': 'javascript'})
           .insert('\n'),
       );
     });
@@ -240,11 +240,11 @@ describe('Syntax', () => {
         expect(quill.getContents()).toEqual(
           new Delta()
             .insert('va')
-            .insert('r t', { bold: true })
+            .insert('r t', {bold: true})
             .insert('est = 1;')
-            .insert('\n', { 'code-block': 'javascript' })
+            .insert('\n', {'code-block': 'javascript'})
             .insert('var bugz = 0;')
-            .insert('\n', { 'code-block': 'javascript' })
+            .insert('\n', {'code-block': 'javascript'})
             .insert('\n'),
         );
       });
@@ -260,7 +260,7 @@ describe('Syntax', () => {
         expect(quill.getContents()).toEqual(
           new Delta()
             .insert('va')
-            .insert('r t', { bold: true })
+            .insert('r t', {bold: true})
             .insert('est = 1;\nvar bugz = 0;\n\n'),
         );
       });
@@ -278,9 +278,9 @@ describe('Syntax', () => {
         expect(quill.getContents()).toEqual(
           new Delta()
             .insert('va')
-            .insert('r t', { bold: true })
+            .insert('r t', {bold: true})
             .insert('est = 1;')
-            .insert('\n', { 'code-block': 'javascript' }),
+            .insert('\n', {'code-block': 'javascript'}),
         );
       });
     });

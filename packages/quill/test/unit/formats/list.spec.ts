@@ -1,8 +1,5 @@
 import Delta from 'quill-delta';
-import {
-  createScroll as baseCreateScroll,
-  createRegistry,
-} from '../__helpers__/factory.js';
+import { createRegistry, createScroll as baseCreateScroll, } from '../__helpers__/factory.js';
 import Editor from '../../../src/core/editor.js';
 import { describe, expect, test } from 'vitest';
 import List, { ListContainer } from '../../../src/formats/list.js';
@@ -24,11 +21,11 @@ describe('List', () => {
       <p>5678</p>
       <p>0123</p>`),
     );
-    editor.formatText(9, 1, { list: 'ordered' });
+    editor.formatText(9, 1, {list: 'ordered'});
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('0123\n5678')
-        .insert('\n', { list: 'ordered' })
+        .insert('\n', {list: 'ordered'})
         .insert('0123\n'),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
@@ -51,14 +48,14 @@ describe('List', () => {
       ),
     );
     editor.scroll.domNode.classList.add('ql-editor');
-    editor.formatText(4, 1, { list: 'checked' });
-    editor.formatText(9, 1, { list: 'unchecked' });
+    editor.formatText(4, 1, {list: 'checked'});
+    editor.formatText(9, 1, {list: 'unchecked'});
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('0123')
-        .insert('\n', { list: 'checked' })
+        .insert('\n', {list: 'checked'})
         .insert('5678')
-        .insert('\n', { list: 'unchecked' })
+        .insert('\n', {list: 'unchecked'})
         .insert('0123\n'),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
@@ -80,7 +77,7 @@ describe('List', () => {
     `,
       ),
     );
-    editor.formatText(9, 1, { list: null });
+    editor.formatText(9, 1, {list: null});
     expect(editor.getDelta()).toEqual(new Delta().insert('0123\n5678\n0123\n'));
     expect(editor.scroll.domNode).toEqualHTML(`
       <p>0123</p>
@@ -99,11 +96,11 @@ describe('List', () => {
     `,
       ),
     );
-    editor.formatText(9, 1, { list: 'bullet' });
+    editor.formatText(9, 1, {list: 'bullet'});
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('0123\n5678')
-        .insert('\n', { list: 'bullet' })
+        .insert('\n', {list: 'bullet'})
         .insert('0123\n'),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
@@ -125,9 +122,9 @@ describe('List', () => {
     `,
       ),
     );
-    editor.formatText(4, 1, { list: 'bullet' });
+    editor.formatText(4, 1, {list: 'bullet'});
     expect(editor.getDelta()).toEqual(
-      new Delta().insert('0123').insert('\n', { list: 'bullet' }),
+      new Delta().insert('0123').insert('\n', {list: 'bullet'}),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <ol>
@@ -142,11 +139,11 @@ describe('List', () => {
         '<ol><li data-list="ordered" class="ql-align-center">0123</li></ol>',
       ),
     );
-    editor.formatText(4, 1, { list: 'bullet' });
+    editor.formatText(4, 1, {list: 'bullet'});
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('0123')
-        .insert('\n', { align: 'center', list: 'bullet' }),
+        .insert('\n', {align: 'center', list: 'bullet'}),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <ol>
@@ -165,15 +162,15 @@ describe('List', () => {
     `,
       ),
     );
-    editor.formatText(9, 1, { list: 'ordered' });
+    editor.formatText(9, 1, {list: 'ordered'});
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('0123')
-        .insert('\n', { list: 'ordered' })
+        .insert('\n', {list: 'ordered'})
         .insert('5678')
-        .insert('\n', { list: 'ordered' })
+        .insert('\n', {list: 'ordered'})
         .insert('0123')
-        .insert('\n', { list: 'ordered' }),
+        .insert('\n', {list: 'ordered'}),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <ol>
@@ -197,9 +194,9 @@ describe('List', () => {
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('0123')
-        .insert('\n', { list: 'ordered' })
+        .insert('\n', {list: 'ordered'})
         .insert('0123')
-        .insert('\n', { list: 'ordered' }),
+        .insert('\n', {list: 'ordered'}),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <ol>
@@ -219,15 +216,15 @@ describe('List', () => {
     `,
       ),
     );
-    editor.formatText(9, 1, { list: 'checked' });
+    editor.formatText(9, 1, {list: 'checked'});
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('0123')
-        .insert('\n', { list: 'checked' })
+        .insert('\n', {list: 'checked'})
         .insert('5678')
-        .insert('\n', { list: 'checked' })
+        .insert('\n', {list: 'checked'})
         .insert('0123')
-        .insert('\n', { list: 'checked' }),
+        .insert('\n', {list: 'checked'}),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <ol>
@@ -312,7 +309,7 @@ describe('List', () => {
     `,
       ),
     );
-    editor.formatLine(1, 10, { list: 'bullet' });
+    editor.formatLine(1, 10, {list: 'bullet'});
     expect(editor.scroll.domNode).toEqualHTML(`
       <ol>
         <li data-list="bullet">One</li>
@@ -326,7 +323,7 @@ describe('List', () => {
     const editor = new Editor(
       createScroll('<p class="ql-align-center">Test</p>'),
     );
-    editor.formatLine(4, 1, { list: 'bullet' });
+    editor.formatLine(4, 1, {list: 'bullet'});
     expect(editor.scroll.domNode).toEqualHTML(`
       <ol>
         <li class="ql-align-center" data-list="bullet">Test</li>

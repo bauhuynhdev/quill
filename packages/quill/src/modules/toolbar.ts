@@ -12,6 +12,7 @@ type Handler = (this: Toolbar, value: any) => void;
 export type ToolbarConfig = Array<
   string[] | Array<string | Record<string, unknown>>
 >;
+
 export interface ToolbarProps {
   container?: HTMLElement | ToolbarConfig | null;
   handlers?: Record<string, Handler>;
@@ -125,7 +126,7 @@ class Toolbar extends Module<ToolbarProps> {
             .retain(range.index)
             // @ts-expect-error Fix me later
             .delete(range.length)
-            .insert({ [format]: value }),
+            .insert({[format]: value}),
           Quill.sources.USER,
         );
       } else {
@@ -182,6 +183,7 @@ class Toolbar extends Module<ToolbarProps> {
     });
   }
 }
+
 Toolbar.DEFAULTS = {};
 
 function addButton(container: HTMLElement, format: string, value?: string) {
@@ -266,7 +268,7 @@ Toolbar.DEFAULTS = {
       }
     },
     direction(value) {
-      const { align } = this.quill.getFormat();
+      const {align} = this.quill.getFormat();
       if (value === 'rtl' && align == null) {
         this.quill.format('align', 'right', Quill.sources.USER);
       } else if (!value && align === 'right') {

@@ -30,7 +30,7 @@ class History extends Module<HistoryOptions> {
 
   lastRecorded = 0;
   ignoreChange = false;
-  stack: Stack = { undo: [], redo: [] };
+  stack: Stack = {undo: [], redo: []};
   currentRange: Range | null = null;
 
   constructor(quill: Quill, options: Partial<HistoryOptions>) {
@@ -57,16 +57,16 @@ class History extends Module<HistoryOptions> {
     );
 
     this.quill.keyboard.addBinding(
-      { key: 'z', shortKey: true },
+      {key: 'z', shortKey: true},
       this.undo.bind(this),
     );
     this.quill.keyboard.addBinding(
-      { key: ['z', 'Z'], shortKey: true, shiftKey: true },
+      {key: ['z', 'Z'], shortKey: true, shiftKey: true},
       this.redo.bind(this),
     );
     if (/Win/i.test(navigator.platform)) {
       this.quill.keyboard.addBinding(
-        { key: 'y', shortKey: true },
+        {key: 'y', shortKey: true},
         this.redo.bind(this),
       );
     }
@@ -101,7 +101,7 @@ class History extends Module<HistoryOptions> {
   }
 
   clear() {
-    this.stack = { undo: [], redo: [] };
+    this.stack = {undo: [], redo: []};
   }
 
   cutoff() {
@@ -128,7 +128,7 @@ class History extends Module<HistoryOptions> {
       this.lastRecorded = timestamp;
     }
     if (undoDelta.length() === 0) return;
-    this.stack.undo.push({ delta: undoDelta, range: undoRange });
+    this.stack.undo.push({delta: undoDelta, range: undoRange});
     // @ts-expect-error Fix me later
     if (this.stack.undo.length > this.options.maxStack) {
       this.stack.undo.shift();
@@ -202,7 +202,7 @@ function transformRange(range: Range | null, delta: Delta) {
   if (!range) return range;
   const start = delta.transformPosition(range.index);
   const end = delta.transformPosition(range.index + range.length);
-  return { index: start, length: end - start };
+  return {index: start, length: end - start};
 }
 
 export { History as default, getLastChangeIndex };

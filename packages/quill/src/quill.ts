@@ -1,18 +1,8 @@
+import type { Bounds, DebugLevel, EmitterSource, ExpandedQuillOptions, QuillOptions, } from './core.js';
 import Quill, { Parchment, Range } from './core.js';
-import type {
-  Bounds,
-  DebugLevel,
-  EmitterSource,
-  ExpandedQuillOptions,
-  QuillOptions,
-} from './core.js';
 
 import { AlignClass, AlignStyle } from './formats/align.js';
-import {
-  DirectionAttribute,
-  DirectionClass,
-  DirectionStyle,
-} from './formats/direction.js';
+import { DirectionAttribute, DirectionClass, DirectionStyle, } from './formats/direction.js';
 import Indent from './formats/indent.js';
 
 import Blockquote from './formats/blockquote.js';

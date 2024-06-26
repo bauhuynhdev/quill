@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect, useLayoutEffect, useRef } from 'react';
 
 // Editor is an uncontrolled React component
 const Editor = forwardRef(
-  ({ readOnly, defaultValue, onTextChange, onSelectionChange }, ref) => {
+  ({readOnly, defaultValue, onTextChange, onSelectionChange}, ref) => {
     const containerRef = useRef(null);
     const defaultValueRef = useRef(defaultValue);
     const onTextChangeRef = useRef(onTextChange);

@@ -1,8 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import {
-  createScroll as baseCreateScroll,
-  createRegistry,
-} from '../__helpers__/factory.js';
+import { createRegistry, createScroll as baseCreateScroll, } from '../__helpers__/factory.js';
 import Video from '../../../src/formats/video.js';
 import Image from '../../../src/formats/image.js';
 

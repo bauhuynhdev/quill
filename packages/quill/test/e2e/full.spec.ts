@@ -1,8 +1,8 @@
 import { expect } from '@playwright/test';
 import { getSelectionInTextNode, SHORTKEY } from './utils/index.js';
-import { test, CHAPTER, P1, P2 } from './fixtures/index.js';
+import { CHAPTER, P1, P2, test } from './fixtures/index.js';
 
-test('compose an epic', async ({ page, editorPage }) => {
+test('compose an epic', async ({page, editorPage}) => {
   await editorPage.open();
   await editorPage.root.pressSequentially('The Whale');
   expect(await editorPage.root.innerHTML()).toEqual('<p>The Whale</p>');

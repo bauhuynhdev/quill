@@ -2,7 +2,7 @@ import type Quill from '../core.js';
 import type { Bounds } from '../core/selection.js';
 
 const isScrollable = (el: Element) => {
-  const { overflowY } = getComputedStyle(el, null);
+  const {overflowY} = getComputedStyle(el, null);
   return overflowY !== 'visible' && overflowY !== 'clip';
 };
 

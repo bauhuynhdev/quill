@@ -1,7 +1,7 @@
 import { cloneDeep, isEqual } from 'lodash-es';
 import Delta, { AttributeMap } from 'quill-delta';
+import type { BlockBlot, Blot } from 'parchment';
 import { EmbedBlot, Scope, TextBlot } from 'parchment';
-import type { Blot, BlockBlot } from 'parchment';
 import Quill from '../core/quill.js';
 import logger from '../core/logger.js';
 import Module from '../core/module.js';
@@ -59,18 +59,6 @@ interface KeyboardOptions {
 
 class Keyboard extends Module<KeyboardOptions> {
   static DEFAULTS: KeyboardOptions;
-
-  static match(evt: KeyboardEvent, binding: BindingObject) {
-    if (
-      (['altKey', 'ctrlKey', 'metaKey', 'shiftKey'] as const).some((key) => {
-        return !!binding[key] !== evt[key] && binding[key] !== null;
-      })
-    ) {
-      return false;
-    }
-    return binding.key === evt.key || binding.key === evt.which;
-  }
-
   bindings: Record<string, NormalizedBinding[]>;
 
   constructor(quill: Quill, options: Partial<KeyboardOptions>) {
@@ -84,43 +72,44 @@ class Keyboard extends Module<KeyboardOptions> {
         this.addBinding(this.options.bindings[name]);
       }
     });
-    this.addBinding({ key: 'Enter', shiftKey: null }, this.handleEnter);
+    this.addBinding({key: 'Enter', shiftKey: null}, this.handleEnter);
     this.addBinding(
-      { key: 'Enter', metaKey: null, ctrlKey: null, altKey: null },
-      () => {},
+      {key: 'Enter', metaKey: null, ctrlKey: null, altKey: null},
+      () => {
+      },
     );
     if (/Firefox/i.test(navigator.userAgent)) {
       // Need to handle delete and backspace for Firefox in the general case #1171
       this.addBinding(
-        { key: 'Backspace' },
-        { collapsed: true },
+        {key: 'Backspace'},
+        {collapsed: true},
         this.handleBackspace,
       );
       this.addBinding(
-        { key: 'Delete' },
-        { collapsed: true },
+        {key: 'Delete'},
+        {collapsed: true},
         this.handleDelete,
       );
     } else {
       this.addBinding(
-        { key: 'Backspace' },
-        { collapsed: true, prefix: /^.?$/ },
+        {key: 'Backspace'},
+        {collapsed: true, prefix: /^.?$/},
         this.handleBackspace,
       );
       this.addBinding(
-        { key: 'Delete' },
-        { collapsed: true, suffix: /^.?$/ },
+        {key: 'Delete'},
+        {collapsed: true, suffix: /^.?$/},
         this.handleDelete,
       );
     }
     this.addBinding(
-      { key: 'Backspace' },
-      { collapsed: false },
+      {key: 'Backspace'},
+      {collapsed: false},
       this.handleDeleteRange,
     );
     this.addBinding(
-      { key: 'Delete' },
-      { collapsed: false },
+      {key: 'Delete'},
+      {collapsed: false},
       this.handleDeleteRange,
     );
     this.addBinding(
@@ -131,10 +120,21 @@ class Keyboard extends Module<KeyboardOptions> {
         metaKey: null,
         shiftKey: null,
       },
-      { collapsed: true, offset: 0 },
+      {collapsed: true, offset: 0},
       this.handleBackspace,
     );
     this.listen();
+  }
+
+  static match(evt: KeyboardEvent, binding: BindingObject) {
+    if (
+      (['altKey', 'ctrlKey', 'metaKey', 'shiftKey'] as const).some((key) => {
+        return !!binding[key] !== evt[key] && binding[key] !== null;
+      })
+    ) {
+      return false;
+    }
+    return binding.key === evt.key || binding.key === evt.which;
   }
 
   addBinding(
@@ -152,10 +152,10 @@ class Keyboard extends Module<KeyboardOptions> {
       return;
     }
     if (typeof context === 'function') {
-      context = { handler: context };
+      context = {handler: context};
     }
     if (typeof handler === 'function') {
-      handler = { handler };
+      handler = {handler};
     }
     const keys = Array.isArray(binding.key) ? binding.key : [binding.key];
     keys.forEach((key) => {
@@ -327,7 +327,7 @@ class Keyboard extends Module<KeyboardOptions> {
   }
 
   handleDeleteRange(range: Range) {
-    deleteRange({ range, quill: this.quill });
+    deleteRange({range, quill: this.quill});
     this.quill.focus();
   }
 
@@ -438,7 +438,7 @@ const defaultOptions: KeyboardOptions = {
       format: ['list'],
       empty: true,
       handler(range, context) {
-        const formats: Record<string, unknown> = { list: false };
+        const formats: Record<string, unknown> = {list: false};
         if (context.format.indent) {
           formats.indent = false;
         }
@@ -453,7 +453,7 @@ const defaultOptions: KeyboardOptions = {
     'checklist enter': {
       key: 'Enter',
       collapsed: true,
-      format: { list: 'checked' },
+      format: {list: 'checked'},
       handler(range) {
         const [line, offset] = this.quill.getLine(range.index);
         const formats = {
@@ -466,7 +466,7 @@ const defaultOptions: KeyboardOptions = {
           .insert('\n', formats)
           // @ts-expect-error Fix me later
           .retain(line.length() - offset - 1)
-          .retain(1, { list: 'unchecked' });
+          .retain(1, {list: 'unchecked'});
         this.quill.updateContents(delta, Quill.sources.USER);
         this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
         this.quill.scrollSelectionIntoView();
@@ -484,7 +484,7 @@ const defaultOptions: KeyboardOptions = {
           .insert('\n', context.format)
           // @ts-expect-error Fix me later
           .retain(line.length() - offset - 1)
-          .retain(1, { header: null });
+          .retain(1, {header: null});
         this.quill.updateContents(delta, Quill.sources.USER);
         this.quill.setSelection(range.index + 1, Quill.sources.SILENT);
         this.quill.scrollSelectionIntoView();
@@ -495,14 +495,16 @@ const defaultOptions: KeyboardOptions = {
       format: ['table'],
       collapsed: true,
       offset: 0,
-      handler() {},
+      handler() {
+      },
     },
     'table delete': {
       key: 'Delete',
       format: ['table'],
       collapsed: true,
       suffix: /^$/,
-      handler() {},
+      handler() {
+      },
     },
     'table enter': {
       key: 'Enter',
@@ -538,7 +540,7 @@ const defaultOptions: KeyboardOptions = {
       shiftKey: null,
       format: ['table'],
       handler(range, context) {
-        const { event, line: cell } = context;
+        const {event, line: cell} = context;
         const offset = cell.offset(this.quill.scroll);
         if (event.shiftKey) {
           this.quill.setSelection(offset - 1, Quill.sources.USER);
@@ -559,7 +561,7 @@ const defaultOptions: KeyboardOptions = {
       prefix: /^\s*?(\d+\.|-|\*|\[ ?\]|\[x\])$/,
       handler(range, context) {
         if (this.quill.scroll.query('list') == null) return true;
-        const { length } = context.prefix;
+        const {length} = context.prefix;
         const [line, offset] = this.quill.getLine(range.index);
         if (offset > length) return true;
         let value;
@@ -585,7 +587,7 @@ const defaultOptions: KeyboardOptions = {
           .delete(length + 1)
           // @ts-expect-error Fix me later
           .retain(line.length() - 2 - offset)
-          .retain(1, { list: value });
+          .retain(1, {list: value});
         this.quill.updateContents(delta, Quill.sources.USER);
         this.quill.history.cutoff();
         this.quill.setSelection(range.index - length, Quill.sources.SILENT);
@@ -606,7 +608,7 @@ const defaultOptions: KeyboardOptions = {
           cur != null &&
           cur.length() <= 1 &&
           cur.formats()['code-block']
-        ) {
+          ) {
           // @ts-expect-error
           cur = cur.prev;
           numLines -= 1;
@@ -615,7 +617,7 @@ const defaultOptions: KeyboardOptions = {
             const delta = new Delta()
               // @ts-expect-error Fix me later
               .retain(range.index + line.length() - offset - 2)
-              .retain(1, { 'code-block': null })
+              .retain(1, {'code-block': null})
               .delete(1);
             this.quill.updateContents(delta, Quill.sources.USER);
             this.quill.setSelection(range.index - 1, Quill.sources.SILENT);
@@ -640,11 +642,11 @@ function makeCodeBlockHandler(indent: boolean): BindingObject {
   return {
     key: 'Tab',
     shiftKey: !indent,
-    format: { 'code-block': true },
-    handler(range, { event }) {
+    format: {'code-block': true},
+    handler(range, {event}) {
       const CodeBlock = this.quill.scroll.query('code-block');
       // @ts-expect-error
-      const { TAB } = CodeBlock;
+      const {TAB} = CodeBlock;
       if (range.length === 0 && !event.shiftKey) {
         this.quill.insertText(range.index, TAB, Quill.sources.USER);
         this.quill.setSelection(range.index + TAB.length, Quill.sources.SILENT);
@@ -655,7 +657,7 @@ function makeCodeBlockHandler(indent: boolean): BindingObject {
         range.length === 0
           ? this.quill.getLines(range.index, 1)
           : this.quill.getLines(range);
-      let { index, length } = range;
+      let {index, length} = range;
       lines.forEach((line, i) => {
         if (indent) {
           line.insertAt(0, TAB);
@@ -691,7 +693,7 @@ function makeEmbedArrowHandler(
     altKey: null,
     [where]: /^$/,
     handler(range) {
-      let { index } = range;
+      let {index} = range;
       if (key === 'ArrowRight') {
         index += range.length + 1;
       }
@@ -785,7 +787,7 @@ function makeTableArrowHandler(up: boolean): BindingObject {
 
 function normalize(binding: Binding): BindingObject | null {
   if (typeof binding === 'string' || typeof binding === 'number') {
-    binding = { key: binding };
+    binding = {key: binding};
   } else if (typeof binding === 'object') {
     binding = cloneDeep(binding);
   } else {
@@ -799,7 +801,7 @@ function normalize(binding: Binding): BindingObject | null {
 }
 
 // TODO: Move into quill.ts or editor.ts
-function deleteRange({ quill, range }: { quill: Quill; range: Range }) {
+function deleteRange({quill, range}: { quill: Quill; range: Range }) {
   const lines = quill.getLines(range);
   let formats = {};
   if (lines.length > 1) {

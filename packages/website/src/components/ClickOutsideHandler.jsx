@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
-const TOUCH_EVENT = { react: 'onTouchStart', native: 'touchstart' };
-const MOUSE_EVENT = { react: 'onMouseDown', native: 'mousedown' };
+const TOUCH_EVENT = {react: 'onTouchStart', native: 'touchstart'};
+const MOUSE_EVENT = {react: 'onMouseDown', native: 'mousedown'};
 
 const setUpReactEventHandlers = (handler, props) => ({
   ...props,
@@ -15,7 +15,7 @@ const setUpReactEventHandlers = (handler, props) => ({
   },
 });
 
-const ClickOutsideHandler = ({ onClickOutside, ...props }) => {
+const ClickOutsideHandler = ({onClickOutside, ...props}) => {
   const isTargetInsideReactTreeRef = useRef(false);
 
   const onClickOutsideRef = useRef(onClickOutside);
@@ -32,8 +32,8 @@ const ClickOutsideHandler = ({ onClickOutside, ...props }) => {
       isTargetInsideReactTreeRef.current = false;
     };
 
-    document.addEventListener(TOUCH_EVENT.native, handler, { passive: true });
-    document.addEventListener(MOUSE_EVENT.native, handler, { passive: true });
+    document.addEventListener(TOUCH_EVENT.native, handler, {passive: true});
+    document.addEventListener(MOUSE_EVENT.native, handler, {passive: true});
     return () => {
       document.removeEventListener(TOUCH_EVENT.native, handler);
       document.removeEventListener(MOUSE_EVENT.native, handler);

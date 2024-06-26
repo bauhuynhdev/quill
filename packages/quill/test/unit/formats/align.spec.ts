@@ -1,10 +1,7 @@
 import Delta from 'quill-delta';
 import Editor from '../../../src/core/editor.js';
-import { describe, test, expect } from 'vitest';
-import {
-  createRegistry,
-  createScroll as baseCreateScroll,
-} from '../__helpers__/factory.js';
+import { describe, expect, test } from 'vitest';
+import { createRegistry, createScroll as baseCreateScroll, } from '../__helpers__/factory.js';
 import { AlignClass } from '../../../src/formats/align.js';
 
 const createScroll = (html: string) =>
@@ -13,9 +10,9 @@ const createScroll = (html: string) =>
 describe('Align', () => {
   test('add', () => {
     const editor = new Editor(createScroll('<p>0123</p>'));
-    editor.formatText(4, 1, { align: 'center' });
+    editor.formatText(4, 1, {align: 'center'});
     expect(editor.getDelta()).toEqual(
-      new Delta().insert('0123').insert('\n', { align: 'center' }),
+      new Delta().insert('0123').insert('\n', {align: 'center'}),
     );
     expect(editor.scroll.domNode).toEqualHTML(
       '<p class="ql-align-center">0123</p>',
@@ -26,7 +23,7 @@ describe('Align', () => {
     const editor = new Editor(
       createScroll('<p class="ql-align-center">0123</p>'),
     );
-    editor.formatText(4, 1, { align: false });
+    editor.formatText(4, 1, {align: false});
     expect(editor.getDelta()).toEqual(new Delta().insert('0123\n'));
     expect(editor.scroll.domNode).toEqualHTML('<p>0123</p>');
   });
@@ -35,9 +32,9 @@ describe('Align', () => {
     const editor = new Editor(
       createScroll('<p class="ql-align-center">0123</p>'),
     );
-    editor.formatText(4, 1, { align: 'middle' });
+    editor.formatText(4, 1, {align: 'middle'});
     expect(editor.getDelta()).toEqual(
-      new Delta().insert('0123').insert('\n', { align: 'center' }),
+      new Delta().insert('0123').insert('\n', {align: 'center'}),
     );
     expect(editor.scroll.domNode).toEqualHTML(
       '<p class="ql-align-center">0123</p>',
@@ -46,7 +43,7 @@ describe('Align', () => {
 
   test('invalid scope', () => {
     const editor = new Editor(createScroll('<p>0123</p>'));
-    editor.formatText(1, 2, { align: 'center' });
+    editor.formatText(1, 2, {align: 'center'});
     expect(editor.getDelta()).toEqual(new Delta().insert('0123\n'));
     expect(editor.scroll.domNode).toEqualHTML('<p>0123</p>');
   });

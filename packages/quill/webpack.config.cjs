@@ -1,11 +1,11 @@
 /*eslint-env node*/
 
-const { BannerPlugin, DefinePlugin } = require('webpack');
+const {BannerPlugin, DefinePlugin} = require('webpack');
 const common = require('./webpack.common.cjs');
-const { merge } = require('webpack-merge');
+const {merge} = require('webpack-merge');
 require('webpack-dev-server');
-const { readFileSync } = require('fs');
-const { join, resolve } = require('path');
+const {readFileSync} = require('fs');
+const {join, resolve} = require('path');
 
 const pkg = JSON.parse(readFileSync(join(__dirname, 'package.json'), 'utf8'));
 

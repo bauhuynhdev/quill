@@ -1,6 +1,6 @@
 /*eslint-env node*/
 
-const { resolve } = require('path');
+const {resolve} = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const tsRules = {

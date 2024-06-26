@@ -2,27 +2,26 @@ import { merge } from 'lodash-es';
 import * as Parchment from 'parchment';
 import type { Op } from 'quill-delta';
 import Delta from 'quill-delta';
-import type { BlockEmbed } from '../blots/block.js';
-import type Block from '../blots/block.js';
+import type Block, { BlockEmbed } from '../blots/block.js';
 import type Scroll from '../blots/scroll.js';
 import type Clipboard from '../modules/clipboard.js';
 import type History from '../modules/history.js';
 import type Keyboard from '../modules/keyboard.js';
 import type Uploader from '../modules/uploader.js';
 import Editor from './editor.js';
-import Emitter from './emitter.js';
 import type { EmitterSource } from './emitter.js';
+import Emitter from './emitter.js';
 import instances from './instances.js';
-import logger from './logger.js';
 import type { DebugLevel } from './logger.js';
+import logger from './logger.js';
 import Module from './module.js';
-import Selection, { Range } from './selection.js';
 import type { Bounds } from './selection.js';
+import Selection, { Range } from './selection.js';
 import Composition from './composition.js';
-import Theme from './theme.js';
 import type { ThemeConstructor } from './theme.js';
-import scrollRectIntoView from './utils/scrollRectIntoView.js';
+import Theme from './theme.js';
 import type { Rect } from './utils/scrollRectIntoView.js';
+import scrollRectIntoView from './utils/scrollRectIntoView.js';
 import createRegistryWithFormats from './utils/createRegistryWithFormats.js';
 
 const debug = logger('quill');
@@ -97,100 +96,20 @@ class Quill {
     'core/module': Module,
     'core/theme': Theme,
   };
-
-  static debug(limit: DebugLevel | boolean) {
-    if (limit === true) {
-      limit = 'log';
-    }
-    logger.level(limit);
-  }
-
-  static find(node: Node, bubble = false) {
-    return instances.get(node) || globalRegistry.find(node, bubble);
-  }
-
-  static import(name: 'core/module'): typeof Module;
-  static import(name: `themes/${string}`): typeof Theme;
-  static import(name: 'parchment'): typeof Parchment;
-  static import(name: 'delta'): typeof Delta;
-  static import(name: string): unknown;
-  static import(name: string) {
-    if (this.imports[name] == null) {
-      debug.error(`Cannot import ${name}. Are you sure it was registered?`);
-    }
-    return this.imports[name];
-  }
-
-  static register(
-    targets: Record<
-      string,
-      | Parchment.RegistryDefinition
-      | Record<string, unknown> // any objects
-      | Theme
-      | Module
-      | Function // ES5 constructors
-    >,
-    overwrite?: boolean,
-  ): void;
-  static register(
-    target: Parchment.RegistryDefinition,
-    overwrite?: boolean,
-  ): void;
-  static register(path: string, target: any, overwrite?: boolean): void;
-  static register(...args: any[]): void {
-    if (typeof args[0] !== 'string') {
-      const target = args[0];
-      const overwrite = !!args[1];
-
-      const name = 'attrName' in target ? target.attrName : target.blotName;
-      if (typeof name === 'string') {
-        // Shortcut for formats:
-        // register(Blot | Attributor, overwrite)
-        this.register(`formats/${name}`, target, overwrite);
-      } else {
-        Object.keys(target).forEach((key) => {
-          this.register(key, target[key], overwrite);
-        });
-      }
-    } else {
-      const path = args[0];
-      const target = args[1];
-      const overwrite = !!args[2];
-
-      if (this.imports[path] != null && !overwrite) {
-        debug.warn(`Overwriting ${path} with`, target);
-      }
-      this.imports[path] = target;
-      if (
-        (path.startsWith('blots/') || path.startsWith('formats/')) &&
-        target &&
-        typeof target !== 'boolean' &&
-        target.blotName !== 'abstract'
-      ) {
-        globalRegistry.register(target);
-      }
-      if (typeof target.register === 'function') {
-        target.register(globalRegistry);
-      }
-    }
-  }
-
   container: HTMLElement;
   root: HTMLDivElement;
   scroll: Scroll;
   emitter: Emitter;
-  protected allowReadOnlyEdits: boolean;
   editor: Editor;
   composition: Composition;
   selection: Selection;
-
   theme: Theme;
   keyboard: Keyboard;
   clipboard: Clipboard;
   history: History;
   uploader: Uploader;
-
   options: ExpandedQuillOptions;
+  protected allowReadOnlyEdits: boolean;
 
   constructor(container: HTMLElement | string, options: QuillOptions = {}) {
     this.options = expandConfig(container, options);
@@ -239,7 +158,7 @@ class Quill {
       const oldRange = this.selection.lastRange;
       const [newRange] = this.selection.getRange();
       const selectionInfo =
-        oldRange && newRange ? { oldRange, newRange } : undefined;
+        oldRange && newRange ? {oldRange, newRange} : undefined;
       modify.call(
         this,
         () => this.editor.update(null, mutations, selectionInfo),
@@ -250,13 +169,13 @@ class Quill {
       const oldRange = this.selection.lastRange;
       const [newRange] = this.selection.getRange();
       const selectionInfo =
-        oldRange && newRange ? { oldRange, newRange } : undefined;
+        oldRange && newRange ? {oldRange, newRange} : undefined;
       modify.call(
         this,
         () => {
           const change = new Delta()
             .retain(blot.offset(this))
-            .retain({ [blot.statics.blotName]: delta });
+            .retain({[blot.statics.blotName]: delta});
           return this.editor.update(change, [], selectionInfo);
         },
         Quill.sources.USER,
@@ -277,6 +196,91 @@ class Quill {
       this.disable();
     }
     this.allowReadOnlyEdits = false;
+  }
+
+  static debug(limit: DebugLevel | boolean) {
+    if (limit === true) {
+      limit = 'log';
+    }
+    logger.level(limit);
+  }
+
+  static find(node: Node, bubble = false) {
+    return instances.get(node) || globalRegistry.find(node, bubble);
+  }
+
+  static import(name: 'core/module'): typeof Module;
+
+  static import(name: `themes/${string}`): typeof Theme;
+
+  static import(name: 'parchment'): typeof Parchment;
+
+  static import(name: 'delta'): typeof Delta;
+
+  static import(name: string): unknown;
+
+  static import(name: string) {
+    if (this.imports[name] == null) {
+      debug.error(`Cannot import ${name}. Are you sure it was registered?`);
+    }
+    return this.imports[name];
+  }
+
+  static register(
+    targets: Record<
+      string,
+      | Parchment.RegistryDefinition
+      | Record<string, unknown> // any objects
+      | Theme
+      | Module
+      | Function // ES5 constructors
+    >,
+    overwrite?: boolean,
+  ): void;
+
+  static register(
+    target: Parchment.RegistryDefinition,
+    overwrite?: boolean,
+  ): void;
+
+  static register(path: string, target: any, overwrite?: boolean): void;
+
+  static register(...args: any[]): void {
+    if (typeof args[0] !== 'string') {
+      const target = args[0];
+      const overwrite = !!args[1];
+
+      const name = 'attrName' in target ? target.attrName : target.blotName;
+      if (typeof name === 'string') {
+        // Shortcut for formats:
+        // register(Blot | Attributor, overwrite)
+        this.register(`formats/${name}`, target, overwrite);
+      } else {
+        Object.keys(target).forEach((key) => {
+          this.register(key, target[key], overwrite);
+        });
+      }
+    } else {
+      const path = args[0];
+      const target = args[1];
+      const overwrite = !!args[2];
+
+      if (this.imports[path] != null && !overwrite) {
+        debug.warn(`Overwriting ${path} with`, target);
+      }
+      this.imports[path] = target;
+      if (
+        (path.startsWith('blots/') || path.startsWith('formats/')) &&
+        target &&
+        typeof target !== 'boolean' &&
+        target.blotName !== 'abstract'
+      ) {
+        globalRegistry.register(target);
+      }
+      if (typeof target.register === 'function') {
+        target.register(globalRegistry);
+      }
+    }
   }
 
   addContainer(container: string, refNode?: Node | null): HTMLDivElement;
@@ -636,17 +640,17 @@ class Quill {
     handler: (
       ...args:
         | [
-            (typeof Emitter)['events']['TEXT_CHANGE'],
-            Delta,
-            Delta,
-            EmitterSource,
-          ]
+        (typeof Emitter)['events']['TEXT_CHANGE'],
+        Delta,
+        Delta,
+        EmitterSource,
+      ]
         | [
-            (typeof Emitter)['events']['SELECTION_CHANGE'],
-            Range,
-            Range,
-            EmitterSource,
-          ]
+        (typeof Emitter)['events']['SELECTION_CHANGE'],
+        Range,
+        Range,
+        EmitterSource,
+      ]
     ) => void,
   ): Emitter;
   on(event: string, ...args: unknown[]): Emitter;
@@ -715,6 +719,7 @@ class Quill {
       source,
     );
   }
+
   setSelection(range: Range | null, source?: EmitterSource): void;
   setSelection(index: number, source?: EmitterSource): void;
   setSelection(index: number, length?: number, source?: EmitterSource): void;
@@ -805,8 +810,8 @@ function expandConfig(
     throw new Error(`Invalid theme ${options.theme}. Did you register it?`);
   }
 
-  const { modules: quillModuleDefaults, ...quillDefaults } = Quill.DEFAULTS;
-  const { modules: themeModuleDefaults, ...themeDefaults } = theme.DEFAULTS;
+  const {modules: quillModuleDefaults, ...quillDefaults} = Quill.DEFAULTS;
+  const {modules: themeModuleDefaults, ...themeDefaults} = theme.DEFAULTS;
 
   let userModuleOptions = expandModuleConfig(options.modules);
   // Special case toolbar shorthand
@@ -817,7 +822,7 @@ function expandConfig(
   ) {
     userModuleOptions = {
       ...userModuleOptions,
-      toolbar: { container: userModuleOptions.toolbar },
+      toolbar: {container: userModuleOptions.toolbar},
     };
   }
 
@@ -919,6 +924,7 @@ type NormalizedIndexLength = [
   Record<string, unknown>,
   EmitterSource,
 ];
+
 function overload(index: number, source?: EmitterSource): NormalizedIndexLength;
 function overload(
   index: number,
