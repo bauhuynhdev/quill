@@ -200,6 +200,7 @@ class Clipboard extends Module<ClipboardOptions> {
     const range = this.quill.getSelection(true);
     if (range == null) return;
     const html = e.clipboardData?.getData('text/html');
+    if (html && /<img/i.test(html)) return;
     let text = e.clipboardData?.getData('text/plain');
     if (!html && !text) {
       const urlList = e.clipboardData?.getData('text/uri-list');
