@@ -2,13 +2,13 @@ import { useLayoutEffect, useRef } from 'react';
 import { withoutSSR } from './NoSSR';
 
 const Editor = ({
-                  children,
-                  rootStyle,
-                  config,
-                  onSelectionChange,
-                  onLoad,
-                  ...props
-                }) => {
+  children,
+  rootStyle,
+  config,
+  onSelectionChange,
+  onLoad,
+  ...props
+}) => {
   const ref = useRef(null);
   const rootStyleRef = useRef(rootStyle);
   const onSelectionChangeRef = useRef(onSelectionChange);

@@ -11,9 +11,9 @@ class Tooltip extends BaseTooltip {
 describe('BaseTooltip', () => {
   const setup = () => {
     const container = document.body.appendChild(document.createElement('div'));
-    const quill = new Quill(container, {registry: createRegistry([Video])});
+    const quill = new Quill(container, { registry: createRegistry([Video]) });
     const tooltip = new Tooltip(quill);
-    return {container, tooltip};
+    return { container, tooltip };
   };
 
   const insertVideo = (tooltip: Tooltip, url: string) => {
@@ -24,7 +24,7 @@ describe('BaseTooltip', () => {
 
   describe('save', () => {
     test('converts youtube video url to embedded', () => {
-      const {container, tooltip} = setup();
+      const { container, tooltip } = setup();
       insertVideo(tooltip, 'http://youtube.com/watch?v=QHH3iSeDBLo');
       expect(
         (container.querySelector('.ql-video') as HTMLVideoElement).src,
@@ -32,7 +32,7 @@ describe('BaseTooltip', () => {
     });
 
     test('converts www.youtube video url to embedded', () => {
-      const {container, tooltip} = setup();
+      const { container, tooltip } = setup();
       insertVideo(tooltip, 'http://www.youtube.com/watch?v=QHH3iSeDBLo');
       expect(
         (container.querySelector('.ql-video') as HTMLVideoElement).src,
@@ -40,7 +40,7 @@ describe('BaseTooltip', () => {
     });
 
     test('converts m.youtube video url to embedded', () => {
-      const {container, tooltip} = setup();
+      const { container, tooltip } = setup();
       insertVideo(tooltip, 'http://m.youtube.com/watch?v=QHH3iSeDBLo');
       expect(
         (container.querySelector('.ql-video') as HTMLVideoElement).src,
@@ -48,7 +48,7 @@ describe('BaseTooltip', () => {
     });
 
     test('preserves youtube video url protocol', () => {
-      const {container, tooltip} = setup();
+      const { container, tooltip } = setup();
       insertVideo(tooltip, 'https://m.youtube.com/watch?v=QHH3iSeDBLo');
       expect(
         (container.querySelector('.ql-video') as HTMLVideoElement).src,
@@ -56,7 +56,7 @@ describe('BaseTooltip', () => {
     });
 
     test('uses https as default youtube video url protocol', () => {
-      const {container, tooltip} = setup();
+      const { container, tooltip } = setup();
       insertVideo(tooltip, 'youtube.com/watch?v=QHH3iSeDBLo');
       expect(
         (container.querySelector('.ql-video') as HTMLVideoElement).src,
@@ -64,7 +64,7 @@ describe('BaseTooltip', () => {
     });
 
     test('converts vimeo video url to embedded', () => {
-      const {container, tooltip} = setup();
+      const { container, tooltip } = setup();
       insertVideo(tooltip, 'http://vimeo.com/47762693');
       expect(
         (container.querySelector('.ql-video') as HTMLVideoElement).src,
@@ -72,7 +72,7 @@ describe('BaseTooltip', () => {
     });
 
     test('converts www.vimeo video url to embedded', () => {
-      const {container, tooltip} = setup();
+      const { container, tooltip } = setup();
       insertVideo(tooltip, 'http://www.vimeo.com/47762693');
       expect(
         (container.querySelector('.ql-video') as HTMLVideoElement).src,
@@ -80,7 +80,7 @@ describe('BaseTooltip', () => {
     });
 
     test('preserves vimeo video url protocol', () => {
-      const {container, tooltip} = setup();
+      const { container, tooltip } = setup();
       insertVideo(tooltip, 'https://www.vimeo.com/47762693');
       expect(
         (container.querySelector('.ql-video') as HTMLVideoElement).src,
@@ -88,7 +88,7 @@ describe('BaseTooltip', () => {
     });
 
     test('uses https as default vimeo video url protocol', () => {
-      const {container, tooltip} = setup();
+      const { container, tooltip } = setup();
       insertVideo(tooltip, 'vimeo.com/47762693');
       expect(
         (container.querySelector('.ql-video') as HTMLVideoElement).src,

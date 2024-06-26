@@ -12,7 +12,7 @@ import flattenData from '../utils/flattenData';
 const getPagination = (permalink, items) => {
   const flattenedItems = flattenData(items);
   const index = flattenedItems.findIndex((item) => item.url === permalink);
-  if (index === -1) return {prev: null, next: null};
+  if (index === -1) return { prev: null, next: null };
 
   let prev = null;
   let next = null;
@@ -20,19 +20,19 @@ const getPagination = (permalink, items) => {
   if (index > 0) prev = flattenedItems[index - 1];
   if (index < flattenedItems.length - 1) next = flattenedItems[index + 1];
 
-  return {prev, next};
+  return { prev, next };
 };
 
-const SidebarItem = ({item}) => {
+const SidebarItem = ({ item }) => {
   const pathname = usePathname();
 
   return (
-    <li className={classNames({active: pathname.includes(item.url)})}>
+    <li className={classNames({ active: pathname.includes(item.url) })}>
       <Link href={item.url}>{item.title}</Link>
       {item.children && (
         <ul>
           {item.children.map((child) => (
-            <SidebarItem key={child.url} item={child}/>
+            <SidebarItem key={child.url} item={child} />
           ))}
         </ul>
       )}
@@ -40,8 +40,8 @@ const SidebarItem = ({item}) => {
   );
 };
 
-const PostLayout = ({title, pageType, filePath, permalink, children}) => {
-  const {prev, next} = getPagination(permalink, docsItems);
+const PostLayout = ({ title, pageType, filePath, permalink, children }) => {
+  const { prev, next } = getPagination(permalink, docsItems);
   const [isNavOpen, setIsNavOpen] = useState(false);
 
   return (
@@ -64,7 +64,7 @@ const PostLayout = ({title, pageType, filePath, permalink, children}) => {
             </button>
             <ul className="sidebar-list">
               {docsItems.map((item) => (
-                <SidebarItem key={item.url} item={item}/>
+                <SidebarItem key={item.url} item={item} />
               ))}
             </ul>
           </div>
@@ -92,10 +92,10 @@ const PostLayout = ({title, pageType, filePath, permalink, children}) => {
         </div>
 
         <div className="row">
-          <hr/>
+          <hr />
         </div>
 
-        <OpenSource/>
+        <OpenSource />
       </div>
     </Layout>
   );

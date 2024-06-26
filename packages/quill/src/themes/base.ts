@@ -1,17 +1,18 @@
 import { merge } from 'lodash-es';
 import type Quill from '../core/quill.js';
 import Emitter from '../core/emitter.js';
-import type { ThemeOptions } from '../core/theme.js';
 import Theme from '../core/theme.js';
+import type { ThemeOptions } from '../core/theme.js';
 import ColorPicker from '../ui/color-picker.js';
 import IconPicker from '../ui/icon-picker.js';
 import Picker from '../ui/picker.js';
 import Tooltip from '../ui/tooltip.js';
-import type Selection, { Range } from '../core/selection.js';
+import type { Range } from '../core/selection.js';
 import type Clipboard from '../modules/clipboard.js';
 import type History from '../modules/history.js';
 import type Keyboard from '../modules/keyboard.js';
 import type Uploader from '../modules/uploader.js';
+import type Selection from '../core/selection.js';
 
 const ALIGNS = [false, 'center', 'right', 'justify'];
 
@@ -184,7 +185,6 @@ class BaseTheme extends Theme {
     this.quill.on(Emitter.events.EDITOR_CHANGE, update);
   }
 }
-
 BaseTheme.DEFAULTS = merge({}, Theme.DEFAULTS, {
   modules: {
     toolbar: {
@@ -272,15 +272,15 @@ class BaseTooltip extends Tooltip {
   }
 
   restoreFocus() {
-    this.quill.focus({preventScroll: true});
+    this.quill.focus({ preventScroll: true });
   }
 
   save() {
     // @ts-expect-error Fix me later
-    let {value} = this.textbox;
+    let { value } = this.textbox;
     switch (this.root.getAttribute('data-mode')) {
       case 'link': {
-        const {scrollTop} = this.quill.root;
+        const { scrollTop } = this.quill.root;
         if (this.linkRange) {
           this.quill.formatText(
             this.linkRange,

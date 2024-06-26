@@ -1,5 +1,11 @@
-import type { Bounds, DebugLevel, EmitterSource, ExpandedQuillOptions, QuillOptions, } from './core/quill.js';
 import Quill, { Parchment, Range } from './core/quill.js';
+import type {
+  Bounds,
+  DebugLevel,
+  EmitterSource,
+  ExpandedQuillOptions,
+  QuillOptions,
+} from './core/quill.js';
 
 import Block, { BlockEmbed } from './blots/block.js';
 import Break from './blots/break.js';
@@ -14,7 +20,7 @@ import Clipboard from './modules/clipboard.js';
 import History from './modules/history.js';
 import Keyboard from './modules/keyboard.js';
 import Uploader from './modules/uploader.js';
-import Delta, { AttributeMap, Op, OpIterator } from 'quill-delta';
+import Delta, { Op, OpIterator, AttributeMap } from 'quill-delta';
 import Input from './modules/input.js';
 import UINode from './modules/uiNode.js';
 

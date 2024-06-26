@@ -38,9 +38,7 @@ class CodeBlock extends Block {
   }
 }
 
-class Code extends Inline {
-}
-
+class Code extends Inline {}
 Code.blotName = 'code';
 Code.tagName = 'CODE';
 

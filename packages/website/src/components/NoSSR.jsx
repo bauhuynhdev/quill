@@ -5,7 +5,7 @@ const useEnhancedEffect =
     ? useLayoutEffect
     : useEffect;
 
-const NoSSR = ({children, defer, fallback}) => {
+const NoSSR = ({ children, defer, fallback }) => {
   const [isMounted, setMountedState] = useState(false);
 
   useEnhancedEffect(() => {

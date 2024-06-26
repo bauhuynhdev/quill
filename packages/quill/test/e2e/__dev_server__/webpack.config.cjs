@@ -3,7 +3,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const common = require('../../../webpack.common.cjs');
-const {merge} = require('webpack-merge');
+const { merge } = require('webpack-merge');
 require('webpack-dev-server');
 
 module.exports = (env) =>

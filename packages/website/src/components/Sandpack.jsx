@@ -1,8 +1,8 @@
 import {
+  SandpackProvider,
   SandpackCodeEditor,
   SandpackFileExplorer,
   SandpackPreview,
-  SandpackProvider,
   useSandpack,
 } from '@codesandbox/sandpack-react';
 import { useEffect, useState } from 'react';
@@ -10,12 +10,15 @@ import { Button } from '@radix-ui/themes';
 import { PlayIcon, Share1Icon } from '@radix-ui/react-icons';
 import * as styles from './Sandpack.module.scss';
 import classNames from 'classnames';
-import { compressToEncodedURIComponent, decompressFromEncodedURIComponent, } from 'lz-string';
+import {
+  compressToEncodedURIComponent,
+  decompressFromEncodedURIComponent,
+} from 'lz-string';
 import { withoutSSR } from './NoSSR';
 import replaceCDN from '../utils/replaceCDN';
 
-const TogglePreviewButton = ({isPreviewEnabled, setIsPreviewEnabled}) => {
-  const {sandpack} = useSandpack();
+const TogglePreviewButton = ({ isPreviewEnabled, setIsPreviewEnabled }) => {
+  const { sandpack } = useSandpack();
 
   return (
     <Button
@@ -30,15 +33,15 @@ const TogglePreviewButton = ({isPreviewEnabled, setIsPreviewEnabled}) => {
         'Hide Result'
       ) : (
         <>
-          <PlayIcon/> Run Code
+          <PlayIcon /> Run Code
         </>
       )}
     </Button>
   );
 };
 
-const ToggleCodeButton = ({isCodeEnabled, setIsCodeEnabled}) => {
-  const {sandpack} = useSandpack();
+const ToggleCodeButton = ({ isCodeEnabled, setIsCodeEnabled }) => {
+  const { sandpack } = useSandpack();
 
   return (
     <Button
@@ -55,8 +58,8 @@ const ToggleCodeButton = ({isCodeEnabled, setIsCodeEnabled}) => {
   );
 };
 
-const LocationOverride = ({filenames}) => {
-  const {sandpack} = useSandpack();
+const LocationOverride = ({ filenames }) => {
+  const { sandpack } = useSandpack();
   const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
@@ -73,7 +76,7 @@ const LocationOverride = ({filenames}) => {
   return (
     <div className={styles.shareButton}>
       <div
-        className={classNames(styles.copied, {[styles.active]: isCopied})}
+        className={classNames(styles.copied, { [styles.active]: isCopied })}
       ></div>
       <Button
         onClick={() => {
@@ -88,22 +91,21 @@ const LocationOverride = ({filenames}) => {
           setIsCopied(true);
         }}
       >
-        <Share1Icon/> Share Your Edits
+        <Share1Icon /> Share Your Edits
       </Button>
     </div>
   );
 };
 
 export const StandaloneSandpack = withoutSSR(
-  ({files, visibleFiles, activeFile, externalResources}) => {
+  ({ files, visibleFiles, activeFile, externalResources }) => {
     const [overrides] = useState(() => {
       if (location.hash.startsWith('#code')) {
         const code = location.hash.replace('#code', '').trim();
         let userCode;
         try {
           userCode = JSON.parse(decompressFromEncodedURIComponent(code));
-        } catch (err) {
-        }
+        } catch (err) {}
         return userCode || {};
       }
       return {};
@@ -126,10 +128,10 @@ export const StandaloneSandpack = withoutSSR(
           };
         }, {})}
       >
-        <LocationOverride filenames={Object.keys(files)}/>
+        <LocationOverride filenames={Object.keys(files)} />
         <div className={styles.standaloneWrapper}>
           <div className={styles.standaloneFileTree}>
-            <SandpackFileExplorer autoHiddenFiles/>
+            <SandpackFileExplorer autoHiddenFiles />
           </div>
           <div className={styles.standaloneEditor}>
             <SandpackCodeEditor
@@ -139,7 +141,7 @@ export const StandaloneSandpack = withoutSSR(
             />
           </div>
           <div className={styles.standalonePreview}>
-            <SandpackPreview showOpenInCodeSandbox={false}/>
+            <SandpackPreview showOpenInCodeSandbox={false} />
           </div>
         </div>
       </SandpackProvider>
@@ -148,15 +150,15 @@ export const StandaloneSandpack = withoutSSR(
 );
 
 const Sandpack = ({
-                    defaultShowPreview,
-                    preferPreview,
-                    files,
-                    visibleFiles,
-                    activeFile,
-                    externalResources,
-                    showFileTree,
-                    defaultShowCode,
-                  }) => {
+  defaultShowPreview,
+  preferPreview,
+  files,
+  visibleFiles,
+  activeFile,
+  externalResources,
+  showFileTree,
+  defaultShowCode,
+}) => {
   const [isPreviewEnabled, setIsPreviewEnabled] = useState(
     preferPreview || defaultShowPreview,
   );
@@ -172,7 +174,7 @@ const Sandpack = ({
   }, []);
 
   return (
-    <div className={styles.container} style={isReady ? {} : {opacity: '0'}}>
+    <div className={styles.container} style={isReady ? {} : { opacity: '0' }}>
       <SandpackProvider
         options={{
           autorun: defaultShowPreview,
@@ -216,7 +218,7 @@ const Sandpack = ({
               <div className={styles.codeArea}>
                 {showFileTree && (
                   <div className={styles.fileTree}>
-                    <SandpackFileExplorer autoHiddenFiles/>
+                    <SandpackFileExplorer autoHiddenFiles />
                   </div>
                 )}
                 <div className={styles.editor}>
@@ -245,7 +247,7 @@ const Sandpack = ({
           )}
           {isPreviewEnabled && !preferPreview && (
             <div className={styles.preview}>
-              <SandpackPreview showOpenInCodeSandbox={false}/>
+              <SandpackPreview showOpenInCodeSandbox={false} />
             </div>
           )}
         </div>
@@ -255,12 +257,12 @@ const Sandpack = ({
 };
 
 export const SandpackWithQuillTemplate = ({
-                                            files,
-                                            afterEditor,
-                                            beforeEditor,
-                                            content,
-                                            ...props
-                                          }) => {
+  files,
+  afterEditor,
+  beforeEditor,
+  content,
+  ...props
+}) => {
   return (
     <Sandpack
       {...props}

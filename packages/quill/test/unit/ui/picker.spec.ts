@@ -10,11 +10,11 @@ describe('Picker', () => {
       container.firstChild as HTMLSelectElement,
     );
     const pickerSelector = container.querySelector('.ql-picker') as HTMLElement;
-    return {container, pickerSelectorInstance, pickerSelector};
+    return { container, pickerSelectorInstance, pickerSelector };
   };
 
   test('initialization', () => {
-    const {container} = setup();
+    const { container } = setup();
     expect(container.querySelector('.ql-picker')).toBeTruthy();
     expect(container.querySelector('.ql-active')).toBeFalsy();
     expect(
@@ -30,7 +30,7 @@ describe('Picker', () => {
   });
 
   test('escape charcters', () => {
-    const {container} = setup();
+    const { container } = setup();
     const select = document.createElement('select');
     const option = document.createElement('option');
     container.appendChild(select);
@@ -42,7 +42,7 @@ describe('Picker', () => {
   });
 
   test('label is initialized with the correct aria attributes', () => {
-    const {pickerSelector} = setup();
+    const { pickerSelector } = setup();
     expect(
       pickerSelector
         .querySelector('.ql-picker-label')
@@ -57,7 +57,7 @@ describe('Picker', () => {
   });
 
   test('options container is initialized with the correct aria attributes', () => {
-    const {pickerSelector} = setup();
+    const { pickerSelector } = setup();
     expect(
       pickerSelector
         .querySelector('.ql-picker-options')
@@ -77,9 +77,9 @@ describe('Picker', () => {
   });
 
   test('aria attributes toggle correctly when the picker is opened via enter key', () => {
-    const {pickerSelector} = setup();
+    const { pickerSelector } = setup();
     const pickerLabel = pickerSelector.querySelector('.ql-picker-label');
-    pickerLabel?.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter'}));
+    pickerLabel?.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
     expect(pickerLabel?.getAttribute('aria-expanded')).toEqual('true');
     expect(
       pickerSelector
@@ -89,7 +89,7 @@ describe('Picker', () => {
   });
 
   test('aria attributes toggle correctly when the picker is opened via mousedown', () => {
-    const {pickerSelector} = setup();
+    const { pickerSelector } = setup();
     const pickerLabel = pickerSelector.querySelector('.ql-picker-label');
     pickerLabel?.dispatchEvent(
       new Event('mousedown', {
@@ -107,7 +107,7 @@ describe('Picker', () => {
   });
 
   test('aria attributes toggle correctly when an item is selected via click', () => {
-    const {pickerSelector} = setup();
+    const { pickerSelector } = setup();
     const pickerLabel = pickerSelector.querySelector(
       '.ql-picker-label',
     ) as HTMLElement;
@@ -127,7 +127,7 @@ describe('Picker', () => {
   });
 
   test('aria attributes toggle correctly when an item is selected via enter', () => {
-    const {pickerSelector} = setup();
+    const { pickerSelector } = setup();
     const pickerLabel = pickerSelector.querySelector(
       '.ql-picker-label',
     ) as HTMLElement;
@@ -135,7 +135,7 @@ describe('Picker', () => {
     const pickerItem = pickerSelector.querySelector(
       '.ql-picker-item',
     ) as HTMLElement;
-    pickerItem.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter'}));
+    pickerItem.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
     expect(pickerLabel?.getAttribute('aria-expanded')).toEqual('false');
     expect(
       pickerSelector
@@ -145,7 +145,7 @@ describe('Picker', () => {
   });
 
   test('aria attributes toggle correctly when the picker is closed via clicking on the label again', () => {
-    const {pickerSelector} = setup();
+    const { pickerSelector } = setup();
     const pickerLabel = pickerSelector.querySelector(
       '.ql-picker-label',
     ) as HTMLElement;
@@ -160,12 +160,12 @@ describe('Picker', () => {
   });
 
   test('aria attributes toggle correctly when the picker is closed via escaping out of it', () => {
-    const {pickerSelector} = setup();
+    const { pickerSelector } = setup();
     const pickerLabel = pickerSelector.querySelector(
       '.ql-picker-label',
     ) as HTMLElement;
     pickerLabel.click();
-    pickerLabel.dispatchEvent(new KeyboardEvent('keydown', {key: 'Escape'}));
+    pickerLabel.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(pickerLabel.getAttribute('aria-expanded')).toEqual('false');
     expect(
       pickerSelector

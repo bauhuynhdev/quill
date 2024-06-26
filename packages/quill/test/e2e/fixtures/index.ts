@@ -7,10 +7,10 @@ export const test = base.extend<{
   clipboard: Clipboard;
   composition: Composition;
 }>({
-  editorPage: ({page}, use) => {
+  editorPage: ({ page }, use) => {
     use(new EditorPage(page));
   },
-  composition: ({page, browserName}, use) => {
+  composition: ({ page, browserName }, use) => {
     test.fail(
       browserName !== 'chromium',
       'CDPSession is only available in Chromium',

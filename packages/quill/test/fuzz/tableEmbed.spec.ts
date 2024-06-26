@@ -1,7 +1,11 @@
 import type { AttributeMap } from 'quill-delta';
 import Delta from 'quill-delta';
-import type { CellData, TableData, TableRowColumnOp, } from '../../src/modules/tableEmbed.js';
 import TableEmbed from '../../src/modules/tableEmbed.js';
+import type {
+  CellData,
+  TableData,
+  TableRowColumnOp,
+} from '../../src/modules/tableEmbed.js';
 import { choose, randomInt } from './__helpers__/utils.js';
 import { beforeAll, describe, expect, test } from 'vitest';
 
@@ -68,7 +72,7 @@ const getRandomChange = (base: Delta) => {
       case 'insert':
         delta.retain(randomInt(baseLength + 1));
         delta.push(
-          attachAttributes({insert: {id: getRandomRowColumnId()}}),
+          attachAttributes({ insert: { id: getRandomRowColumnId() } }),
         );
         break;
       case 'delete':
@@ -80,7 +84,7 @@ const getRandomChange = (base: Delta) => {
       case 'retain':
         if (baseLength >= 1) {
           delta.retain(randomInt(baseLength));
-          delta.push(attachAttributes({retain: 1}));
+          delta.push(attachAttributes({ retain: 1 }));
         }
         break;
       default:
@@ -102,14 +106,14 @@ const getRandomChange = (base: Delta) => {
       }),
     };
   });
-  return new Delta([attachAttributes({retain: {'table-embed': table}})]);
+  return new Delta([attachAttributes({ retain: { 'table-embed': table } })]);
 };
 
 const getRandomRowColumnInsert = (count: number): TableRowColumnOp[] => {
   return new Array(count)
     .fill(0)
     .map<TableRowColumnOp>(() =>
-      attachAttributes({insert: {id: getRandomRowColumnId()}}),
+      attachAttributes({ insert: { id: getRandomRowColumnId() } }),
     );
 };
 
@@ -137,7 +141,7 @@ const getRandomBase = () => {
     });
     if (Object.keys(cells).length) table.cells = cells;
   }
-  return new Delta([{insert: {'table-embed': table}}]);
+  return new Delta([{ insert: { 'table-embed': table } }]);
 };
 
 const runTestCase = () => {

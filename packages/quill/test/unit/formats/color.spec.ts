@@ -1,6 +1,9 @@
 import Delta from 'quill-delta';
 import Editor from '../../../src/core/editor.js';
-import { createRegistry, createScroll as baseCreateScroll, } from '../__helpers__/factory.js';
+import {
+  createScroll as baseCreateScroll,
+  createRegistry,
+} from '../__helpers__/factory.js';
 import { ColorStyle } from '../../../src/formats/color.js';
 import { describe, expect, test } from 'vitest';
 import Bold from '../../../src/formats/bold.js';
@@ -11,9 +14,9 @@ const createScroll = (html: string) =>
 describe('Color', () => {
   test('add', () => {
     const editor = new Editor(createScroll('<p>0123</p>'));
-    editor.formatText(1, 2, {color: 'red'});
+    editor.formatText(1, 2, { color: 'red' });
     expect(editor.getDelta()).toEqual(
-      new Delta().insert('0').insert('12', {color: 'red'}).insert('3\n'),
+      new Delta().insert('0').insert('12', { color: 'red' }).insert('3\n'),
     );
     expect(editor.scroll.domNode).toEqualHTML(
       '<p>0<span style="color: red;">12</span>3</p>',
@@ -24,10 +27,10 @@ describe('Color', () => {
     const editor = new Editor(
       createScroll('<p>0<strong style="color: red;">12</strong>3</p>'),
     );
-    editor.formatText(1, 2, {color: false});
+    editor.formatText(1, 2, { color: false });
     const delta = new Delta()
       .insert('0')
-      .insert('12', {bold: true})
+      .insert('12', { bold: true })
       .insert('3\n');
     expect(editor.getDelta()).toEqual(delta);
     expect(editor.scroll.domNode).toEqualHTML('<p>0<strong>12</strong>3</p>');
@@ -37,14 +40,14 @@ describe('Color', () => {
     const editor = new Editor(
       createScroll('<p>0<span style="color: red;">12</span>3</p>'),
     );
-    editor.formatText(1, 2, {color: false});
+    editor.formatText(1, 2, { color: false });
     expect(editor.getDelta()).toEqual(new Delta().insert('0123\n'));
     expect(editor.scroll.domNode).toEqualHTML('<p>0123</p>');
   });
 
   test('invalid scope', () => {
     const editor = new Editor(createScroll('<p>0123</p>'));
-    editor.formatText(4, 1, {color: 'red'});
+    editor.formatText(4, 1, { color: 'red' });
     expect(editor.getDelta()).toEqual(new Delta().insert('0123\n'));
     expect(editor.scroll.domNode).toEqualHTML('<p>0123</p>');
   });

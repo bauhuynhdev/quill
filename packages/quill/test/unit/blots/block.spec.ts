@@ -1,5 +1,8 @@
 import { describe, expect, test } from 'vitest';
-import { createRegistry, createScroll as baseCreateScroll, } from '../__helpers__/factory.js';
+import {
+  createScroll as baseCreateScroll,
+  createRegistry,
+} from '../__helpers__/factory.js';
 import Header from '../../../src/formats/header.js';
 import Bold from '../../../src/formats/bold.js';
 

@@ -54,7 +54,7 @@ describe('Toolbar', () => {
 
     test('button value', () => {
       const container = createContainer();
-      addControls(container, ['bold', {header: '2'}]);
+      addControls(container, ['bold', { header: '2' }]);
       expect(container).toEqualHTML(`
         <span class="ql-formats">
           <button type="button" aria-label="bold" class="ql-bold" aria-pressed="false"></button>
@@ -65,7 +65,7 @@ describe('Toolbar', () => {
 
     test('select', () => {
       const container = createContainer();
-      addControls(container, [{size: ['10px', false, '18px', '32px']}]);
+      addControls(container, [{ size: ['10px', false, '18px', '32px'] }]);
       expect(container).toEqualHTML(`
         <span class="ql-formats">
           <select class="ql-size">
@@ -82,14 +82,14 @@ describe('Toolbar', () => {
       const container = createContainer();
       addControls(container, [
         [
-          {font: [false, 'sans-serif', 'monospace']},
-          {size: ['10px', false, '18px', '32px']},
+          { font: [false, 'sans-serif', 'monospace'] },
+          { size: ['10px', false, '18px', '32px'] },
         ],
         ['bold', 'italic', 'underline', 'strike'],
         [
-          {list: 'ordered'},
-          {list: 'bullet'},
-          {align: [false, 'center', 'right', 'justify']},
+          { list: 'ordered' },
+          { list: 'bullet' },
+          { align: [false, 'center', 'right', 'justify'] },
         ],
         ['link', 'image'],
       ]);
@@ -160,18 +160,18 @@ describe('Toolbar', () => {
         modules: {
           toolbar: [
             ['bold', 'link'],
-            [{size: ['small', false, 'large']}],
-            [{align: ''}, {align: 'center'}],
+            [{ size: ['small', false, 'large'] }],
+            [{ align: '' }, { align: 'center' }],
           ],
         },
         theme: 'snow',
         registry: createRegistry([SizeClass, Bold, AlignClass, Link]),
       });
-      return {container, quill};
+      return { container, quill };
     };
 
     test('toggle button', () => {
-      const {container, quill} = setup();
+      const { container, quill } = setup();
       const boldButton = container.parentNode?.querySelector(
         'button.ql-bold',
       ) as HTMLButtonElement;
@@ -184,7 +184,7 @@ describe('Toolbar', () => {
     });
 
     test('link', () => {
-      const {container, quill} = setup();
+      const { container, quill } = setup();
       const linkButton = container.parentNode?.querySelector(
         'button.ql-link',
       ) as HTMLButtonElement;
@@ -197,7 +197,7 @@ describe('Toolbar', () => {
     });
 
     test('dropdown', () => {
-      const {container, quill} = setup();
+      const { container, quill } = setup();
       const sizeSelect = container.parentNode?.querySelector(
         'select.ql-size',
       ) as HTMLSelectElement;
@@ -212,7 +212,7 @@ describe('Toolbar', () => {
     });
 
     test('custom button', () => {
-      const {container, quill} = setup();
+      const { container, quill } = setup();
       const centerButton = container.parentNode?.querySelector(
         'button.ql-align[value="center"]',
       ) as HTMLButtonElement;
@@ -237,7 +237,7 @@ describe('Toolbar', () => {
     });
 
     test('update on format', () => {
-      const {container, quill} = setup();
+      const { container, quill } = setup();
       const boldButton = container?.parentNode?.querySelector('button.ql-bold');
       quill.setSelection(1, 2);
       expect(boldButton?.classList.contains('ql-active')).toBe(false);

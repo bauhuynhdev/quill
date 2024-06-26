@@ -1,6 +1,8 @@
 import '../../../src/quill.js';
 import { describe, expect, test } from 'vitest';
-import UINode, { TTL_FOR_VALID_SELECTION_CHANGE, } from '../../../src/modules/uiNode.js';
+import UINode, {
+  TTL_FOR_VALID_SELECTION_CHANGE,
+} from '../../../src/modules/uiNode.js';
 import Quill, { Delta } from '../../../src/core.js';
 
 // Fake timer is not supported in browser mode yet.
@@ -11,19 +13,19 @@ describe('uiNode', () => {
     const quill = new Quill(document.createElement('div'));
     document.body.appendChild(quill.container);
     quill.setContents(
-      new Delta().insert('item 1').insert('\n', {list: 'bullet'}),
+      new Delta().insert('item 1').insert('\n', { list: 'bullet' }),
     );
     new UINode(quill, {});
 
     for (let i = 0; i < 2; i += 1) {
       quill.root.dispatchEvent(
-        new KeyboardEvent('keydown', {key: 'ArrowRight', metaKey: true}),
+        new KeyboardEvent('keydown', { key: 'ArrowRight', metaKey: true }),
       );
       await delay(TTL_FOR_VALID_SELECTION_CHANGE / 2);
     }
 
     quill.root.dispatchEvent(
-      new KeyboardEvent('keydown', {key: 'ArrowLeft', metaKey: true}),
+      new KeyboardEvent('keydown', { key: 'ArrowLeft', metaKey: true }),
     );
     const range = document.createRange();
     range.setStart(quill.root.querySelector('li')!, 0);

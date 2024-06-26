@@ -9,11 +9,9 @@
 #toolbar .ql-font span[data-label='Aref Ruqaa']::before {
   font-family: 'Aref Ruqaa';
 }
-
 #toolbar .ql-font span[data-label='Mirza']::before {
   font-family: 'Mirza';
 }
-
 #toolbar .ql-font span[data-label='Roboto']::before {
   font-family: 'Roboto';
 }
@@ -22,9 +20,7 @@
 .ql-font-mirza {
   font-family: 'Mirza';
 }
-
 .ql-font-roboto {
   font-family: 'Roboto';
 }
-
 /* We do not set Aref Ruqaa since it is the default font */

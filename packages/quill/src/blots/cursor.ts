@@ -1,5 +1,5 @@
-import type { Parent, ScrollBlot } from 'parchment';
 import { EmbedBlot, Scope } from 'parchment';
+import type { Parent, ScrollBlot } from 'parchment';
 import type Selection from '../core/selection.js';
 import TextBlot from './text.js';
 import type { EmbedContextRange } from './embed.js';
@@ -9,6 +9,11 @@ class Cursor extends EmbedBlot {
   static className = 'ql-cursor';
   static tagName = 'span';
   static CONTENTS = '\uFEFF'; // Zero width no break space
+
+  static value() {
+    return undefined;
+  }
+
   selection: Selection;
   textNode: Text;
   savedLength: number;
@@ -19,10 +24,6 @@ class Cursor extends EmbedBlot {
     this.textNode = document.createTextNode(Cursor.CONTENTS);
     this.domNode.appendChild(this.textNode);
     this.savedLength = 0;
-  }
-
-  static value() {
-    return undefined;
   }
 
   detach() {
@@ -79,7 +80,7 @@ class Cursor extends EmbedBlot {
     while (
       this.domNode.lastChild != null &&
       this.domNode.lastChild !== this.textNode
-      ) {
+    ) {
       // @ts-expect-error Fix me later
       this.domNode.parentNode.insertBefore(
         this.domNode.lastChild,
@@ -92,7 +93,7 @@ class Cursor extends EmbedBlot {
     const nextTextBlot = this.next instanceof TextBlot ? this.next : null;
     // @ts-expect-error TODO: make TextBlot.text public
     const nextText = nextTextBlot ? nextTextBlot.text : '';
-    const {textNode} = this;
+    const { textNode } = this;
     // take text from inside this blot and reset it
     const newText = textNode.data.split(Cursor.CONTENTS).join('');
     textNode.data = Cursor.CONTENTS;
@@ -176,7 +177,7 @@ class Cursor extends EmbedBlot {
     // @ts-expect-error Fix me later
     super.optimize(context);
 
-    let {parent} = this;
+    let { parent } = this;
     while (parent) {
       if (parent.domNode.tagName === 'A') {
         this.savedLength = Cursor.CONTENTS.length;

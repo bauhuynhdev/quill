@@ -1,5 +1,8 @@
 import Delta from 'quill-delta';
-import { createRegistry, createScroll as baseCreateScroll, } from '../__helpers__/factory.js';
+import {
+  createScroll as baseCreateScroll,
+  createRegistry,
+} from '../__helpers__/factory.js';
 import Editor from '../../../src/core/editor.js';
 import Link from '../../../src/formats/link.js';
 import { describe, expect, test } from 'vitest';
@@ -11,11 +14,11 @@ const createScroll = (html: string) =>
 describe('Link', () => {
   test('add', () => {
     const editor = new Editor(createScroll('<p>0123</p>'));
-    editor.formatText(1, 2, {link: 'https://quilljs.com'});
+    editor.formatText(1, 2, { link: 'https://quilljs.com' });
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('0')
-        .insert('12', {link: 'https://quilljs.com'})
+        .insert('12', { link: 'https://quilljs.com' })
         .insert('3\n'),
     );
     expect(editor.scroll.domNode).toEqualHTML(
@@ -25,22 +28,22 @@ describe('Link', () => {
 
   test('add invalid', () => {
     const editor = new Editor(createScroll('<p>0123</p>'));
-    editor.formatText(1, 2, {link: 'javascript:alert(0);'}); // eslint-disable-line no-script-url
+    editor.formatText(1, 2, { link: 'javascript:alert(0);' }); // eslint-disable-line no-script-url
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('0')
-        .insert('12', {link: Link.SANITIZED_URL})
+        .insert('12', { link: Link.SANITIZED_URL })
         .insert('3\n'),
     );
   });
 
   test('add non-whitelisted protocol', () => {
     const editor = new Editor(createScroll('<p>0123</p>'));
-    editor.formatText(1, 2, {link: 'gopher://quilljs.com'});
+    editor.formatText(1, 2, { link: 'gopher://quilljs.com' });
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('0')
-        .insert('12', {link: Link.SANITIZED_URL})
+        .insert('12', { link: Link.SANITIZED_URL })
         .insert('3\n'),
     );
     expect(editor.scroll.domNode).toEqualHTML(
@@ -54,11 +57,11 @@ describe('Link', () => {
         '<p>0<a href="https://github.com" target="_blank" rel="noopener noreferrer">12</a>3</p>',
       ),
     );
-    editor.formatText(1, 2, {link: 'https://quilljs.com'});
+    editor.formatText(1, 2, { link: 'https://quilljs.com' });
     expect(editor.getDelta()).toEqual(
       new Delta()
         .insert('0')
-        .insert('12', {link: 'https://quilljs.com'})
+        .insert('12', { link: 'https://quilljs.com' })
         .insert('3\n'),
     );
     expect(editor.scroll.domNode).toEqualHTML(
@@ -72,10 +75,10 @@ describe('Link', () => {
         '<p>0<a class="ql-size-large" href="https://quilljs.com" rel="noopener noreferrer" target="_blank">12</a>3</p>',
       ),
     );
-    editor.formatText(1, 2, {link: false});
+    editor.formatText(1, 2, { link: false });
     const delta = new Delta()
       .insert('0')
-      .insert('12', {size: 'large'})
+      .insert('12', { size: 'large' })
       .insert('3\n');
     expect(editor.getDelta()).toEqual(delta);
     expect(editor.scroll.domNode).toEqualHTML(

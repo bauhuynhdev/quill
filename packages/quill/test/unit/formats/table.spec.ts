@@ -1,8 +1,16 @@
 import Delta from 'quill-delta';
 import Editor from '../../../src/core/editor.js';
-import { createRegistry, createScroll as baseCreateScroll, } from '../__helpers__/factory.js';
+import {
+  createScroll as baseCreateScroll,
+  createRegistry,
+} from '../__helpers__/factory.js';
 import { describe, expect, test } from 'vitest';
-import { TableBody, TableCell, TableContainer, TableRow, } from '../../../src/formats/table.js';
+import {
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+} from '../../../src/formats/table.js';
 import Header from '../../../src/formats/header.js';
 
 const createScroll = (html: string) =>
@@ -13,23 +21,23 @@ const createScroll = (html: string) =>
 
 const tableDelta = new Delta()
   .insert('A1')
-  .insert('\n', {table: 'a'})
+  .insert('\n', { table: 'a' })
   .insert('A2')
-  .insert('\n', {table: 'a'})
+  .insert('\n', { table: 'a' })
   .insert('A3')
-  .insert('\n', {table: 'a'})
+  .insert('\n', { table: 'a' })
   .insert('B1')
-  .insert('\n', {table: 'b'})
+  .insert('\n', { table: 'b' })
   .insert('B2')
-  .insert('\n', {table: 'b'})
+  .insert('\n', { table: 'b' })
   .insert('B3')
-  .insert('\n', {table: 'b'})
+  .insert('\n', { table: 'b' })
   .insert('C1')
-  .insert('\n', {table: 'c'})
+  .insert('\n', { table: 'c' })
   .insert('C2')
-  .insert('\n', {table: 'c'})
+  .insert('\n', { table: 'c' })
   .insert('C3')
-  .insert('\n', {table: 'c'});
+  .insert('\n', { table: 'c' });
 
 const tableHTML = `
   <table>
@@ -68,7 +76,7 @@ describe('Table', () => {
 
   test('add format plaintext', () => {
     const editor = new Editor(createScroll('<p>Test</p>'));
-    editor.formatLine(0, 5, {table: 'a'});
+    editor.formatLine(0, 5, { table: 'a' });
     expect(editor.scroll.domNode).toEqualHTML(`
       <table>
         <tbody>
@@ -82,7 +90,7 @@ describe('Table', () => {
 
   test('add format replace', () => {
     const editor = new Editor(createScroll('<h1>Test</h1>'));
-    editor.formatLine(0, 5, {table: 'a'});
+    editor.formatLine(0, 5, { table: 'a' });
     expect(editor.scroll.domNode).toEqualHTML(`
       <table>
         <tbody>
@@ -98,7 +106,7 @@ describe('Table', () => {
     const editor = new Editor(
       createScroll('<table><tr><td data-row="a">Test</td></tr></table>'),
     );
-    editor.formatLine(0, 5, {table: null});
+    editor.formatLine(0, 5, { table: null });
     expect(editor.scroll.domNode).toEqualHTML('<p>Test</p>');
   });
 
@@ -106,7 +114,7 @@ describe('Table', () => {
     const editor = new Editor(
       createScroll('<table><tr><td data-row="a">Test</td></tr></table>'),
     );
-    editor.formatLine(0, 5, {header: 1});
+    editor.formatLine(0, 5, { header: 1 });
     expect(editor.scroll.domNode).toEqualHTML('<h1>Test</h1>');
   });
 
@@ -241,8 +249,8 @@ describe('Table', () => {
 
   test('format', () => {
     const editor = new Editor(createScroll('<p>a</p><p>b</p><p>1</p><p>2</p>'));
-    editor.formatLine(0, 4, {table: 'a'});
-    editor.formatLine(4, 4, {table: 'b'});
+    editor.formatLine(0, 4, { table: 'a' });
+    editor.formatLine(4, 4, { table: 'b' });
     expect(editor.scroll.domNode).toEqualHTML(`
       <table>
         <tbody>
@@ -262,7 +270,7 @@ describe('Table', () => {
   test('applyDelta', () => {
     const editor = new Editor(createScroll('<p><br /></p>'));
     editor.applyDelta(
-      new Delta().insert('\n\n', {table: 'a'}).insert('\n\n', {table: 'b'}),
+      new Delta().insert('\n\n', { table: 'a' }).insert('\n\n', { table: 'b' }),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <table>
@@ -285,9 +293,9 @@ describe('Table', () => {
     const editor = new Editor(createScroll('<p><br /></p>'));
     editor.applyDelta(
       new Delta()
-        .insert('A1\nB1\nC1\n', {table: '1'})
-        .insert('A2\nB2\nC2\n', {table: '2'})
-        .insert('A3\nB3\n', {table: '3'}),
+        .insert('A1\nB1\nC1\n', { table: '1' })
+        .insert('A2\nB2\nC2\n', { table: '2' })
+        .insert('A3\nB3\n', { table: '3' }),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <table>
@@ -332,8 +340,8 @@ describe('Table', () => {
     editor.applyDelta(
       new Delta()
         .retain(3)
-        .retain(1, {table: '1'})
-        .insert('\n', {table: '2'}),
+        .retain(1, { table: '1' })
+        .insert('\n', { table: '2' }),
     );
     expect(editor.scroll.domNode).toEqualHTML(`
       <table>

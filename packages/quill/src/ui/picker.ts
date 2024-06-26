@@ -181,7 +181,7 @@ class Picker {
         // @ts-expect-error Fix me later
         this.container.querySelector('.ql-picker-options').children[
           this.select.selectedIndex
-          ];
+        ];
       option = this.select.options[this.select.selectedIndex];
       // @ts-expect-error
       this.selectItem(item);

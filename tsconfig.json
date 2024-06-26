@@ -17,7 +17,5 @@
     "noImplicitAny": true,
     "noUnusedLocals": true
   },
-  "include": [
-    "./**/*"
-  ]
+  "include": ["./**/*"]
 }

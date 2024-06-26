@@ -1,16 +1,17 @@
 import { merge } from 'lodash-es';
 import Emitter from '../core/emitter.js';
 import BaseTheme, { BaseTooltip } from './base.js';
-import type { Bounds } from '../core/selection.js';
 import { Range } from '../core/selection.js';
+import type { Bounds } from '../core/selection.js';
 import icons from '../ui/icons.js';
 import Quill from '../core/quill.js';
 import type { ThemeOptions } from '../core/theme.js';
-import type Toolbar, { ToolbarConfig } from '../modules/toolbar.js';
+import type Toolbar from '../modules/toolbar.js';
+import type { ToolbarConfig } from '../modules/toolbar.js';
 
 const TOOLBAR_CONFIG: ToolbarConfig = [
   ['bold', 'italic', 'link'],
-  [{header: 1}, {header: 2}, 'blockquote'],
+  [{ header: 1 }, { header: 2 }, 'blockquote'],
 ];
 
 class BubbleTooltip extends BaseTooltip {
@@ -128,7 +129,6 @@ class BubbleTheme extends BaseTheme {
     }
   }
 }
-
 BubbleTheme.DEFAULTS = merge({}, BaseTheme.DEFAULTS, {
   modules: {
     toolbar: {

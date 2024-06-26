@@ -42,7 +42,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: [ chromium, webkit, firefox ]
+        browser: [chromium, webkit, firefox]
 
     steps:
       - name: Git checkout

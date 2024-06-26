@@ -6,7 +6,7 @@ export function getSelectionInTextNode() {
   if (!selection) {
     throw new Error('Selection is null');
   }
-  const {anchorNode, anchorOffset, focusNode, focusOffset} = selection;
+  const { anchorNode, anchorOffset, focusNode, focusOffset } = selection;
   return JSON.stringify([
     (anchorNode as Text).data,
     anchorOffset,

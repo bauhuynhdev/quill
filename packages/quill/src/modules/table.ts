@@ -1,19 +1,25 @@
 import Delta from 'quill-delta';
 import Quill from '../core/quill.js';
 import Module from '../core/module.js';
-import { TableBody, TableCell, TableContainer, tableId, TableRow, } from '../formats/table.js';
+import {
+  TableCell,
+  TableRow,
+  TableBody,
+  TableContainer,
+  tableId,
+} from '../formats/table.js';
 
 class Table extends Module {
-  constructor(...args: ConstructorParameters<typeof Module>) {
-    super(...args);
-    this.listenBalanceCells();
-  }
-
   static register() {
     Quill.register(TableCell);
     Quill.register(TableRow);
     Quill.register(TableBody);
     Quill.register(TableContainer);
+  }
+
+  constructor(...args: ConstructorParameters<typeof Module>) {
+    super(...args);
+    this.listenBalanceCells();
   }
 
   balanceTables() {
@@ -121,7 +127,7 @@ class Table extends Module {
     if (range == null) return;
     const delta = new Array(rows).fill(0).reduce((memo) => {
       const text = new Array(columns).fill('\n').join('');
-      return memo.insert(text, {table: tableId()});
+      return memo.insert(text, { table: tableId() });
     }, new Delta().retain(range.index));
     this.quill.updateContents(delta, Quill.sources.USER);
     this.quill.setSelection(range.index, Quill.sources.SILENT);

@@ -1,7 +1,7 @@
 import Selection, { Range } from '../../../src/core/selection.js';
 import Cursor from '../../../src/blots/cursor.js';
 import Emitter from '../../../src/core/emitter.js';
-import { describe, expect, test } from 'vitest';
+import { expect, describe, test } from 'vitest';
 import { createRegistry, createScroll } from '../__helpers__/factory.js';
 import Bold from '../../../src/formats/bold.js';
 import Underline from '../../../src/formats/underline.js';
@@ -44,18 +44,18 @@ describe('Selection', () => {
       document.body.appendChild(container);
       textarea.focus();
       textarea.select();
-      return {selection, textarea};
+      return { selection, textarea };
     };
 
     test('initial focus', () => {
-      const {selection} = setupTest();
+      const { selection } = setupTest();
       expect(selection.hasFocus()).toBe(false);
       selection.focus();
       expect(selection.hasFocus()).toBe(true);
     });
 
     test('restore last range', () => {
-      const {selection, textarea} = setupTest();
+      const { selection, textarea } = setupTest();
       const range = new Range(1, 2);
       selection.setRange(range);
       textarea.focus();
@@ -508,11 +508,11 @@ describe('Selection', () => {
       };
       div.remove();
 
-      return {reference, container};
+      return { reference, container };
     };
 
     test('empty document', () => {
-      const {reference, container} = setup();
+      const { reference, container } = setup();
       const selection = createSelection('<p><br></p>', container);
       const bounds = selection.getBounds(0);
       expect(bounds?.left).approximately(reference.left, 3);
@@ -521,7 +521,7 @@ describe('Selection', () => {
     });
 
     test('empty line', () => {
-      const {reference, container} = setup();
+      const { reference, container } = setup();
       const selection = createSelection(
         `
         <p>0000</p>
@@ -539,7 +539,7 @@ describe('Selection', () => {
     });
 
     test('plain text', () => {
-      const {reference, container} = setup();
+      const { reference, container } = setup();
       const selection = createSelection('<p>0123</p>', container);
       const bounds = selection.getBounds(2);
       expect(bounds?.left).approximately(
@@ -551,7 +551,7 @@ describe('Selection', () => {
     });
 
     test('multiple characters', () => {
-      const {reference, container} = setup();
+      const { reference, container } = setup();
       const selection = createSelection('<p>0123</p>', container);
       const bounds = selection.getBounds(1, 2);
       expect(bounds?.left).approximately(reference.left + reference.width, 2);
@@ -561,7 +561,7 @@ describe('Selection', () => {
     });
 
     test('start of line', () => {
-      const {reference, container} = setup();
+      const { reference, container } = setup();
       const selection = createSelection(
         `
         <p>0000</p>
@@ -578,7 +578,7 @@ describe('Selection', () => {
     });
 
     test('end of line', () => {
-      const {reference, container} = setup();
+      const { reference, container } = setup();
       const selection = createSelection(
         `
         <p>0000</p>
@@ -599,7 +599,7 @@ describe('Selection', () => {
     });
 
     test('selection starting at end of text node', () => {
-      const {reference, container} = setup();
+      const { reference, container } = setup();
       container.style.width = `${reference.width * 4}px`;
       const selection = createSelection(
         `
@@ -615,7 +615,7 @@ describe('Selection', () => {
     });
 
     test('multiple lines', () => {
-      const {reference, container} = setup();
+      const { reference, container } = setup();
       const selection = createSelection(
         `
         <p>0000</p>
@@ -631,7 +631,7 @@ describe('Selection', () => {
     });
 
     test('large text', () => {
-      const {reference, container} = setup();
+      const { reference, container } = setup();
       const selection = createSelection(
         '<p><span class="ql-size-large">0000</span></p>',
         container,
@@ -647,7 +647,7 @@ describe('Selection', () => {
     });
 
     test('image', () => {
-      const {reference, container} = setup();
+      const { reference, container } = setup();
       const selection = createSelection(
         `
         <p>

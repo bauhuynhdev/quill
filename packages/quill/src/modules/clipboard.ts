@@ -1,5 +1,12 @@
 import type { ScrollBlot } from 'parchment';
-import { Attributor, BlockBlot, ClassAttributor, EmbedBlot, Scope, StyleAttributor, } from 'parchment';
+import {
+  Attributor,
+  BlockBlot,
+  ClassAttributor,
+  EmbedBlot,
+  Scope,
+  StyleAttributor,
+} from 'parchment';
 import Delta from 'quill-delta';
 import { BlockEmbed } from '../blots/block.js';
 import type { EmitterSource } from '../core/emitter.js';
@@ -91,7 +98,7 @@ class Clipboard extends Module<ClipboardOptions> {
   }
 
   convert(
-    {html, text}: { html?: string; text?: string },
+    { html, text }: { html?: string; text?: string },
     formats: Record<string, unknown> = {},
   ) {
     if (formats[CodeBlock.blotName]) {
@@ -113,26 +120,46 @@ class Clipboard extends Module<ClipboardOptions> {
     return delta;
   }
 
-  dangerouslyPasteHTML(html: string, source?: EmitterSource): void;
+  protected normalizeHTML(doc: Document) {
+    normalizeExternalHTML(doc);
+  }
 
+  protected convertHTML(html: string) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    this.normalizeHTML(doc);
+    const container = doc.body;
+    const nodeMatches = new WeakMap();
+    const [elementMatchers, textMatchers] = this.prepareMatching(
+      container,
+      nodeMatches,
+    );
+    return traverse(
+      this.quill.scroll,
+      container,
+      elementMatchers,
+      textMatchers,
+      nodeMatches,
+    );
+  }
+
+  dangerouslyPasteHTML(html: string, source?: EmitterSource): void;
   dangerouslyPasteHTML(
     index: number,
     html: string,
     source?: EmitterSource,
   ): void;
-
   dangerouslyPasteHTML(
     index: number | string,
     html?: string,
     source: EmitterSource = Quill.sources.API,
   ) {
     if (typeof index === 'string') {
-      const delta = this.convert({html: index, text: ''});
+      const delta = this.convert({ html: index, text: '' });
       // @ts-expect-error
       this.quill.setContents(delta, html);
       this.quill.setSelection(0, Quill.sources.SILENT);
     } else {
-      const paste = this.convert({html, text: ''});
+      const paste = this.convert({ html, text: '' });
       this.quill.updateContents(
         new Delta().retain(index).concat(paste),
         source,
@@ -146,12 +173,25 @@ class Clipboard extends Module<ClipboardOptions> {
     e.preventDefault();
     const [range] = this.quill.selection.getRange();
     if (range == null) return;
-    const {html, text} = this.onCopy(range, isCut);
+    const { html, text } = this.onCopy(range, isCut);
     e.clipboardData?.setData('text/plain', text);
     e.clipboardData?.setData('text/html', html);
     if (isCut) {
-      deleteRange({range, quill: this.quill});
+      deleteRange({ range, quill: this.quill });
     }
+  }
+
+  /*
+   * https://www.iana.org/assignments/media-types/text/uri-list
+   */
+  private normalizeURIList(urlList: string) {
+    return (
+      urlList
+        .split(/\r?\n/)
+        // Ignore all comments
+        .filter((url) => url[0] !== '#')
+        .join('\n')
+    );
   }
 
   onCapturePaste(e: ClipboardEvent) {
@@ -183,21 +223,20 @@ class Clipboard extends Module<ClipboardOptions> {
     //     return;
     //   }
     // }
-    this.onPaste(range, {html, text});
+    this.onPaste(range, { html, text });
   }
 
   onCopy(range: Range, isCut: boolean): { html: string; text: string };
-
   onCopy(range: Range) {
     const text = this.quill.getText(range);
     const html = this.quill.getSemanticHTML(range);
-    return {html, text};
+    return { html, text };
   }
 
-  onPaste(range: Range, {text, html}: { text?: string; html?: string }) {
+  onPaste(range: Range, { text, html }: { text?: string; html?: string }) {
     const formats = this.quill.getFormat(range.index);
-    const pastedDelta = this.convert({text, html}, formats);
-    debug.log('onPaste', pastedDelta, {text, html});
+    const pastedDelta = this.convert({ text, html }, formats);
+    debug.log('onPaste', pastedDelta, { text, html });
     const delta = new Delta()
       .retain(range.index)
       .delete(range.length)
@@ -237,41 +276,6 @@ class Clipboard extends Module<ClipboardOptions> {
     });
     return [elementMatchers, textMatchers];
   }
-
-  protected normalizeHTML(doc: Document) {
-    normalizeExternalHTML(doc);
-  }
-
-  protected convertHTML(html: string) {
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    this.normalizeHTML(doc);
-    const container = doc.body;
-    const nodeMatches = new WeakMap();
-    const [elementMatchers, textMatchers] = this.prepareMatching(
-      container,
-      nodeMatches,
-    );
-    return traverse(
-      this.quill.scroll,
-      container,
-      elementMatchers,
-      textMatchers,
-      nodeMatches,
-    );
-  }
-
-  /*
-   * https://www.iana.org/assignments/media-types/text/uri-list
-   */
-  private normalizeURIList(urlList: string) {
-    return (
-      urlList
-        .split(/\r?\n/)
-        // Ignore all comments
-        .filter((url) => url[0] !== '#')
-        .join('\n')
-    );
-  }
 }
 
 function applyFormat(
@@ -289,8 +293,8 @@ function applyFormat(
     if (op.attributes && op.attributes[format]) {
       return newDelta.push(op);
     }
-    const formats = value ? {[format]: value} : {};
-    return newDelta.insert(op.insert, {...formats, ...op.attributes});
+    const formats = value ? { [format]: value } : {};
+    return newDelta.insert(op.insert, { ...formats, ...op.attributes });
   }, new Delta());
 }
 
@@ -362,7 +366,6 @@ function isBetweenInlineElements(node: HTMLElement, scroll: ScrollBlot) {
 }
 
 const preNodes = new WeakMap();
-
 function isPre(node: Node | null) {
   if (node == null) return false;
   if (!preNodes.has(node)) {
@@ -532,7 +535,7 @@ function matchIndent(node: Node, delta: Delta, scroll: ScrollBlot) {
     if (op.attributes && typeof op.attributes.indent === 'number') {
       return composed.push(op);
     }
-    return composed.insert(op.insert, {indent, ...(op.attributes || {})});
+    return composed.insert(op.insert, { indent, ...(op.attributes || {}) });
   }, new Delta());
 }
 

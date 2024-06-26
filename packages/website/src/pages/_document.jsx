@@ -1,4 +1,4 @@
-import { Head, Html, Main, NextScript } from 'next/document';
+import { Html, Head, Main, NextScript } from 'next/document';
 import Script from 'next/script';
 import { getSandpackCssText } from '@codesandbox/sandpack-react';
 
@@ -23,9 +23,9 @@ export default function Document() {
           type="image/x-icon"
           href="/assets/images/favicon.ico"
         />
-        <link rel="stylesheet" href={`${process.env.katex}/katex.min.css`}/>
-        <link rel="stylesheet" href={`${process.env.cdn}/quill.snow.css`}/>
-        <link rel="stylesheet" href={`${process.env.cdn}/quill.bubble.css`}/>
+        <link rel="stylesheet" href={`${process.env.katex}/katex.min.css`} />
+        <link rel="stylesheet" href={`${process.env.cdn}/quill.snow.css`} />
+        <link rel="stylesheet" href={`${process.env.cdn}/quill.bubble.css`} />
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"
@@ -43,14 +43,14 @@ export default function Document() {
           href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css"
         />
         <style
-          dangerouslySetInnerHTML={{__html: getSandpackCssText()}}
+          dangerouslySetInnerHTML={{ __html: getSandpackCssText() }}
           id="sandpack"
           key="sandpack-css"
         />
       </Head>
       <body>
-      <Main/>
-      <NextScript/>
+        <Main />
+        <NextScript />
       </body>
     </Html>
   );

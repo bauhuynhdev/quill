@@ -1,16 +1,17 @@
-import { Button, Select } from '@radix-ui/themes';
+import { Select } from '@radix-ui/themes';
 import classNames from 'classnames';
 import styles from './PlaygroundLayout.module.scss';
 import playground from '../data/playground';
+import { Button } from '@radix-ui/themes';
 import { Share1Icon } from '@radix-ui/react-icons';
 import { useRouter } from 'next/navigation';
 import { useSandpack } from '@codesandbox/sandpack-react';
 import { compressToEncodedURIComponent } from 'lz-string';
 import { useEffect, useState } from 'react';
 
-const PlaygroundLayout = ({children, permalink, title, files}) => {
+const PlaygroundLayout = ({ children, permalink, title, files }) => {
   const router = useRouter();
-  const {sandpack} = useSandpack();
+  const { sandpack } = useSandpack();
 
   const [isCopied, setIsCopied] = useState(false);
 
@@ -28,7 +29,7 @@ const PlaygroundLayout = ({children, permalink, title, files}) => {
   return (
     <>
       <div
-        className={classNames(styles.copied, {[styles.active]: isCopied})}
+        className={classNames(styles.copied, { [styles.active]: isCopied })}
       ></div>
       <div className={styles.panel}>
         <div className={styles.exampleSelector}>
@@ -39,7 +40,7 @@ const PlaygroundLayout = ({children, permalink, title, files}) => {
               router.push(v);
             }}
           >
-            <Select.Trigger/>
+            <Select.Trigger />
             <Select.Content position="popper">
               <Select.Group>
                 {playground.map((p) => {
@@ -69,7 +70,7 @@ const PlaygroundLayout = ({children, permalink, title, files}) => {
               setIsCopied(true);
             }}
           >
-            <Share1Icon/> Share Your Edits
+            <Share1Icon /> Share Your Edits
           </Button>
         </div>
       </div>

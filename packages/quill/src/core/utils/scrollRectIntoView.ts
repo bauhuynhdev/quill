@@ -67,15 +67,15 @@ const scrollRectIntoView = (root: HTMLElement, targetRect: Rect) => {
     const isDocumentBody: boolean = current === document.body;
     const bounding = isDocumentBody
       ? {
-        top: 0,
-        right:
-          window.visualViewport?.width ??
-          document.documentElement.clientWidth,
-        bottom:
-          window.visualViewport?.height ??
-          document.documentElement.clientHeight,
-        left: 0,
-      }
+          top: 0,
+          right:
+            window.visualViewport?.width ??
+            document.documentElement.clientWidth,
+          bottom:
+            window.visualViewport?.height ??
+            document.documentElement.clientHeight,
+          left: 0,
+        }
       : getElementRect(current);
 
     const style = getComputedStyle(current);
@@ -99,7 +99,7 @@ const scrollRectIntoView = (root: HTMLElement, targetRect: Rect) => {
       if (isDocumentBody) {
         document.defaultView?.scrollBy(scrollDistanceX, scrollDistanceY);
       } else {
-        const {scrollLeft, scrollTop} = current;
+        const { scrollLeft, scrollTop } = current;
         if (scrollDistanceY) {
           current.scrollTop += scrollDistanceY;
         }

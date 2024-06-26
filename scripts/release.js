@@ -4,12 +4,12 @@ const exec = require("node:child_process").execSync;
 const fs = require("node:fs");
 const path = require("node:path");
 const crypto = require("node:crypto");
-const {parseArgs} = require("node:util");
+const { parseArgs } = require("node:util");
 
 const args = parseArgs({
   options: {
-    version: {type: "string"},
-    "dry-run": {type: "boolean", default: false},
+    version: { type: "string" },
+    "dry-run": { type: "boolean", default: false },
   },
 });
 
@@ -147,4 +147,4 @@ if (distTag === "experimental") {
 /*
  * Create npm package tarball
  */
-exec("npm pack", {cwd: distFolder});
+exec("npm pack", { cwd: distFolder });

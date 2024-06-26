@@ -1,5 +1,5 @@
-import type { Attributor } from 'parchment';
 import { Registry } from 'parchment';
+import type { Attributor } from 'parchment';
 
 import Block from '../../../src/blots/block.js';
 import Break from '../../../src/blots/break.js';

@@ -4,7 +4,14 @@ import { Highlight, themes } from 'prism-react-renderer';
 import api from '../data/api';
 import Sandpack, { SandpackWithQuillTemplate } from './Sandpack';
 import Editor from './Editor';
-import { Heading1, Heading2, Heading3, Heading4, Heading5, Heading6, } from './Heading';
+import {
+  Heading1,
+  Heading2,
+  Heading3,
+  Heading4,
+  Heading5,
+  Heading6,
+} from './Heading';
 import Hint from './Hint';
 import SEO from './SEO';
 import Link from './Link';
@@ -21,7 +28,7 @@ const components = {
   SandpackWithQuillTemplate,
   Hint,
   Editor,
-  pre: ({children}) => {
+  pre: ({ children }) => {
     const className = children.props.className || '';
     const matches = className.match(/language-(?<lang>.*)/);
     return (
@@ -40,16 +47,16 @@ const components = {
             : ''
         }
       >
-        {({className, style, tokens, getLineProps, getTokenProps}) => (
+        {({ className, style, tokens, getLineProps, getTokenProps }) => (
           <pre className={className} style={style}>
             <code>
               {tokens.map((line, i) =>
                 i === tokens.length - 1 &&
                 line[0].empty &&
                 line.length === 1 ? null : (
-                  <div key={i} {...getLineProps({line, key: i})}>
+                  <div key={i} {...getLineProps({ line, key: i })}>
                     {line.map((token, key) => (
-                      <span key={key} {...getTokenProps({token, key})} />
+                      <span key={key} {...getTokenProps({ token, key })} />
                     ))}
                   </div>
                 ),
@@ -62,14 +69,14 @@ const components = {
   },
 };
 
-export default function MDX({mdxSource, data}) {
+export default function MDX({ mdxSource, data }) {
   return (
     <>
-      <SEO title={mdxSource.frontmatter.title}/>
+      <SEO title={mdxSource.frontmatter.title} />
       <MDXRemote
         {...mdxSource}
         components={components}
-        scope={{data: {api, docs}, scope: data}}
+        scope={{ data: { api, docs }, scope: data }}
       />
     </>
   );

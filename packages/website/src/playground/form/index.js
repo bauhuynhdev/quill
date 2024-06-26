@@ -16,7 +16,7 @@ const quill = new Quill('#editor', {
     toolbar: [
       ['bold', 'italic'],
       ['link', 'blockquote', 'code-block', 'image'],
-      [{list: 'ordered'}, {list: 'bullet'}],
+      [{ list: 'ordered' }, { list: 'bullet' }],
     ],
   },
   theme: 'snow',

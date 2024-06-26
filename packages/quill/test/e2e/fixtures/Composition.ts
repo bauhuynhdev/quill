@@ -1,14 +1,16 @@
-import type { CDPSession, Page, PlaywrightWorkerOptions, } from '@playwright/test';
+import type {
+  CDPSession,
+  Page,
+  PlaywrightWorkerOptions,
+} from '@playwright/test';
 
 abstract class CompositionSession {
+  abstract update(key: string): Promise<void>;
+  abstract commit(committedText: string): Promise<void>;
+
   protected composingData = '';
 
-  constructor(protected page: Page) {
-  }
-
-  abstract update(key: string): Promise<void>;
-
-  abstract commit(committedText: string): Promise<void>;
+  constructor(protected page: Page) {}
 
   protected async withKeyboardEvents(
     key: string,
@@ -16,9 +18,9 @@ abstract class CompositionSession {
   ) {
     const activeElement = this.page.locator('*:focus');
 
-    await activeElement.dispatchEvent('keydown', {key});
+    await activeElement.dispatchEvent('keydown', { key });
     await callback();
-    await activeElement.dispatchEvent('keyup', {key});
+    await activeElement.dispatchEvent('keyup', { key });
   }
 }
 
@@ -55,8 +57,7 @@ class Composition {
   constructor(
     private page: Page,
     private browserName: PlaywrightWorkerOptions['browserName'],
-  ) {
-  }
+  ) {}
 
   async start() {
     switch (this.browserName) {

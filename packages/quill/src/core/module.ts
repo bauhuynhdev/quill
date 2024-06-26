@@ -6,8 +6,7 @@ abstract class Module<T extends {} = {}> {
   constructor(
     public quill: Quill,
     protected options: Partial<T> = {},
-  ) {
-  }
+  ) {}
 }
 
 export default Module;

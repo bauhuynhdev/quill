@@ -1,6 +1,6 @@
 import Delta from 'quill-delta';
-import type { Blot, ScrollBlot } from 'parchment';
 import { ClassAttributor, Scope } from 'parchment';
+import type { Blot, ScrollBlot } from 'parchment';
 import Inline from '../blots/inline.js';
 import Quill from '../core/quill.js';
 import Module from '../core/module.js';
@@ -14,14 +14,7 @@ import { traverse } from './clipboard.js';
 const TokenAttributor = new ClassAttributor('code-token', 'hljs', {
   scope: Scope.INLINE,
 });
-
 class CodeToken extends Inline {
-  constructor(scroll: ScrollBlot, domNode: Node, value: unknown) {
-    // @ts-expect-error
-    super(scroll, domNode, value);
-    TokenAttributor.add(this.domNode, value);
-  }
-
   static formats(node: Element, scroll: ScrollBlot) {
     while (node != null && node !== scroll.domNode) {
       if (node.classList && node.classList.contains(CodeBlock.className)) {
@@ -32,6 +25,12 @@ class CodeToken extends Inline {
       node = node.parentNode;
     }
     return undefined;
+  }
+
+  constructor(scroll: ScrollBlot, domNode: Node, value: unknown) {
+    // @ts-expect-error
+    super(scroll, domNode, value);
+    TokenAttributor.add(this.domNode, value);
   }
 
   format(format: string, value: unknown) {
@@ -53,7 +52,6 @@ class CodeToken extends Inline {
     }
   }
 }
-
 CodeToken.blotName = 'code-token';
 CodeToken.className = 'ql-token';
 
@@ -71,8 +69,7 @@ class SyntaxCodeBlock extends CodeBlock {
     return domNode.getAttribute('data-language') || 'plain';
   }
 
-  static register() {
-  } // Syntax module will register
+  static register() {} // Syntax module will register
 
   format(name: string, value: unknown) {
     if (name === this.statics.blotName && value) {
@@ -134,7 +131,7 @@ class SyntaxCodeBlockContainer extends CodeBlockContainer {
           return delta.concat(blockDelta(child, false));
         }, new Delta());
         const delta = highlight(text, language);
-        oldDelta.diff(delta).reduce((index, {retain, attributes}) => {
+        oldDelta.diff(delta).reduce((index, { retain, attributes }) => {
           // Should be all retains
           if (!retain) return index;
           if (attributes) {
@@ -198,7 +195,7 @@ const highlight = (lib: any, language: string, text: string) => {
   if (typeof lib.versionString === 'string') {
     const majorVersion = lib.versionString.split('.')[0];
     if (parseInt(majorVersion, 10) >= 11) {
-      return lib.highlight(text, {language}).value;
+      return lib.highlight(text, { language }).value;
     }
   }
   return lib.highlight(language, text).value;
@@ -206,6 +203,13 @@ const highlight = (lib: any, language: string, text: string) => {
 
 class Syntax extends Module<SyntaxOptions> {
   static DEFAULTS: SyntaxOptions & { hljs: any };
+
+  static register() {
+    Quill.register(CodeToken, true);
+    Quill.register(SyntaxCodeBlock, true);
+    Quill.register(SyntaxCodeBlockContainer, true);
+  }
+
   languages: Record<string, true>;
 
   constructor(quill: Quill, options: Partial<SyntaxOptions>) {
@@ -217,7 +221,7 @@ class Syntax extends Module<SyntaxOptions> {
     }
     // @ts-expect-error Fix me later
     this.languages = this.options.languages.reduce(
-      (memo: Record<string, unknown>, {key}) => {
+      (memo: Record<string, unknown>, { key }) => {
         memo[key] = true;
         return memo;
       },
@@ -228,18 +232,12 @@ class Syntax extends Module<SyntaxOptions> {
     this.initTimer();
   }
 
-  static register() {
-    Quill.register(CodeToken, true);
-    Quill.register(SyntaxCodeBlock, true);
-    Quill.register(SyntaxCodeBlockContainer, true);
-  }
-
   initListener() {
     this.quill.on(Quill.events.SCROLL_BLOT_MOUNT, (blot: Blot) => {
       if (!(blot instanceof SyntaxCodeBlockContainer)) return;
       const select = this.quill.root.ownerDocument.createElement('select');
       // @ts-expect-error Fix me later
-      this.options.languages.forEach(({key, label}) => {
+      this.options.languages.forEach(({ key, label }) => {
         const option = select.ownerDocument.createElement('option');
         option.textContent = label;
         option.setAttribute('value', key);
@@ -296,7 +294,7 @@ class Syntax extends Module<SyntaxOptions> {
         .split('\n')
         .reduce((delta, line, i) => {
           if (i !== 0) {
-            delta.insert('\n', {[CodeBlock.blotName]: language});
+            delta.insert('\n', { [CodeBlock.blotName]: language });
           }
           return delta.insert(line);
         }, new Delta());
@@ -325,7 +323,7 @@ class Syntax extends Module<SyntaxOptions> {
         (node, delta) => {
           // @ts-expect-error
           return node.data.split('\n').reduce((memo, nodeText, i) => {
-            if (i !== 0) memo.insert('\n', {[CodeBlock.blotName]: language});
+            if (i !== 0) memo.insert('\n', { [CodeBlock.blotName]: language });
             return memo.insert(nodeText);
           }, delta);
         },
@@ -334,27 +332,26 @@ class Syntax extends Module<SyntaxOptions> {
     );
   }
 }
-
 Syntax.DEFAULTS = {
   hljs: (() => {
     return window.hljs;
   })(),
   interval: 1000,
   languages: [
-    {key: 'plain', label: 'Plain'},
-    {key: 'bash', label: 'Bash'},
-    {key: 'cpp', label: 'C++'},
-    {key: 'cs', label: 'C#'},
-    {key: 'css', label: 'CSS'},
-    {key: 'diff', label: 'Diff'},
-    {key: 'xml', label: 'HTML/XML'},
-    {key: 'java', label: 'Java'},
-    {key: 'javascript', label: 'JavaScript'},
-    {key: 'markdown', label: 'Markdown'},
-    {key: 'php', label: 'PHP'},
-    {key: 'python', label: 'Python'},
-    {key: 'ruby', label: 'Ruby'},
-    {key: 'sql', label: 'SQL'},
+    { key: 'plain', label: 'Plain' },
+    { key: 'bash', label: 'Bash' },
+    { key: 'cpp', label: 'C++' },
+    { key: 'cs', label: 'C#' },
+    { key: 'css', label: 'CSS' },
+    { key: 'diff', label: 'Diff' },
+    { key: 'xml', label: 'HTML/XML' },
+    { key: 'java', label: 'Java' },
+    { key: 'javascript', label: 'JavaScript' },
+    { key: 'markdown', label: 'Markdown' },
+    { key: 'php', label: 'PHP' },
+    { key: 'python', label: 'Python' },
+    { key: 'ruby', label: 'Ruby' },
+    { key: 'sql', label: 'SQL' },
   ],
 };
 

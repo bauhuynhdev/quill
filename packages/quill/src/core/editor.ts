@@ -1,6 +1,6 @@
 import { cloneDeep, isEqual, merge } from 'lodash-es';
+import { LeafBlot, EmbedBlot, Scope, ParentBlot } from 'parchment';
 import type { Blot } from 'parchment';
-import { EmbedBlot, LeafBlot, ParentBlot, Scope } from 'parchment';
 import Delta, { AttributeMap, Op } from 'quill-delta';
 import Block, { BlockEmbed, bubbleFormats } from '../blots/block.js';
 import Break from '../blots/break.js';
@@ -192,7 +192,7 @@ class Editor {
       }
       return formats;
     });
-    return {...lineFormats, ...leafFormats};
+    return { ...lineFormats, ...leafFormats };
   }
 
   getHTML(index: number, length: number): string {
@@ -224,7 +224,7 @@ class Editor {
 
   insertEmbed(index: number, embed: string, value: unknown): Delta {
     this.scroll.insertAt(index, embed, value);
-    return this.update(new Delta().retain(index).insert({[embed]: value}));
+    return this.update(new Delta().retain(index).insert({ [embed]: value }));
   }
 
   insertText(
@@ -323,7 +323,6 @@ interface ListItem {
   indent: number;
   type: string;
 }
-
 function convertListHTML(
   items: ListItem[],
   lastIndent: number,
@@ -336,7 +335,7 @@ function convertListHTML(
     }
     return `</li></${endTag}>${convertListHTML([], lastIndent - 1, types)}`;
   }
-  const [{child, offset, length, indent, type}, ...rest] = items;
+  const [{ child, offset, length, indent, type }, ...rest] = items;
   const [tag, attribute] = getListType(type);
   if (indent > lastIndent) {
     types.push(type);
@@ -399,7 +398,7 @@ function convertHTML(
     if (isRoot || blot.statics.blotName === 'list') {
       return parts.join('');
     }
-    const {outerHTML, innerHTML} = blot.domNode as Element;
+    const { outerHTML, innerHTML } = blot.domNode as Element;
     const [start, end] = outerHTML.split(`>${innerHTML}<`);
     // TODO cleanup
     if (start === '<table') {
@@ -458,7 +457,7 @@ function normalizeDelta(delta: Delta) {
   }, new Delta());
 }
 
-function shiftRange({index, length}: Range, amount: number) {
+function shiftRange({ index, length }: Range, amount: number) {
   return new Range(index + amount, length);
 }
 
@@ -468,8 +467,8 @@ function splitOpLines(ops: Op[]) {
     if (typeof op.insert === 'string') {
       const lines = op.insert.split('\n');
       lines.forEach((line, index) => {
-        if (index) split.push({insert: '\n', attributes: op.attributes});
-        if (line) split.push({insert: line, attributes: op.attributes});
+        if (index) split.push({ insert: '\n', attributes: op.attributes });
+        if (line) split.push({ insert: line, attributes: op.attributes });
       });
     } else {
       split.push(op);

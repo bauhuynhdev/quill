@@ -17,7 +17,7 @@ const changeLogFilePath = join(
 
 const currentChangeLog = await readFile(changeLogFilePath, "utf-8");
 
-const {stdout} = await execa("gh", [
+const { stdout } = await execa("gh", [
   "release",
   "list",
   "--exclude-drafts",
@@ -50,7 +50,7 @@ const formatDate = (date) => {
   return str.substring(0, str.indexOf("T"));
 };
 
-const {body} = JSON.parse(
+const { body } = JSON.parse(
   (await execa("gh", ["release", "view", release.tagName, "--json=body"]))
     .stdout
 );

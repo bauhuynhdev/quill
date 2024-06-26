@@ -3,7 +3,7 @@ import slug from '../utils/slug';
 
 const EXPERIMENTAL_FLAG = ' #experimental';
 
-const Heading = ({level, children, anchor = 'on'}) => {
+const Heading = ({ level, children, anchor = 'on' }) => {
   const tag = `h${level}`;
 
   if (typeof children !== 'string') {
@@ -21,7 +21,7 @@ const Heading = ({level, children, anchor = 'on'}) => {
 
   return createElement(
     tag,
-    {id},
+    { id },
     <>
       {id && <a className="anchor" href={`#${id}`}></a>}
       {title}
@@ -30,32 +30,32 @@ const Heading = ({level, children, anchor = 'on'}) => {
   );
 };
 
-export const Heading1 = ({children, anchor}) => (
+export const Heading1 = ({ children, anchor }) => (
   <Heading level={1} anchor={anchor}>
     {children}
   </Heading>
 );
-export const Heading2 = ({children, anchor}) => (
+export const Heading2 = ({ children, anchor }) => (
   <Heading level={2} anchor={anchor}>
     {children}
   </Heading>
 );
-export const Heading3 = ({children, anchor}) => (
+export const Heading3 = ({ children, anchor }) => (
   <Heading level={3} anchor={anchor}>
     {children}
   </Heading>
 );
-export const Heading4 = ({children, anchor}) => (
+export const Heading4 = ({ children, anchor }) => (
   <Heading level={4} anchor={anchor}>
     {children}
   </Heading>
 );
-export const Heading5 = ({children, anchor}) => (
+export const Heading5 = ({ children, anchor }) => (
   <Heading level={5} anchor={anchor}>
     {children}
   </Heading>
 );
-export const Heading6 = ({children, anchor}) => (
+export const Heading6 = ({ children, anchor }) => (
   <Heading level={6} anchor={anchor}>
     {children}
   </Heading>

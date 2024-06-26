@@ -109,7 +109,7 @@ const Users = withoutSSR(() => {
       {selectedUsers.map(([name, url, Logo]) => (
         <li key={name}>
           <a title={name} href={url} target="_blank">
-            <Logo/>
+            <Logo />
           </a>
         </li>
       ))}
@@ -184,7 +184,7 @@ const IndexPage = () => {
     <Layout>
       <div
         id="above-container"
-        className={classNames({'demo-active': isDemoActive})}
+        className={classNames({ 'demo-active': isDemoActive })}
       >
         <div className="container">
           <div id="announcement-container">
@@ -201,7 +201,7 @@ const IndexPage = () => {
             <h2>
               <button
                 className="prev"
-                style={{visibility: activeIndex === 0 ? 'hidden' : undefined}}
+                style={{ visibility: activeIndex === 0 ? 'hidden' : undefined }}
                 onClick={() => setActiveIndex(activeIndex - 1)}
               >
                 <span className="arrow">
@@ -212,7 +212,7 @@ const IndexPage = () => {
               Switch Examples
               <button
                 className="next"
-                style={{visibility: activeIndex === 2 ? 'hidden' : undefined}}
+                style={{ visibility: activeIndex === 2 ? 'hidden' : undefined }}
                 onClick={() => setActiveIndex(activeIndex + 1)}
               >
                 <span className="arrow">
@@ -222,7 +222,7 @@ const IndexPage = () => {
               </button>
             </h2>
             <h1>Your powerful rich text editor.</h1>
-            <Users/>
+            <Users />
           </div>
 
           <div id="laptop-container" onClick={() => setIsDemoActive(true)}>
@@ -238,7 +238,7 @@ const IndexPage = () => {
                     setIsDemoActive(true);
                   }}
                 >
-                  <div className="dot"/>
+                  <div className="dot" />
                 </div>
               ))}
             </div>
@@ -246,7 +246,7 @@ const IndexPage = () => {
               <div id="demo-container">
                 <div
                   id="carousel-container"
-                  style={{marginLeft: `${activeIndex * -100}%`}}
+                  style={{ marginLeft: `${activeIndex * -100}%` }}
                 >
                   <div id="bubble-wrapper">
                     <div id="bubble-container">
@@ -260,7 +260,7 @@ const IndexPage = () => {
                         }}
                         onLoad={handleEditorLoad(0)}
                       >
-                        <Content/>
+                        <Content />
                       </Editor>
                     </div>
                   </div>
@@ -321,7 +321,7 @@ const IndexPage = () => {
                         }}
                         onLoad={handleEditorLoad(1)}
                       >
-                        <Content/>
+                        <Content />
                       </Editor>
                     </div>
                   </div>
@@ -333,23 +333,23 @@ const IndexPage = () => {
                           modules: {
                             syntax: true,
                             toolbar: [
-                              [{font: fonts}, {size: []}],
+                              [{ font: fonts }, { size: [] }],
                               ['bold', 'italic', 'underline', 'strike'],
-                              [{color: []}, {background: []}],
-                              [{script: 'super'}, {script: 'sub'}],
+                              [{ color: [] }, { background: [] }],
+                              [{ script: 'super' }, { script: 'sub' }],
                               [
-                                {header: '1'},
-                                {header: '2'},
+                                { header: '1' },
+                                { header: '2' },
                                 'blockquote',
                                 'code-block',
                               ],
                               [
-                                {list: 'ordered'},
-                                {list: 'bullet'},
-                                {indent: '-1'},
-                                {indent: '+1'},
+                                { list: 'ordered' },
+                                { list: 'bullet' },
+                                { indent: '-1' },
+                                { indent: '+1' },
                               ],
-                              [{direction: 'rtl'}, {align: []}],
+                              [{ direction: 'rtl' }, { align: [] }],
                               ['link', 'image', 'video', 'formula'],
                               ['clean'],
                             ],
@@ -358,7 +358,7 @@ const IndexPage = () => {
                         }}
                         onLoad={handleEditorLoad(2)}
                       >
-                        <Content/>
+                        <Content />
                       </Editor>
                     </div>
                   </div>
@@ -382,7 +382,7 @@ const IndexPage = () => {
         <div className="container">
           <div className="row">
             <div className="feature columns">
-              <DevelopersIcon/>
+              <DevelopersIcon />
               <div className="details">
                 <h2>Built for Developers</h2>
                 <span>
@@ -393,7 +393,7 @@ const IndexPage = () => {
               </div>
             </div>
             <div className="feature columns">
-              <CrossPlatformIcon/>
+              <CrossPlatformIcon />
               <div className="details">
                 <h2>Cross Platform</h2>
                 <span>
@@ -407,11 +407,11 @@ const IndexPage = () => {
 
           <div id="github-wrapper">
             <div id="github-container">
-              <GitHub/>
+              <GitHub />
             </div>
           </div>
 
-          <hr/>
+          <hr />
 
           <div className="feature row">
             <div className="columns details">
@@ -426,7 +426,7 @@ const IndexPage = () => {
               </Link>
             </div>
             <div className="columns">
-              <ScaleIcon/>
+              <ScaleIcon />
             </div>
           </div>
         </div>

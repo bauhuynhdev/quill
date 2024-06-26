@@ -12,7 +12,7 @@ import docs from '../data/docs';
 import ActiveLink from './ActiveLink';
 import ClickOutsideHandler from './ClickOutsideHandler';
 
-const MainNav = ({...props}) => {
+const MainNav = ({ ...props }) => {
   return (
     <nav {...props}>
       <ActiveLink
@@ -50,7 +50,7 @@ const VersionSelector = () => {
           setIsOpen(!isOpen);
         }}
       >
-        v{process.env.version} <DropdownIcon/>
+        v{process.env.version} <DropdownIcon />
       </div>
       <div
         role="menu"
@@ -64,7 +64,7 @@ const VersionSelector = () => {
           className={styles.versionDropdownItem}
           target="_blank"
         >
-          Release Notes <ExternalLinkIcon/>
+          Release Notes <ExternalLinkIcon />
         </a>
         <a
           role="menuitem"
@@ -72,7 +72,7 @@ const VersionSelector = () => {
           className={styles.versionDropdownItem}
           target="_blank"
         >
-          Contributing <ExternalLinkIcon/>
+          Contributing <ExternalLinkIcon />
         </a>
         <div className={styles.versionLabel}>Previous Versions</div>
         <a
@@ -81,7 +81,7 @@ const VersionSelector = () => {
           className={styles.versionDropdownItem}
           target="_blank"
         >
-          v{'1.3.7'} <ExternalLinkIcon/>
+          v{'1.3.7'} <ExternalLinkIcon />
         </a>
       </div>
     </ClickOutsideHandler>
@@ -96,18 +96,18 @@ const Header = () => {
       <div className={styles.headerContent}>
         <div className={styles.logo}>
           <Link href="/">
-            <LogoIcon width="60"/>
+            <LogoIcon width="60" />
           </Link>
-          <VersionSelector/>
+          <VersionSelector />
         </div>
-        <MainNav className={styles.mainNav}/>
+        <MainNav className={styles.mainNav} />
         <nav className={styles.secondaryNav}>
           <a
             href="https://github.com/quilljs/quill"
             target="_blank"
             title="Edit on GitHub"
           >
-            <OctocatIcon/>
+            <OctocatIcon />
           </a>
           <DocSearch
             appId="ZTZN3V01SS"
@@ -129,7 +129,7 @@ const Header = () => {
           [styles.isNavOpen]: isNavOpen,
         })}
       >
-        <MainNav className={styles.mobileMainNav}/>
+        <MainNav className={styles.mobileMainNav} />
       </div>
     </header>
   );

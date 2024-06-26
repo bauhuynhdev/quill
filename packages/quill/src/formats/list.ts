@@ -3,13 +3,25 @@ import Container from '../blots/container.js';
 import type Scroll from '../blots/scroll.js';
 import Quill from '../core/quill.js';
 
-class ListContainer extends Container {
-}
-
+class ListContainer extends Container {}
 ListContainer.blotName = 'list-container';
 ListContainer.tagName = 'OL';
 
 class ListItem extends Block {
+  static create(value: string) {
+    const node = super.create() as HTMLElement;
+    node.setAttribute('data-list', value);
+    return node;
+  }
+
+  static formats(domNode: HTMLElement) {
+    return domNode.getAttribute('data-list') || undefined;
+  }
+
+  static register() {
+    Quill.register(ListContainer);
+  }
+
   constructor(scroll: Scroll, domNode: HTMLElement) {
     super(scroll, domNode);
     const ui = domNode.ownerDocument.createElement('span');
@@ -29,20 +41,6 @@ class ListItem extends Block {
     this.attachUI(ui);
   }
 
-  static create(value: string) {
-    const node = super.create() as HTMLElement;
-    node.setAttribute('data-list', value);
-    return node;
-  }
-
-  static formats(domNode: HTMLElement) {
-    return domNode.getAttribute('data-list') || undefined;
-  }
-
-  static register() {
-    Quill.register(ListContainer);
-  }
-
   format(name: string, value: string) {
     if (name === this.statics.blotName && value) {
       this.domNode.setAttribute('data-list', value);
@@ -51,7 +49,6 @@ class ListItem extends Block {
     }
   }
 }
-
 ListItem.blotName = 'list';
 ListItem.tagName = 'LI';
 

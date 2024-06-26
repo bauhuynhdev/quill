@@ -63,7 +63,7 @@ describe('Editor', () => {
       const editor = createEditor('<p><strong>0123</strong></p>');
       editor.insertText(2, '!!');
       expect(editor.getDelta()).toEqual(
-        new Delta().insert('01!!23', {bold: true}).insert('\n'),
+        new Delta().insert('01!!23', { bold: true }).insert('\n'),
       );
       expect(editor.scroll.domNode).toEqualHTML(
         '<p><strong>01!!23</strong></p>',
@@ -75,9 +75,9 @@ describe('Editor', () => {
       editor.insertEmbed(2, 'image', '/assets/favicon.png');
       expect(editor.getDelta()).toEqual(
         new Delta()
-          .insert('01', {bold: true})
-          .insert({image: '/assets/favicon.png'}, {bold: true})
-          .insert('23', {bold: true})
+          .insert('01', { bold: true })
+          .insert({ image: '/assets/favicon.png' }, { bold: true })
+          .insert('23', { bold: true })
           .insert('\n'),
       );
       expect(editor.scroll.domNode).toEqualHTML(
@@ -112,7 +112,7 @@ describe('Editor', () => {
       expect(editor.getDelta()).toEqual(
         new Delta()
           .insert('Hello\n')
-          .insert({image: '/assets/favicon.png'})
+          .insert({ image: '/assets/favicon.png' })
           .insert('\n'),
       );
       expect(editor.scroll.domNode).toEqualHTML(
@@ -125,9 +125,9 @@ describe('Editor', () => {
       editor.insertText(2, '\n');
       expect(editor.getDelta()).toEqual(
         new Delta()
-          .insert('01', {bold: true})
+          .insert('01', { bold: true })
           .insert('\n')
-          .insert('23', {bold: true})
+          .insert('23', { bold: true })
           .insert('\n'),
       );
       expect(editor.scroll.domNode).toEqualHTML(`
@@ -139,7 +139,7 @@ describe('Editor', () => {
       const editor = createEditor('<p><strong>0123</strong></p>');
       editor.insertText(0, '\n');
       expect(editor.getDelta()).toEqual(
-        new Delta().insert('\n').insert('0123', {bold: true}).insert('\n'),
+        new Delta().insert('\n').insert('0123', { bold: true }).insert('\n'),
       );
       expect(editor.scroll.domNode).toEqualHTML(`
         <p><br></p>
@@ -150,7 +150,7 @@ describe('Editor', () => {
       const editor = createEditor('<p><strong>0123</strong></p>');
       editor.insertText(4, '\n');
       expect(editor.getDelta()).toEqual(
-        new Delta().insert('0123', {bold: true}).insert('\n\n'),
+        new Delta().insert('0123', { bold: true }).insert('\n\n'),
       );
       expect(editor.scroll.domNode).toEqualHTML(`
         <p><strong>0123</strong></p>
@@ -162,13 +162,13 @@ describe('Editor', () => {
       editor.insertText(2, '\n!!\n!!\n');
       expect(editor.getDelta()).toEqual(
         new Delta()
-          .insert('01', {bold: true})
+          .insert('01', { bold: true })
           .insert('\n')
-          .insert('!!', {bold: true})
+          .insert('!!', { bold: true })
           .insert('\n')
-          .insert('!!', {bold: true})
+          .insert('!!', { bold: true })
           .insert('\n')
-          .insert('23', {bold: true})
+          .insert('23', { bold: true })
           .insert('\n'),
       );
       expect(editor.scroll.domNode).toEqualHTML(`
@@ -183,9 +183,9 @@ describe('Editor', () => {
       editor.insertText(2, '\n\n');
       expect(editor.getDelta()).toEqual(
         new Delta()
-          .insert('01', {bold: true})
+          .insert('01', { bold: true })
           .insert('\n\n')
-          .insert('23', {bold: true})
+          .insert('23', { bold: true })
           .insert('\n'),
       );
       expect(editor.scroll.domNode).toEqualHTML(`
@@ -196,9 +196,9 @@ describe('Editor', () => {
 
     test('text removing formatting', () => {
       const editor = createEditor('<p><s>01</s></p>');
-      editor.insertText(2, '23', {bold: false, strike: false});
+      editor.insertText(2, '23', { bold: false, strike: false });
       expect(editor.getDelta()).toEqual(
-        new Delta().insert('01', {strike: true}).insert('23\n'),
+        new Delta().insert('01', { strike: true }).insert('23\n'),
       );
     });
   });
@@ -208,7 +208,7 @@ describe('Editor', () => {
       const editor = createEditor('<p><strong><em>0123</em></strong></p>');
       editor.deleteText(1, 2);
       expect(editor.getDelta()).toEqual(
-        new Delta().insert('03', {bold: true, italic: true}).insert('\n'),
+        new Delta().insert('03', { bold: true, italic: true }).insert('\n'),
       );
       expect(editor.scroll.domNode).toEqualHTML(
         '<p><strong><em>03</em></strong></p>',
@@ -219,7 +219,7 @@ describe('Editor', () => {
       const editor = createEditor('<p><em>0123</em></p><p><em>5678</em></p>');
       editor.deleteText(2, 5);
       expect(editor.getDelta()).toEqual(
-        new Delta().insert('0178', {italic: true}).insert('\n'),
+        new Delta().insert('0178', { italic: true }).insert('\n'),
       );
       expect(editor.scroll.domNode).toEqualHTML('<p><em>0178</em></p>');
     });
@@ -235,7 +235,7 @@ describe('Editor', () => {
       const editor = createEditor('<p><em>0123</em></p><p><em>5678</em></p>');
       editor.deleteText(4, 1);
       expect(editor.getDelta()).toEqual(
-        new Delta().insert('01235678', {italic: true}).insert('\n'),
+        new Delta().insert('01235678', { italic: true }).insert('\n'),
       );
       expect(editor.scroll.domNode).toEqualHTML('<p><em>01235678</em></p>');
     });
@@ -253,7 +253,7 @@ describe('Editor', () => {
       );
       editor.deleteText(0, 8);
       expect(editor.getDelta()).toEqual(
-        new Delta().insert('890', {italic: true}).insert('\n'),
+        new Delta().insert('890', { italic: true }).insert('\n'),
       );
       expect(editor.scroll.domNode).toEqualHTML('<p><em>890</em></p>');
     });
@@ -262,7 +262,7 @@ describe('Editor', () => {
   describe('format', () => {
     test('line', () => {
       const editor = createEditor('<p>0123</p>');
-      editor.formatLine(1, 1, {header: 1});
+      editor.formatLine(1, 1, { header: 1 });
       expect(editor.scroll.domNode).toEqualHTML('<h1>0123</h1>');
     });
   });
@@ -338,7 +338,7 @@ describe('Editor', () => {
 
     test('attributed insert', () => {
       const editor = createEditor('<p>0123</p>');
-      editor.applyDelta(new Delta().retain(2).insert('|', {bold: true}));
+      editor.applyDelta(new Delta().retain(2).insert('|', { bold: true }));
       expect(editor.scroll.domNode).toEqualHTML(
         '<p>01<strong>|</strong>23</p>',
       );
@@ -346,16 +346,16 @@ describe('Editor', () => {
 
     test('format', () => {
       const editor = createEditor('<p>01</p>');
-      editor.applyDelta(new Delta().retain(2, {bold: true}));
+      editor.applyDelta(new Delta().retain(2, { bold: true }));
       expect(editor.scroll.domNode).toEqualHTML('<p><strong>01</strong></p>');
     });
 
     test('discontinuous formats', () => {
       const editor = createEditor('');
       const delta = new Delta()
-        .insert('ab', {bold: true})
+        .insert('ab', { bold: true })
         .insert('23\n45')
-        .insert('cd', {bold: true});
+        .insert('cd', { bold: true });
       editor.applyDelta(delta);
       expect(editor.scroll.domNode).toEqualHTML(
         '<p><strong>ab</strong>23</p><p>45<strong>cd</strong></p>',
@@ -370,7 +370,7 @@ describe('Editor', () => {
 
     test('insert at format boundary', () => {
       const editor = createEditor('<p><em>0</em><u>1</u></p>');
-      editor.applyDelta(new Delta().retain(1).insert('|', {strike: true}));
+      editor.applyDelta(new Delta().retain(1).insert('|', { strike: true }));
       expect(editor.scroll.domNode).toEqualHTML(
         '<p><em>0</em><s>|</s><u>1</u></p>',
       );
@@ -385,7 +385,7 @@ describe('Editor', () => {
     test('formatted embed', () => {
       const editor = createEditor('');
       editor.applyDelta(
-        new Delta().insert({image: '/assets/favicon.png'}, {italic: true}),
+        new Delta().insert({ image: '/assets/favicon.png' }, { italic: true }),
       );
       expect(editor.scroll.domNode).toEqualHTML(
         '<p><em><img src="/assets/favicon.png"></em></p>',
@@ -406,7 +406,7 @@ describe('Editor', () => {
       const editor = createEditor(
         '<p>0123</p><iframe src="#" class="ql-video" frameborder="0" allowfullscreen="true"></iframe>',
       );
-      editor.applyDelta(new Delta().retain(5).insert('5678', {bold: true}));
+      editor.applyDelta(new Delta().retain(5).insert('5678', { bold: true }));
       expect(editor.scroll.domNode).toEqualHTML(
         '<p>0123</p><p><strong>5678</strong></p><iframe src="#" class="ql-video" frameborder="0" allowfullscreen="true"></iframe>',
       );
@@ -427,7 +427,7 @@ describe('Editor', () => {
         '<p>0123</p><iframe src="#" class="ql-video" frameborder="0" allowfullscreen="true"></iframe>',
       );
       editor.applyDelta(
-        new Delta().retain(5).insert('a\nb').insert('\n', {header: 1}),
+        new Delta().retain(5).insert('a\nb').insert('\n', { header: 1 }),
       );
       expect(editor.scroll.domNode).toEqualHTML(
         '<p>0123</p><p>a</p><h1>b</h1><iframe src="#" class="ql-video" frameborder="0" allowfullscreen="true"></iframe>',
@@ -439,7 +439,7 @@ describe('Editor', () => {
         '<p>0123</p><iframe src="#" class="ql-video" frameborder="0" allowfullscreen="true"></iframe>',
       );
       editor.applyDelta(
-        new Delta().retain(5).insert('5678', {bold: true}).insert('\n'),
+        new Delta().retain(5).insert('5678', { bold: true }).insert('\n'),
       );
       expect(editor.scroll.domNode).toEqualHTML(
         '<p>0123</p><p><strong>5678</strong></p><iframe src="#" class="ql-video" frameborder="0" allowfullscreen="true"></iframe>',
@@ -496,7 +496,7 @@ describe('Editor', () => {
       editor.applyDelta(
         new Delta()
           .retain(4)
-          .insert({image: '/assets/favicon.png'})
+          .insert({ image: '/assets/favicon.png' })
           // Retain newline at end of block being inserted into.
           .retain(1)
           .delete(1),
@@ -513,7 +513,7 @@ describe('Editor', () => {
       editor.applyDelta(
         new Delta()
           .retain(5)
-          .insert({image: '/assets/favicon.png'})
+          .insert({ image: '/assets/favicon.png' })
           // Explicit newline required to maintain correct index calculation for the delete.
           .insert('\n')
           .delete(1),
@@ -531,7 +531,7 @@ describe('Editor', () => {
         new Delta()
           .retain(5)
           .delete(1)
-          .insert({image: '/assets/favicon.png'})
+          .insert({ image: '/assets/favicon.png' })
           // Explicit newline required to maintain correct index calculation for the delete.
           .insert('\n'),
       );
@@ -547,7 +547,7 @@ describe('Editor', () => {
       editor.applyDelta(
         new Delta()
           .retain(5)
-          .insert({image: '/assets/favicon.png'})
+          .insert({ image: '/assets/favicon.png' })
           // Explicit newline required to maintain correct index calculation for the delete.
           .insert('abc\n')
           .delete(1),
@@ -560,7 +560,7 @@ describe('Editor', () => {
     test('insert inline embed to the middle of formatted content', () => {
       const editor = createEditor('<p><strong>0123</strong></p>');
       editor.applyDelta(
-        new Delta().retain(2).insert({image: '/assets/favicon.png'}),
+        new Delta().retain(2).insert({ image: '/assets/favicon.png' }),
       );
       expect(editor.scroll.domNode).toEqualHTML(
         '<p><strong>01</strong><img src="/assets/favicon.png"><strong>23</strong></p>',
@@ -569,7 +569,7 @@ describe('Editor', () => {
 
     test('insert inline embed between plain text and formatted content', () => {
       const editor = createEditor('<p>a<strong>b</strong></p>');
-      editor.applyDelta(new Delta().retain(1).insert({image: '#'}));
+      editor.applyDelta(new Delta().retain(1).insert({ image: '#' }));
       expect(editor.scroll.domNode).toEqualHTML(
         '<p>a<img src="#"><strong>b</strong></p>',
       );
@@ -577,7 +577,7 @@ describe('Editor', () => {
 
     test('prepend inline embed to another inline embed with same attributes', () => {
       const editor = createEditor('<p><img src="#" alt="hi"/></p>');
-      editor.applyDelta(new Delta().insert({image: '#'}, {alt: 'hi'}));
+      editor.applyDelta(new Delta().insert({ image: '#' }, { alt: 'hi' }));
       expect(editor.scroll.domNode).toEqualHTML(
         '<p><img src="#" alt="hi"><img src="#" alt="hi"></p>',
       );
@@ -588,7 +588,7 @@ describe('Editor', () => {
         '<p>0123</p><iframe src="#" class="ql-video" frameborder="0" allowfullscreen="true"></iframe>',
       );
       editor.applyDelta(
-        new Delta().retain(5).insert({video: '#changed'}).delete(1),
+        new Delta().retain(5).insert({ video: '#changed' }).delete(1),
       );
       expect(editor.scroll.domNode).toEqualHTML(
         '<p>0123</p><iframe src="#changed" class="ql-video" frameborder="0" allowfullscreen="true"></iframe>',
@@ -649,7 +649,7 @@ describe('Editor', () => {
     describe('block embed', () => {
       test('improper block embed insert', () => {
         const editor = createEditor('<p>0123</p>');
-        editor.applyDelta(new Delta().retain(2).insert({video: '#'}));
+        editor.applyDelta(new Delta().retain(2).insert({ video: '#' }));
         expect(editor.scroll.domNode).toEqualHTML(
           '<p>01</p><iframe src="#" class="ql-video" frameborder="0" allowfullscreen="true"></iframe><p>23</p>',
         );
@@ -658,7 +658,7 @@ describe('Editor', () => {
       describe('insert and delete', () => {
         test('prepend', () => {
           const editor = createEditor('<p>0123</p>');
-          editor.applyDelta(new Delta().insert({video: '#'}).delete(2));
+          editor.applyDelta(new Delta().insert({ video: '#' }).delete(2));
           expect(editor.scroll.domNode).toEqualHTML(
             '<iframe src="#" class="ql-video" frameborder="0" allowfullscreen="true"></iframe><p>23</p>',
           );
@@ -667,7 +667,7 @@ describe('Editor', () => {
         test('insert to the middle of text', () => {
           const editor = createEditor(`<p>abc</p>`);
           editor.applyDelta(
-            new Delta().retain(1).insert({video: '#'}).delete(2),
+            new Delta().retain(1).insert({ video: '#' }).delete(2),
           );
           expect(editor.scroll.domNode).toEqualHTML(
             '<p>a</p><iframe class="ql-video" frameborder="0" allowfullscreen="true" src="#"></iframe><p><br></p>',
@@ -677,7 +677,7 @@ describe('Editor', () => {
         test('insert after \\n', () => {
           const editor = createEditor(`<p>a</p><p>cda</p>`);
           editor.applyDelta(
-            new Delta().retain(2).insert({video: '#'}).delete(2),
+            new Delta().retain(2).insert({ video: '#' }).delete(2),
           );
           expect(editor.scroll.domNode).toEqualHTML(
             '<p>a</p><iframe class="ql-video" frameborder="0" allowfullscreen="true" src="#"></iframe><p>a</p>',
@@ -689,7 +689,7 @@ describe('Editor', () => {
             `<p><img src="/assets/favicon.png"></p><p>abc</p>`,
           );
           editor.applyDelta(
-            new Delta().retain(1).insert({video: '#'}).delete(2),
+            new Delta().retain(1).insert({ video: '#' }).delete(2),
           );
           expect(editor.scroll.domNode).toEqualHTML(
             '<p><img src="/assets/favicon.png"></p><iframe class="ql-video" frameborder="0" allowfullscreen="true" src="#"></iframe><p>bc</p>',
@@ -701,7 +701,7 @@ describe('Editor', () => {
             `<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="#"></iframe><p>abc</p>`,
           );
           editor.applyDelta(
-            new Delta().retain(1).insert({video: '#'}).delete(2),
+            new Delta().retain(1).insert({ video: '#' }).delete(2),
           );
           expect(editor.scroll.domNode).toEqualHTML(
             '<iframe class="ql-video" frameborder="0" allowfullscreen="true" src="#"></iframe><iframe class="ql-video" frameborder="0" allowfullscreen="true" src="#"></iframe><p>c</p>',
@@ -712,7 +712,7 @@ describe('Editor', () => {
       test('append formatted block embed', () => {
         const editor = createEditor('<p>0123</p><p><br></p>');
         editor.applyDelta(
-          new Delta().retain(5).insert({video: '#'}, {align: 'right'}),
+          new Delta().retain(5).insert({ video: '#' }, { align: 'right' }),
         );
         expect(editor.scroll.domNode).toEqualHTML(
           '<p>0123</p><iframe src="#" class="ql-video ql-align-right" frameborder="0" allowfullscreen="true"></iframe><p><br></p>',
@@ -728,21 +728,21 @@ describe('Editor', () => {
 
     test('append newline', () => {
       const editor = createEditor('<p>0123</p>');
-      editor.applyDelta(new Delta().retain(5).insert('\n', {header: 2}));
+      editor.applyDelta(new Delta().retain(5).insert('\n', { header: 2 }));
       expect(editor.scroll.domNode).toEqualHTML('<p>0123</p><h2><br></h2>');
     });
 
     test('append text with newline', () => {
       const editor = createEditor('<p>0123</p>');
       editor.applyDelta(
-        new Delta().retain(5).insert('5678').insert('\n', {header: 2}),
+        new Delta().retain(5).insert('5678').insert('\n', { header: 2 }),
       );
       expect(editor.scroll.domNode).toEqualHTML('<p>0123</p><h2>5678</h2>');
     });
 
     test('append non-isolated newline', () => {
       const editor = createEditor('<p>0123</p>');
-      editor.applyDelta(new Delta().retain(5).insert('5678\n', {header: 2}));
+      editor.applyDelta(new Delta().retain(5).insert('5678\n', { header: 2 }));
       expect(editor.scroll.domNode).toEqualHTML('<p>0123</p><h2>5678</h2>');
     });
 
@@ -751,9 +751,9 @@ describe('Editor', () => {
       editor.applyDelta(
         new Delta()
           .retain(2)
-          .insert('ab\n', {header: 1})
+          .insert('ab\n', { header: 1 })
           .retain(3)
-          .insert('cd\n', {header: 2}),
+          .insert('cd\n', { header: 2 }),
       );
       expect(editor.scroll.domNode).toEqualHTML(
         '<h1>01ab</h1><p>23</p><h2>cd</h2>',
@@ -766,8 +766,8 @@ describe('Editor', () => {
         new Delta()
           .retain(5)
           .insert('5678')
-          .insert({image: '/assets/favicon.png'})
-          .insert('\n', {header: 2}),
+          .insert({ image: '/assets/favicon.png' })
+          .insert('\n', { header: 2 }),
       );
       expect(editor.scroll.domNode).toEqualHTML(
         '<p>0123</p><h2>5678<img src="/assets/favicon.png"></h2>',
@@ -780,9 +780,9 @@ describe('Editor', () => {
         new Delta()
           .retain(5)
           .insert('56')
-          .insert('\n', {header: 1})
+          .insert('\n', { header: 1 })
           .insert('89')
-          .insert('\n', {header: 2}),
+          .insert('\n', { header: 2 }),
       );
       expect(editor.scroll.domNode).toEqualHTML(
         '<p>0123</p><h1>56</h1><h2>89</h2>',
@@ -813,30 +813,30 @@ describe('Editor', () => {
     test('ignores empty delta', () => {
       const editor = createEditor('<p>1</p>');
       editor.insertContents(0, new Delta());
-      expect(editor.getDelta().ops).toEqual([{insert: '1\n'}]);
+      expect(editor.getDelta().ops).toEqual([{ insert: '1\n' }]);
 
       editor.insertContents(0, new Delta().retain(100));
-      expect(editor.getDelta().ops).toEqual([{insert: '1\n'}]);
+      expect(editor.getDelta().ops).toEqual([{ insert: '1\n' }]);
     });
 
     test('prepend to paragraph', () => {
       const editor = createEditor('<p>2</p>');
       editor.insertContents(0, new Delta().insert('1'));
-      expect(editor.getDelta().ops).toEqual([{insert: '12\n'}]);
+      expect(editor.getDelta().ops).toEqual([{ insert: '12\n' }]);
 
       editor.insertContents(
         0,
         new Delta()
-          .insert('a', {bold: true})
-          .insert('\n', {header: 1})
-          .insert('b', {bold: true}),
+          .insert('a', { bold: true })
+          .insert('\n', { header: 1 })
+          .insert('b', { bold: true }),
       );
 
       expect(editor.getDelta().ops).toEqual([
-        {insert: 'a', attributes: {bold: true}},
-        {insert: '\n', attributes: {header: 1}},
-        {insert: 'b', attributes: {bold: true}},
-        {insert: '12\n'},
+        { insert: 'a', attributes: { bold: true } },
+        { insert: '\n', attributes: { header: 1 } },
+        { insert: 'b', attributes: { bold: true } },
+        { insert: '12\n' },
       ]);
     });
 
@@ -844,24 +844,24 @@ describe('Editor', () => {
       const editor = createEditor('<ol><li data-list="bullet">2</li></ol>');
       editor.insertContents(0, new Delta().insert('1'));
       expect(editor.getDelta().ops).toEqual([
-        {insert: '12'},
-        {insert: '\n', attributes: {list: 'bullet'}},
+        { insert: '12' },
+        { insert: '\n', attributes: { list: 'bullet' } },
       ]);
 
       editor.insertContents(
         0,
         new Delta()
-          .insert('a', {bold: true})
-          .insert('\n', {header: 1})
-          .insert('b', {bold: true}),
+          .insert('a', { bold: true })
+          .insert('\n', { header: 1 })
+          .insert('b', { bold: true }),
       );
 
       expect(editor.getDelta().ops).toEqual([
-        {insert: 'a', attributes: {bold: true}},
-        {insert: '\n', attributes: {header: 1}},
-        {insert: 'b', attributes: {bold: true}},
-        {insert: '12'},
-        {insert: '\n', attributes: {list: 'bullet'}},
+        { insert: 'a', attributes: { bold: true } },
+        { insert: '\n', attributes: { header: 1 } },
+        { insert: 'b', attributes: { bold: true } },
+        { insert: '12' },
+        { insert: '\n', attributes: { list: 'bullet' } },
       ]);
     });
 
@@ -891,7 +891,7 @@ describe('Editor', () => {
         new Delta()
           .insert('\n')
           .insert('hi')
-          .insert('\n', {'my-blot': true, 'test-style': 'random'}),
+          .insert('\n', { 'my-blot': true, 'test-style': 'random' }),
       );
       expect(editor.scroll.domNode.innerHTML).toContain('test-style="random"');
     });
@@ -901,8 +901,8 @@ describe('Editor', () => {
         const editor = createEditor(`${video}`);
         editor.insertContents(0, new Delta().insert('a'));
         expect(editor.getDelta().ops).toEqual([
-          {insert: 'a\n'},
-          {insert: {video: '#'}},
+          { insert: 'a\n' },
+          { insert: { video: '#' } },
         ]);
       });
 
@@ -910,8 +910,8 @@ describe('Editor', () => {
         const editor = createEditor(`<p></p>${video}`);
         editor.insertContents(1, new Delta().insert('\nworld\n'));
         expect(editor.getDelta().ops).toEqual([
-          {insert: '\n\nworld\n'},
-          {insert: {video: '#'}},
+          { insert: '\n\nworld\n' },
+          { insert: { video: '#' } },
         ]);
       });
 
@@ -919,12 +919,12 @@ describe('Editor', () => {
         const editor = createEditor(`${video}`);
         editor.insertContents(
           0,
-          new Delta().insert('a').insert('\n', {header: 1}),
+          new Delta().insert('a').insert('\n', { header: 1 }),
         );
         expect(editor.getDelta().ops).toEqual([
-          {insert: 'a'},
-          {insert: '\n', attributes: {header: 1}},
-          {insert: {video: '#'}},
+          { insert: 'a' },
+          { insert: '\n', attributes: { header: 1 } },
+          { insert: { video: '#' } },
         ]);
       });
     });
@@ -933,29 +933,29 @@ describe('Editor', () => {
       test('appends to editor', () => {
         const editor = createEditor('<p>1</p>');
         editor.insertContents(2, new Delta().insert('a'));
-        expect(editor.getDelta().ops).toEqual([{insert: '1\na\n'}]);
+        expect(editor.getDelta().ops).toEqual([{ insert: '1\na\n' }]);
         editor.insertContents(
           4,
-          new Delta().insert('b').insert('\n', {header: 1}),
+          new Delta().insert('b').insert('\n', { header: 1 }),
         );
         expect(editor.getDelta().ops).toEqual([
-          {insert: '1\na\nb'},
-          {insert: '\n', attributes: {header: 1}},
+          { insert: '1\na\nb' },
+          { insert: '\n', attributes: { header: 1 } },
         ]);
       });
 
       test('appends to paragraph', () => {
         const editor = createEditor('<p>1</p><p>2</p>');
         editor.insertContents(2, new Delta().insert('a'));
-        expect(editor.getDelta().ops).toEqual([{insert: '1\na2\n'}]);
+        expect(editor.getDelta().ops).toEqual([{ insert: '1\na2\n' }]);
         editor.insertContents(
           2,
-          new Delta().insert('b').insert('\n', {header: 1}),
+          new Delta().insert('b').insert('\n', { header: 1 }),
         );
         expect(editor.getDelta().ops).toEqual([
-          {insert: '1\nb'},
-          {insert: '\n', attributes: {header: 1}},
-          {insert: 'a2\n'},
+          { insert: '1\nb' },
+          { insert: '\n', attributes: { header: 1 } },
+          { insert: 'a2\n' },
         ]);
       });
 
@@ -963,18 +963,18 @@ describe('Editor', () => {
         const editor = createEditor(`${video}<p>2</p>`);
         editor.insertContents(1, new Delta().insert('1'));
         expect(editor.getDelta().ops).toEqual([
-          {insert: {video: '#'}},
-          {insert: '12\n'},
+          { insert: { video: '#' } },
+          { insert: '12\n' },
         ]);
         editor.insertContents(
           1,
-          new Delta().insert('b').insert('\n', {header: 1}),
+          new Delta().insert('b').insert('\n', { header: 1 }),
         );
         expect(editor.getDelta().ops).toEqual([
-          {insert: {video: '#'}},
-          {insert: 'b'},
-          {insert: '\n', attributes: {header: 1}},
-          {insert: '12\n'},
+          { insert: { video: '#' } },
+          { insert: 'b' },
+          { insert: '\n', attributes: { header: 1 } },
+          { insert: '12\n' },
         ]);
       });
     });
@@ -983,11 +983,11 @@ describe('Editor', () => {
       const editor = createEditor(`<p></p>`);
       editor.insertContents(
         0,
-        new Delta().insert({video: '#'}, {width: '300'}),
+        new Delta().insert({ video: '#' }, { width: '300' }),
       );
       expect(editor.getDelta().ops).toEqual([
-        {insert: {video: '#'}, attributes: {width: '300'}},
-        {insert: '\n'},
+        { insert: { video: '#' }, attributes: { width: '300' } },
+        { insert: '\n' },
       ]);
     });
 
@@ -996,13 +996,13 @@ describe('Editor', () => {
       editor.insertContents(
         0,
         new Delta()
-          .insert({video: '#'}, {width: '300'})
-          .insert({video: '#'}, {width: '600'}),
+          .insert({ video: '#' }, { width: '300' })
+          .insert({ video: '#' }, { width: '600' }),
       );
       expect(editor.getDelta().ops).toEqual([
-        {insert: {video: '#'}, attributes: {width: '300'}},
-        {insert: {video: '#'}, attributes: {width: '600'}},
-        {insert: '\n'},
+        { insert: { video: '#' }, attributes: { width: '300' } },
+        { insert: { video: '#' }, attributes: { width: '600' } },
+        { insert: '\n' },
       ]);
     });
 
@@ -1012,15 +1012,15 @@ describe('Editor', () => {
         0,
         new Delta()
           .insert('a\n')
-          .insert({video: '#'}, {width: '300'})
-          .insert({video: '#'}, {width: '300'})
+          .insert({ video: '#' }, { width: '300' })
+          .insert({ video: '#' }, { width: '300' })
           .insert('\nd'),
       );
       expect(editor.getDelta().ops).toEqual([
-        {insert: 'a\n'},
-        {insert: {video: '#'}, attributes: {width: '300'}},
-        {insert: {video: '#'}, attributes: {width: '300'}},
-        {insert: '\nd\n'},
+        { insert: 'a\n' },
+        { insert: { video: '#' }, attributes: { width: '300' } },
+        { insert: { video: '#' }, attributes: { width: '300' } },
+        { insert: '\nd\n' },
       ]);
     });
 
@@ -1030,26 +1030,26 @@ describe('Editor', () => {
         0,
         new Delta()
           .insert('a\n')
-          .insert({video: '#'}, {align: 'center'})
-          .insert({video: '#'}, {align: 'center'})
+          .insert({ video: '#' }, { align: 'center' })
+          .insert({ video: '#' }, { align: 'center' })
           .insert('\nd'),
       );
       expect(editor.getDelta().ops).toEqual([
-        {insert: 'a\n'},
-        {insert: {video: '#'}, attributes: {align: 'center'}},
-        {insert: {video: '#'}, attributes: {align: 'center'}},
-        {insert: '\nd\n'},
+        { insert: 'a\n' },
+        { insert: { video: '#' }, attributes: { align: 'center' } },
+        { insert: { video: '#' }, attributes: { align: 'center' } },
+        { insert: '\nd\n' },
       ]);
     });
 
     test('inserts inline embeds to bold text', () => {
       const editor = createEditor(`<p><strong>ab</strong></p>`);
-      editor.insertContents(1, new Delta().insert({image: '#'}));
+      editor.insertContents(1, new Delta().insert({ image: '#' }));
       expect(editor.getDelta().ops).toEqual([
-        {insert: 'a', attributes: {bold: true}},
-        {insert: {image: '#'}},
-        {insert: 'b', attributes: {bold: true}},
-        {insert: '\n'},
+        { insert: 'a', attributes: { bold: true } },
+        { insert: { image: '#' } },
+        { insert: 'b', attributes: { bold: true } },
+        { insert: '\n' },
       ]);
     });
 
@@ -1058,15 +1058,15 @@ describe('Editor', () => {
       editor.insertContents(
         0,
         new Delta()
-          .insert('world', {font: 'monospace'})
-          .insert('\n', {list: 'bullet'})
+          .insert('world', { font: 'monospace' })
+          .insert('\n', { list: 'bullet' })
           .insert('\n'),
       );
       expect(editor.getDelta().ops).toEqual([
-        {insert: 'world', attributes: {font: 'monospace'}},
-        {insert: '\n', attributes: {list: 'bullet'}},
-        {insert: '\n'},
-        {insert: '\n', attributes: {list: 'ordered'}},
+        { insert: 'world', attributes: { font: 'monospace' } },
+        { insert: '\n', attributes: { list: 'bullet' } },
+        { insert: '\n' },
+        { insert: '\n', attributes: { list: 'ordered' } },
       ]);
     });
 
@@ -1080,9 +1080,9 @@ describe('Editor', () => {
       test('conflict block formats', () => {
         const change = new Delta()
           .insert('a')
-          .insert('\n', {header: 1, list: 'bullet'})
+          .insert('\n', { header: 1, list: 'bullet' })
           .insert('b')
-          .insert('\n', {header: 1, list: 'bullet'});
+          .insert('\n', { header: 1, list: 'bullet' });
 
         expect(
           getEditorDelta((editor) => editor.insertContents(0, change)),
@@ -1092,9 +1092,9 @@ describe('Editor', () => {
       test('block embeds with line formats', () => {
         const change = new Delta()
           .insert('a\n')
-          .insert({video: '#'}, {header: 1})
-          .insert({video: '#'}, {header: 1})
-          .insert('\n', {header: 1});
+          .insert({ video: '#' }, { header: 1 })
+          .insert({ video: '#' }, { header: 1 })
+          .insert('\n', { header: 1 });
 
         expect(
           getEditorDelta((editor) => editor.insertContents(0, change)),
@@ -1104,7 +1104,7 @@ describe('Editor', () => {
       test('missing \\n before block embeds', () => {
         const change = new Delta()
           .insert('a')
-          .insert({video: '#'})
+          .insert({ video: '#' })
           .insert('b\n');
 
         expect(
@@ -1122,7 +1122,7 @@ describe('Editor', () => {
 
     test('formatted', () => {
       const editor = createEditor('<h1><em>0123</em></h1>');
-      expect(editor.getFormat(1)).toEqual({header: 1, italic: true});
+      expect(editor.getFormat(1)).toEqual({ header: 1, italic: true });
     });
 
     test('cursor', () => {
@@ -1376,7 +1376,7 @@ describe('Editor', () => {
         '<p><br></p><p>0123</p><p><br></p><p><br></p><p>4567</p><p><br></p>',
       );
       const length = editor.scroll.length();
-      editor.formatLine(0, length, {'code-block': 'javascript'});
+      editor.formatLine(0, length, { 'code-block': 'javascript' });
 
       expect(editor.getHTML(0, length)).toEqual(
         '<pre>\n\n0123\n\n\n4567\n\n</pre>',

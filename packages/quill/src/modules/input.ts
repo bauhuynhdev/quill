@@ -24,7 +24,7 @@ class Input extends Module {
   }
 
   private deleteRange(range: Range) {
-    deleteRange({range, quill: this.quill});
+    deleteRange({ range, quill: this.quill });
   }
 
   private replaceText(range: Range, text = '') {

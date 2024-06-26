@@ -5,7 +5,6 @@ import Container from '../blots/container.js';
 class TableCell extends Block {
   static blotName = 'table';
   static tagName = 'TD';
-  next: this | null;
 
   static create(value: string) {
     const node = super.create() as HTMLElement;
@@ -23,6 +22,8 @@ class TableCell extends Block {
     }
     return undefined;
   }
+
+  next: this | null;
 
   cellOffset() {
     if (this.parent) {

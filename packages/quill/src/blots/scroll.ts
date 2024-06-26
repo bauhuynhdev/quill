@@ -1,19 +1,19 @@
-import type { Blot, EmbedBlot, Parent, ParentBlot, Registry } from 'parchment';
 import { ContainerBlot, LeafBlot, Scope, ScrollBlot } from 'parchment';
+import type { Blot, Parent, EmbedBlot, ParentBlot, Registry } from 'parchment';
 import Delta, { AttributeMap, Op } from 'quill-delta';
-import type { EmitterSource } from '../core/emitter.js';
 import Emitter from '../core/emitter.js';
+import type { EmitterSource } from '../core/emitter.js';
 import Block, { BlockEmbed, bubbleFormats } from './block.js';
 import Break from './break.js';
 import Container from './container.js';
 
 type RenderBlock =
   | {
-  type: 'blockEmbed';
-  attributes: AttributeMap;
-  key: string;
-  value: unknown;
-}
+      type: 'blockEmbed';
+      attributes: AttributeMap;
+      key: string;
+      value: unknown;
+    }
   | { type: 'block'; attributes: AttributeMap; delta: Delta };
 
 function isLine(blot: unknown): blot is Block | BlockEmbed {
@@ -41,7 +41,7 @@ class Scroll extends ScrollBlot {
   constructor(
     registry: Registry,
     domNode: HTMLDivElement,
-    {emitter}: { emitter: Emitter },
+    { emitter }: { emitter: Emitter },
   ) {
     super(registry, domNode);
     this.emitter = emitter;
@@ -154,7 +154,7 @@ class Scroll extends ScrollBlot {
       const delta =
         first.type === 'block'
           ? first.delta
-          : new Delta().insert({[first.key]: first.value});
+          : new Delta().insert({ [first.key]: first.value });
       insertInlineContents(this, index, delta);
       const newlineCharLength = first.type === 'block' ? 1 : 0;
       const lineEndIndex = index + delta.length() + newlineCharLength;
@@ -293,7 +293,7 @@ class Scroll extends ScrollBlot {
     if (!Array.isArray(mutations)) {
       mutations = this.observer.takeRecords();
     }
-    mutations = mutations.filter(({target}) => {
+    mutations = mutations.filter(({ target }) => {
       const blot = this.find(target, true);
       return blot && !isUpdatable(blot);
     });

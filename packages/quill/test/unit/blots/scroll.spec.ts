@@ -14,7 +14,7 @@ const createScroll = (html: string) => {
   const registry = createRegistry([Underline, Strike]);
   const container = document.body.appendChild(document.createElement('div'));
   container.innerHTML = normalizeHTML(html);
-  return new Scroll(registry, container, {emitter});
+  return new Scroll(registry, container, { emitter });
 };
 
 describe('Scroll', () => {

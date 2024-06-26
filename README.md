@@ -21,9 +21,7 @@
 
 <hr/>
 
-[Quill](https://quilljs.com/) is a modern rich text editor built for compatibility and extensibility. It was created
-by [Jason Chen](https://twitter.com/jhchen) and [Byron Milligan](https://twitter.com/byronmilligan) and actively
-maintained by [Slab](https://slab.com).
+[Quill](https://quilljs.com/) is a modern rich text editor built for compatibility and extensibility. It was created by [Jason Chen](https://twitter.com/jhchen) and [Byron Milligan](https://twitter.com/byronmilligan) and actively maintained by [Slab](https://slab.com).
 
 To get started, check out [https://quilljs.com/](https://quilljs.com/) for documentation, guides, and live demos!
 
@@ -62,8 +60,7 @@ Instantiate a new Quill object with a css selector for the div that should becom
 </script>
 ```
 
-Take a look at the [Quill](https://quilljs.com/) website for more documentation, guides
-and [live playground](https://quilljs.com/playground/)!
+Take a look at the [Quill](https://quilljs.com/) website for more documentation, guides and [live playground](https://quilljs.com/playground/)!
 
 ## Download
 
@@ -99,8 +96,7 @@ npm install quill
 
 Get help or stay up to date.
 
-- [Contribute](https://github.com/quilljs/quill/blob/main/.github/CONTRIBUTING.md)
-  on [Issues](https://github.com/quilljs/quill/issues)
+- [Contribute](https://github.com/quilljs/quill/blob/main/.github/CONTRIBUTING.md) on [Issues](https://github.com/quilljs/quill/issues)
 - Ask questions on [Discussions](https://github.com/quilljs/quill/discussions)
 
 ## License
