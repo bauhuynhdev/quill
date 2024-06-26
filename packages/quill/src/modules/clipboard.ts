@@ -207,21 +207,21 @@ class Clipboard extends Module<ClipboardOptions> {
         text = this.normalizeURIList(urlList);
       }
     }
-    const files = Array.from(e.clipboardData?.files || []);
-    if (!html && files.length > 0) {
-      this.quill.uploader.upload(range, files);
-      return;
-    }
-    if (html && files.length > 0) {
-      const doc = new DOMParser().parseFromString(html, 'text/html');
-      if (
-        doc.body.childElementCount === 1 &&
-        doc.body.firstElementChild?.tagName === 'IMG'
-      ) {
-        this.quill.uploader.upload(range, files);
-        return;
-      }
-    }
+    // const files = Array.from(e.clipboardData?.files || []);
+    // if (!html && files.length > 0) {
+    //   this.quill.uploader.upload(range, files);
+    //   return;
+    // }
+    // if (html && files.length > 0) {
+    //   const doc = new DOMParser().parseFromString(html, 'text/html');
+    //   if (
+    //     doc.body.childElementCount === 1 &&
+    //     doc.body.firstElementChild?.tagName === 'IMG'
+    //   ) {
+    //     this.quill.uploader.upload(range, files);
+    //     return;
+    //   }
+    // }
     this.onPaste(range, { html, text });
   }
 
