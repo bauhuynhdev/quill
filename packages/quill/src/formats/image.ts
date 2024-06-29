@@ -7,7 +7,7 @@ class Image extends EmbedBlot {
   static blotName = 'image';
   static tagName = 'IMG';
 
-  static create(value: string | { src: string; alt?: string }) {
+  static create(value: string | { src: string; alt?: string; width?: string; height?: string }) {
     const node = super.create() as HTMLImageElement;
     if (typeof value === 'string') {
       node.setAttribute('src', this.sanitize(value));
@@ -15,6 +15,12 @@ class Image extends EmbedBlot {
       node.setAttribute('src', this.sanitize(value.src));
       if (value.alt) {
         node.setAttribute('alt', value.alt);
+      }
+      if (value.width) {
+        node.setAttribute('width', value.width);
+      }
+      if (value.height) {
+        node.setAttribute('height', value.height);
       }
     }
     return node;

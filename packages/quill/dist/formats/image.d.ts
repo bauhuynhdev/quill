@@ -5,6 +5,8 @@ declare class Image extends EmbedBlot {
     static create(value: string | {
         src: string;
         alt?: string;
+        width?: string;
+        height?: string;
     }): HTMLImageElement;
     static formats(domNode: Element): Record<string, string | null>;
     static match(url: string): boolean;

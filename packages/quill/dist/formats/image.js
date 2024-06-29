@@ -13,6 +13,12 @@ class Image extends EmbedBlot {
       if (value.alt) {
         node.setAttribute('alt', value.alt);
       }
+      if (value.width) {
+        node.setAttribute('width', value.width);
+      }
+      if (value.height) {
+        node.setAttribute('height', value.height);
+      }
     }
     return node;
   }
