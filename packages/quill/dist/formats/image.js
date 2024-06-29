@@ -19,6 +19,9 @@ class Image extends EmbedBlot {
       if (value.height) {
         node.setAttribute('height', value.height);
       }
+      if (value.id) {
+        node.setAttribute('data-id', value.id);
+      }
     }
     return node;
   }
